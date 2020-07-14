@@ -4,4 +4,10 @@
     <string name="password">Password</string>
     <string name="login">로그인</string>
     <string name="sign_up">회원가입</string>
+    <string name="home">홈</string>
+    <string name="main">main</string>
+    <string name="news_feed">news_feed</string>
+    <string name="write">write</string>
+    <string name="search">search</string>
+    <string name="alarm">alarm</string>
 </resources>
