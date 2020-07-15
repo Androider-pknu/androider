@@ -83,7 +83,7 @@
         android:id="@+id/divider_add_post_bottom_bar"
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:background="@color/white"
+        android:background="@color/black"
         app:layout_constraintBottom_toTopOf="@+id/add_post_bottom_bar" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
