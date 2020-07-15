@@ -1,13 +1,12 @@
 package com.professionalandroid.apps.androider
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.professionalandroid.apps.androider.navigation.AlarmFragment
-import com.professionalandroid.apps.androider.navigation.MainFragment
-import com.professionalandroid.apps.androider.navigation.NewsFeedFragment
-import com.professionalandroid.apps.androider.navigation.SearchFragment
+import com.professionalandroid.apps.androider.navigation.*
+import com.professionalandroid.apps.androider.navigation.addpost.AddPostActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
@@ -22,6 +21,8 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
             true
         }
         R.id.menu_write -> {
+            val intent = Intent(this, AddPostActivity::class.java)
+            startActivity(intent)
             true
         }
         R.id.menu_search -> {
