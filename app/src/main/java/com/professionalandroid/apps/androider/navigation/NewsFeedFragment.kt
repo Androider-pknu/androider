@@ -13,6 +13,6 @@ class NewsFeedFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return LayoutInflater.from(activity).inflate(R.layout.fragment_news_feed, container, false)
+        return LayoutInflater.from(activity).inflate(R.layout.fragment_newsfeed, container, false)
     }
 }

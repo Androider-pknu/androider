@@ -7,21 +7,18 @@
     tools:context=".navigation.addpost.AddPostActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/add_post_title_bar"
+        android:id="@+id/layout_addpost_topbar"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginEnd="5dp"
+        android:layout_height="55dp"
         app:layout_constraintTop_toTopOf="parent">
 
         <Button
-            android:layout_width="60dp"
-            android:layout_height="wrap_content"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
             android:background="@color/transparent"
-            android:gravity="start|center"
             android:text="@string/cancel"
             android:textColor="@color/classic_blue"
-            android:textSize="15sp"
+            android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -34,14 +31,13 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:layout_width="60dp"
-            android:layout_height="wrap_content"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
             android:background="@color/transparent"
             android:clickable="false"
-            android:gravity="end|center"
             android:text="@string/complete"
             android:textColor="@color/classic_blue"
-            android:textSize="15sp"
+            android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -52,82 +48,83 @@
         android:layout_height="0dp"
         android:layout_marginStart="5dp"
         android:layout_marginEnd="5dp"
-        app:layout_constraintBottom_toTopOf="@id/divider_add_post_bottom_bar"
-        app:layout_constraintTop_toBottomOf="@id/add_post_title_bar">
+        app:layout_constraintBottom_toTopOf="@id/divider_addpost_bottombar"
+        app:layout_constraintTop_toBottomOf="@id/layout_addpost_topbar">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/text_input_content"
+            android:id="@+id/textfield_addpost_postdescription"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:background="@color/transparent"
             android:gravity="top"
             android:hint="지금 무엇을 하고 있나요?"
-            android:textSize="15sp"
+            android:textSize="20sp"
             app:layout_constraintTop_toTopOf="parent" />
 
         <FrameLayout
-            android:id="@+id/selected_image"
+            android:id="@+id/imageview_addpost_postimage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/text_input_content" />
+            app:layout_constraintTop_toBottomOf="@id/textfield_addpost_postdescription" />
 
         <FrameLayout
-            android:id="@+id/selected_tag"
+            android:id="@+id/imageview_addpost_selecteditem"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/selected_image" />
+            app:layout_constraintTop_toBottomOf="@id/imageview_addpost_postimage" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <View
-        android:id="@+id/divider_add_post_bottom_bar"
+        android:id="@+id/divider_addpost_bottombar"
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:background="@color/black"
-        app:layout_constraintBottom_toTopOf="@+id/add_post_bottom_bar" />
+        android:background="@color/light_gray"
+        app:layout_constraintBottom_toTopOf="@+id/layout_addpost_bottombar" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/add_post_bottom_bar"
+        android:id="@+id/layout_addpost_bottombar"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginEnd="5dp"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"
         app:layout_constraintBottom_toBottomOf="parent">
 
         <Button
-            android:id="@+id/btn_add_photo"
+            android:id="@+id/btn_addpost_addphoto"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:background="@color/transparent"
-            android:gravity="start|center"
             android:text="📷사진추가"
             android:textColor="@color/gray"
-            android:textSize="12sp"
-            app:layout_constraintStart_toStartOf="parent" />
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/btn_add_place"
+            android:id="@+id/btn_addpost_addstore"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:background="@color/transparent"
-            android:clickable="false"
-            android:gravity="end|center"
             android:text="📌장소"
             android:textColor="@color/gray"
-            android:textSize="12sp"
-            app:layout_constraintEnd_toStartOf="@id/btn_add_item" />
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/btn_addpost_additem"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/btn_add_item"
+            android:id="@+id/btn_addpost_additem"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:background="@color/transparent"
-            android:clickable="false"
-            android:gravity="end|center"
             android:text="🔖아이템"
             android:textColor="@color/gray"
-            android:textSize="12sp"
-            app:layout_constraintEnd_toEndOf="parent" />
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

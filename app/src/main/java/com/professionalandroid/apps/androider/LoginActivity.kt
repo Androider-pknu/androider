@@ -11,11 +11,11 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        btn_login.setOnClickListener {
+        btn_login_signin.setOnClickListener {
             moveMainPage()
         }
 
-        btn_sign_up.setOnClickListener {
+        btn_login_signup.setOnClickListener {
             moveMainPage()
         }
     }

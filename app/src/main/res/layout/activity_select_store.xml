@@ -8,7 +8,7 @@
     tools:context=".navigation.addpost.SelectStoreActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/select_store_title_bar"
+        android:id="@+id/layout_selectstore_top"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:background="@color/white"
@@ -29,7 +29,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/title_select_store"
+            android:id="@+id/textview_selectstore_title"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:fontFamily="sans-serif-black"
@@ -42,31 +42,31 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.SearchView
-            android:id="@+id/search_select_store"
+            android:id="@+id/searchview_selectstore"
             android:layout_width="match_parent"
             android:layout_height="25dp"
             android:layout_marginStart="15dp"
             android:layout_marginEnd="15dp"
-            android:background="@drawable/layout_semi_round_corner"
+            android:background="@drawable/all_semiroundcorner"
             app:iconifiedByDefault="false"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/title_select_store"
+            app:layout_constraintTop_toBottomOf="@id/textview_selectstore_title"
             app:queryBackground="@null"
             app:queryHint="장소 이름" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <View
-        android:id="@+id/divider_select_store"
+        android:id="@+id/divider_selectstore_top"
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:background="@color/gray"
-        app:layout_constraintTop_toBottomOf="@id/select_store_title_bar" />
+        app:layout_constraintTop_toBottomOf="@id/layout_selectstore_top" />
 
     <TextView
-        android:id="@+id/text_near_place"
+        android:id="@+id/textview_selectstore_nearstore"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
@@ -74,38 +74,38 @@
         android:text="주변 장소"
         android:textSize="12sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/select_store_title_bar" />
+        app:layout_constraintTop_toBottomOf="@id/layout_selectstore_top" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view_select_place"
+        android:id="@+id/recyclerview_selectstore_stores"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        app:layout_constraintTop_toBottomOf="@id/text_near_place" />
+        app:layout_constraintTop_toBottomOf="@id/textview_selectstore_nearstore" />
 
     <TextView
-        android:id="@+id/text_store_question"
+        android:id="@+id/textview_selectstore_nostore"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:text="찾는 장소가 없나요?"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/recycler_view_select_place" />
+        app:layout_constraintTop_toBottomOf="@id/recyclerview_selectstore_stores" />
 
     <Button
-        android:id="@+id/btn_enroll_new_store"
+        android:id="@+id/btn_selectstore_addstore"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
-        android:background="@drawable/layout_round_corner"
-        android:backgroundTint="#FF853E"
+        android:background="@drawable/all_roundcorner"
+        android:backgroundTint="@color/orange"
         android:fontFamily="sans-serif-black"
         android:text="+ 신규 장소 등록"
         android:textColor="@color/white"
         android:textSize="16sp"
-        app:layout_constraintTop_toBottomOf="@id/text_store_question" />
+        app:layout_constraintTop_toBottomOf="@id/textview_selectstore_nostore" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

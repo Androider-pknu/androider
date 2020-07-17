@@ -13,11 +13,11 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean = when (item.itemId) {
         R.id.menu_main -> {
-            supportFragmentManager.beginTransaction().replace(R.id.main_frame, MainFragment()).commit()
+            supportFragmentManager.beginTransaction().replace(R.id.layout_main_content, MainFragment()).commit()
             true
         }
         R.id.menu_news_feed -> {
-            supportFragmentManager.beginTransaction().replace(R.id.main_frame, NewsFeedFragment()).commit()
+            supportFragmentManager.beginTransaction().replace(R.id.layout_main_content, NewsFeedFragment()).commit()
             true
         }
         R.id.menu_write -> {
@@ -26,11 +26,11 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
             true
         }
         R.id.menu_search -> {
-            supportFragmentManager.beginTransaction().replace(R.id.main_frame, SearchFragment()).commit()
+            supportFragmentManager.beginTransaction().replace(R.id.layout_main_content, SearchFragment()).commit()
             true
         }
         R.id.menu_alarm -> {
-            supportFragmentManager.beginTransaction().replace(R.id.main_frame, AlarmFragment()).commit()
+            supportFragmentManager.beginTransaction().replace(R.id.layout_main_content, AlarmFragment()).commit()
             true
         }
         else -> false
@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        bottom_navigation_view.setOnNavigationItemSelectedListener(this)
-        bottom_navigation_view.selectedItemId = R.id.menu_main
+        navigation_main_bottom.setOnNavigationItemSelectedListener(this)
+        navigation_main_bottom.selectedItemId = R.id.menu_main
     }
 }

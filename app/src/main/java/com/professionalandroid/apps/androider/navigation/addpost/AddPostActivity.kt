@@ -4,14 +4,14 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.professionalandroid.apps.androider.R
-import kotlinx.android.synthetic.main.activity_add_post.*
+import kotlinx.android.synthetic.main.activity_addpost.*
 
 class AddPostActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_add_post)
-        btn_add_place.setOnClickListener {
+        setContentView(R.layout.activity_addpost)
+        btn_addpost_addstore.setOnClickListener {
             startActivity(Intent(this, SelectStoreActivity::class.java))
         }
     }
