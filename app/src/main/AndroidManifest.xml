@@ -9,7 +9,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".navigation.addpost.SelectStoreActivity"></activity>
+        <activity android:name=".navigation.addpost.ChoooseFromGoogleMapActivity"></activity>
+        <activity android:name=".navigation.addpost.ChooseFromMapActivity" />
+        <activity android:name=".navigation.addpost.SearchAddressActivity" />
+        <activity android:name=".navigation.addpost.SelectStoreActivity" />
         <activity
             android:name=".navigation.addpost.AddPostActivity"
             android:screenOrientation="portrait"
