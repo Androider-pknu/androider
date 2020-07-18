@@ -4,10 +4,10 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.professionalandroid.apps.androider.R
 
-class ChoooseFromGoogleMapActivity : AppCompatActivity() {
+class ChooseFromGoogleMapActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_chooosefromgooglemap)
+        setContentView(R.layout.activity_choosefromgooglemap)
     }
 }

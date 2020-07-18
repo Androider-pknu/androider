@@ -11,12 +11,8 @@ class SelectStoreActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_selectstore)
         btn_selectstore_addstore.setOnClickListener {
-            dialog()
+            val dialog = ChooseAddressingDialog()
+            dialog.show(supportFragmentManager, "missiles")
         }
-    }
-
-    private fun dialog() {
-        val dialog = ChooseAddressingDialog()
-        dialog.show(supportFragmentManager, "missiles")
     }
 }

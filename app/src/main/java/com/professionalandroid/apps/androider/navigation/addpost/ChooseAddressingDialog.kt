@@ -12,18 +12,20 @@ class ChooseAddressingDialog : DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return activity?.let {
             val builder = AlertDialog.Builder(it)
-            builder.setItems(R.array.address_choosing_method,
-                DialogInterface.OnClickListener { _, which ->
-                    when (which) {
-                        0 -> {
-                            startActivity(Intent(context, SearchAddressActivity::class.java))
-                        }
-                        1 -> {
-                        }
-                        2 -> {
-                        }
+            builder.setItems(R.array.address_choosing_method
+            ) { _, which ->
+                when (which) {
+                    0 -> {
+                        startActivity(Intent(context, SearchAddressActivity::class.java))
                     }
-                })
+                    1 -> {
+                        startActivity(Intent(context, ChooseFromMapActivity::class.java))
+                    }
+                    2 -> {
+                        startActivity(Intent(context, ChooseFromGoogleMapActivity::class.java))
+                    }
+                }
+            }
             builder.create()
         } ?: throw  IllegalStateException("Activity cannot be null")
     }
