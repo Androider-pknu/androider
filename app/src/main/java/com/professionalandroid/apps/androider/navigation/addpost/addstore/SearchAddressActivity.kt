@@ -1,4 +1,4 @@
-package com.professionalandroid.apps.androider.navigation.addpost
+package com.professionalandroid.apps.androider.navigation.addpost.addstore
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

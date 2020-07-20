@@ -1,8 +1,7 @@
-package com.professionalandroid.apps.androider.navigation.addpost
+package com.professionalandroid.apps.androider.navigation.addpost.addstore
 
 import android.app.AlertDialog
 import android.app.Dialog
-import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.DialogFragment

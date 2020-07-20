@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.professionalandroid.apps.androider.R
+import com.professionalandroid.apps.androider.navigation.addpost.addstore.SelectStoreActivity
 import kotlinx.android.synthetic.main.activity_addpost.*
 
 class AddPostActivity : AppCompatActivity() {
