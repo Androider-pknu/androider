@@ -1,5 +1,6 @@
 package com.professionalandroid.apps.androider.navigation.addpost.addstore
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.professionalandroid.apps.androider.R
@@ -14,6 +15,10 @@ class SearchAddressActivity : AppCompatActivity(), PickCountryDialog.NoticeDialo
         btn_searchaddress_choosecountry.setOnClickListener {
             val countryPicker = PickCountryDialog()
             countryPicker.show(supportFragmentManager, "country_picker")
+        }
+
+        btn_sample1.setOnClickListener {
+            startActivity(Intent(this, ChooseBuildingActivity::class.java))
         }
     }
 
