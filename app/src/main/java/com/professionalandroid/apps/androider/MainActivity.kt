@@ -17,7 +17,8 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
             true
         }
         R.id.menu_news_feed -> {
-            supportFragmentManager.beginTransaction().replace(R.id.layout_main_content, NewsFeedFragment()).commit()
+            val intent = Intent(this, SampleActivity::class.java)
+            startActivity(intent)
             true
         }
         R.id.menu_write -> {
