@@ -9,14 +9,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".navigation.addpost.addstore.ChangeAddressActivity"></activity>
-        <activity android:name=".navigation.addpost.addstore.ChoosingSubCategoryActivity" />
-        <activity android:name=".navigation.addpost.addstore.ChooseCategoryActivity" />
-        <activity android:name=".navigation.addpost.addstore.AddStoreActivity" />
+        <activity android:name=".navigation.addpost.addstore.input.ChangeAddressActivity"></activity>
+        <activity android:name=".navigation.addpost.addstore.input.ChoosingSubCategoryActivity" />
+        <activity android:name=".navigation.addpost.addstore.input.ChooseCategoryActivity" />
+        <activity android:name=".navigation.addpost.addstore.input.AddStoreActivity" />
         <activity android:name=".navigation.addpost.addstore.ChooseBuildingActivity" />
-        <activity android:name=".navigation.addpost.addstore.ChooseFromGoogleMapActivity" />
-        <activity android:name=".navigation.addpost.addstore.ChooseFromMapActivity" />
-        <activity android:name=".navigation.addpost.addstore.SearchAddressActivity" />
+        <activity android:name=".navigation.addpost.addstore.addressing.ChooseFromGoogleMapActivity" />
+        <activity android:name=".navigation.addpost.addstore.addressing.ChooseFromMapActivity" />
+        <activity android:name=".navigation.addpost.addstore.addressing.SearchAddressActivity" />
         <activity android:name=".navigation.addpost.addstore.SelectStoreActivity" />
         <activity
             android:name=".navigation.addpost.AddPostActivity"

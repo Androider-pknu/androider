@@ -1,19 +1,23 @@
-package com.professionalandroid.apps.androider.navigation.addpost.addstore
+package com.professionalandroid.apps.androider.navigation.addpost.addstore.addressing
 
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.professionalandroid.apps.androider.R
+import com.professionalandroid.apps.androider.navigation.addpost.addstore.ChooseBuildingActivity
+import com.professionalandroid.apps.androider.navigation.addpost.addstore.PickCountryDialog
 import kotlinx.android.synthetic.main.activity_searchaddress.*
 
-class SearchAddressActivity : AppCompatActivity(), PickCountryDialog.NoticeDialogListener {
+class SearchAddressActivity : AppCompatActivity(),
+    PickCountryDialog.NoticeDialogListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_searchaddress)
 
         btn_searchaddress_choosecountry.setOnClickListener {
-            val countryPicker = PickCountryDialog()
+            val countryPicker =
+                PickCountryDialog()
             countryPicker.show(supportFragmentManager, "country_picker")
         }
 

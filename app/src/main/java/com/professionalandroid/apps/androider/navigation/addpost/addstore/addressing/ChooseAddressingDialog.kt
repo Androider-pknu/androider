@@ -1,4 +1,4 @@
-package com.professionalandroid.apps.androider.navigation.addpost.addstore
+package com.professionalandroid.apps.androider.navigation.addpost.addstore.addressing
 
 import android.app.AlertDialog
 import android.app.Dialog

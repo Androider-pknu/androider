@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/light_gray"
-    tools:context=".navigation.addpost.addstore.ChooseCategoryActivity">
+    tools:context=".navigation.addpost.addstore.input.ChooseCategoryActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_choosecategory_appbartop"
