@@ -16,5 +16,8 @@ class SelectStoreActivity : AppCompatActivity() {
                 ChooseAddressingDialog()
             dialog.show(supportFragmentManager, "missiles")
         }
+        btn_selectstore_back.setOnClickListener {
+            onBackPressed()
+        }
     }
 }

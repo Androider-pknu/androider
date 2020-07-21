@@ -12,8 +12,17 @@ class AddPostActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_addpost)
+
         btn_addpost_addstore.setOnClickListener {
             startActivity(Intent(this, SelectStoreActivity::class.java))
+        }
+
+        btn_addpost_cancle.setOnClickListener {
+            onBackPressed()
+        }
+
+        btn_addpost_complete.setOnClickListener {
+            // Upload post, Update Database
         }
     }
 }

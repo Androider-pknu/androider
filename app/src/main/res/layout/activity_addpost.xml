@@ -7,23 +7,25 @@
     tools:context=".navigation.addpost.AddPostActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layout_addpost_topbar"
+        android:id="@+id/layout_addpost_appbartop"
         android:layout_width="match_parent"
-        android:layout_height="55dp"
+        android:layout_height="@dimen/height_all_appbartop"
         app:layout_constraintTop_toTopOf="parent">
 
         <Button
-            android:layout_width="50dp"
+            android:id="@+id/btn_addpost_cancle"
+            android:layout_width="@dimen/size_all_appbar"
             android:layout_height="match_parent"
             android:background="@color/transparent"
             android:text="@string/cancel"
-            android:textColor="@color/classic_blue"
+            android:textColor="@color/blue_default"
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:layout_width="50dp"
+            android:id="@+id/imageview_addpost_profile"
+            android:layout_width="@dimen/size_all_appbar"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_launcher_foreground"
             app:layout_constraintEnd_toEndOf="parent"
@@ -31,12 +33,13 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:layout_width="50dp"
+            android:id="@+id/btn_addpost_complete"
+            android:layout_width="@dimen/size_all_appbar"
             android:layout_height="match_parent"
             android:background="@color/transparent"
             android:clickable="false"
             android:text="@string/complete"
-            android:textColor="@color/classic_blue"
+            android:textColor="@color/blue_default"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -46,10 +49,10 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginEnd="5dp"
-        app:layout_constraintBottom_toTopOf="@id/divider_addpost_bottombar"
-        app:layout_constraintTop_toBottomOf="@id/layout_addpost_topbar">
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        app:layout_constraintBottom_toTopOf="@id/divider_addpost_appbarbottom"
+        app:layout_constraintTop_toBottomOf="@id/layout_addpost_appbartop">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/textfield_addpost_postdescription"
@@ -76,18 +79,18 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <View
-        android:id="@+id/divider_addpost_bottombar"
+        android:id="@+id/divider_addpost_appbarbottom"
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:background="@color/light_gray"
-        app:layout_constraintBottom_toTopOf="@+id/layout_addpost_bottombar" />
+        app:layout_constraintBottom_toTopOf="@+id/layout_addpost_appbarbottom" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layout_addpost_bottombar"
+        android:id="@+id/layout_addpost_appbarbottom"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:paddingStart="5dp"
-        android:paddingEnd="5dp"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
         app:layout_constraintBottom_toBottomOf="parent">
 
         <Button
@@ -95,7 +98,8 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:background="@color/transparent"
-            android:text="📷사진추가"
+            android:drawableStart="@drawable/ic_add_a_photo"
+            android:text="사진추가"
             android:textColor="@color/gray"
             android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -106,8 +110,11 @@
             android:id="@+id/btn_addpost_addstore"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_marginEnd="20dp"
             android:background="@color/transparent"
-            android:text="📌장소"
+            android:drawableStart="@drawable/ic_push_pin"
+            android:minWidth="10dp"
+            android:text="장소"
             android:textColor="@color/gray"
             android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -119,7 +126,9 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:background="@color/transparent"
-            android:text="🔖아이템"
+            android:drawableStart="@drawable/ic_bookmark"
+            android:minWidth="10dp"
+            android:text="아이템"
             android:textColor="@color/gray"
             android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="parent"
