@@ -12,4 +12,25 @@
     <string name="alarm">alarm</string>
     <string name="cancel">취소</string>
     <string name="complete">완료</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hotPlace">주변 인기 장소</string>
+    <string name="user1">user5</string>
+    <string name="filter">필터</string>
+    <string name="Search_location_menu">지역,장소 메뉴, 검색</string>
+    <string name="search_all">모두</string>
+    <string name="my_location">내 위치</string>
+    <string name="place_master">동네마스터</string>
+    <string name="search_hint">지역,장소,메뉴,검색</string>
+    <string name="app_label">안드로이더</string>
+    <string name="title_activity_search_location_menu">SearchLocationMenu</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="myLocation">내위치</string>
 </resources>
