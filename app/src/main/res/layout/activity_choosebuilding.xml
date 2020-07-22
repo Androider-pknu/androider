@@ -31,19 +31,23 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <androidx.appcompat.widget.AppCompatRadioButton
+                android:id="@+id/btn_choosebuilding_building"
                 android:layout_width="100dp"
                 android:layout_height="30dp"
                 android:background="@drawable/radiobutton_choosebuilding_leftselector"
                 android:button="@android:color/transparent"
+                android:checked="true"
                 android:gravity="center"
                 android:text="빌딩 선택"
                 android:textColor="@android:color/white" />
 
             <androidx.appcompat.widget.AppCompatRadioButton
+                android:id="@+id/btn_choosebuilding_location"
                 android:layout_width="100dp"
                 android:layout_height="30dp"
                 android:background="@drawable/radiobutton_choosebuilding_rightselector"
                 android:button="@android:color/transparent"
+                android:checked="false"
                 android:gravity="center"
                 android:text="위치 지정"
                 android:textColor="@color/blue_default" />
