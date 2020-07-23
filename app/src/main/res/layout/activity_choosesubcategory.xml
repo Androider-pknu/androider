@@ -5,17 +5,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/default_background_color"
-    tools:context=".navigation.addpost.addstore.input.ChooseCategoryActivity">
+    tools:context=".navigation.addpost.addstore.input.ChooseSubCategoryActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_choosecategory_appbartop"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="@dimen/size_all_appbar"
         android:background="@color/white"
         app:layout_constraintTop_toTopOf="parent">
 
         <Button
-            android:id="@+id/btn_choosecategory_back"
+            android:id="@+id/btn_choosesubcategory_back"
             android:layout_width="40dp"
             android:layout_height="50dp"
             android:background="@drawable/ic_chevron_left"
@@ -27,7 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-black"
-            android:text="업종 선택"
+            android:text="상위 카테코리명"
             android:textColor="@color/black"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -38,39 +38,33 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
-        android:id="@+id/textview_choosecategory_store"
+        android:id="@+id/textview_choosesubcategory_subcategory"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:text="음식점"
+        android:text="상세 업종"
         android:textSize="12sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/layout_choosecategory_appbartop" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerview_choosecategory_store"
+        android:id="@+id/recyclerview_choosesubcategory_subcategory"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:background="@color/white"
-        app:layout_constraintTop_toBottomOf="@id/textview_choosecategory_store" />
-
-    <TextView
-        android:id="@+id/textview_choosecategory_extra"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:text="기타 장소"
-        android:textSize="12sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/recyclerview_choosecategory_store" />
+        app:layout_constraintTop_toBottomOf="@id/textview_choosesubcategory_subcategory" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerview_choosecategory_extra"
+    <Button
+        style="?borderlessButtonStyle"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_height="@dimen/size_all_appbar"
+        android:layout_marginTop="30dp"
         android:background="@color/white"
-        app:layout_constraintTop_toBottomOf="@id/textview_choosecategory_extra" />
+        android:text="직접 입력"
+        android:textColor="@color/gray"
+        android:textSize="20sp"
+        app:layout_constraintTop_toBottomOf="@id/recyclerview_choosesubcategory_subcategory" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

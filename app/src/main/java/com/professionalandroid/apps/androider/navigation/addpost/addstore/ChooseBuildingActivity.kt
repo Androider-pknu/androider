@@ -25,5 +25,8 @@ class ChooseBuildingActivity : AppCompatActivity() {
             btn_choosebuilding_building.setTextColor(ContextCompat.getColor(applicationContext, R.color.blue_default))
             btn_choosebuilding_location.setTextColor(ContextCompat.getColor(applicationContext, R.color.white))
         }
+        btn_choosebuilding_back.setOnClickListener {
+            onBackPressed()
+        }
     }
 }

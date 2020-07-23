@@ -24,6 +24,10 @@ class SearchAddressActivity : AppCompatActivity(),
         btn_sample1.setOnClickListener {
             startActivity(Intent(this, ChooseBuildingActivity::class.java))
         }
+
+        btn_searchaddress_cancel.setOnClickListener {
+            onBackPressed()
+        }
     }
 
     override fun onDialogCompleteClick(value: String) {

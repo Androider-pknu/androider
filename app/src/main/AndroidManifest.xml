@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".navigation.addpost.addstore.input.ChangeAddressActivity"></activity>
-        <activity android:name=".navigation.addpost.addstore.input.ChoosingSubCategoryActivity" />
+        <activity android:name=".navigation.addpost.addstore.input.ChooseSubCategoryActivity" />
         <activity android:name=".navigation.addpost.addstore.input.ChooseCategoryActivity" />
         <activity android:name=".navigation.addpost.addstore.input.AddStoreActivity" />
         <activity android:name=".navigation.addpost.addstore.ChooseBuildingActivity" />

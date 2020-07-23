@@ -29,6 +29,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
+            android:id="@+id/btn_searchaddress_cancel"
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="60dp"
             android:layout_height="60dp"
@@ -45,18 +46,19 @@
             style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
+            android:layout_marginBottom="15dp"
             android:drawableEnd="@drawable/ic_arrow_drop_down_24px"
             android:minWidth="10dp"
             android:text="한국"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textview_searchaddress_title" />
+            app:layout_constraintStart_toStartOf="parent" />
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/searchview_searchaddress"
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_marginEnd="15dp"
+            android:layout_marginBottom="15dp"
             android:background="@drawable/all_semiroundcorner"
             android:drawableStart="@drawable/ic_search_24px"
             android:hint="도로명 또는 지번 주소 (예: 삼일대로 343)"
@@ -65,7 +67,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/btn_searchaddress_choosecountry"
-            app:layout_constraintTop_toBottomOf="@id/textview_searchaddress_title"
             app:queryBackground="@null" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -78,11 +79,11 @@
         app:layout_constraintTop_toBottomOf="@id/layout_searchaddress_appbartop" />
 
     <Button
+        android:id="@+id/btn_sample1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/btn_sample1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/divider_searchaddress_appbartop"/>
+        app:layout_constraintTop_toBottomOf="@id/divider_searchaddress_appbartop" />
 
 
     <FrameLayout

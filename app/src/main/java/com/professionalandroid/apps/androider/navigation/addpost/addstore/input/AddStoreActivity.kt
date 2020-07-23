@@ -12,8 +12,12 @@ class AddStoreActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_addstore)
 
-        layout_addstore_choosecategory.setOnClickListener {
+        layout_addstore_category.setOnClickListener {
             startActivity(Intent(this, ChooseCategoryActivity::class.java))
+        }
+
+        btn_addstore_back.setOnClickListener {
+            onBackPressed()
         }
     }
 }
