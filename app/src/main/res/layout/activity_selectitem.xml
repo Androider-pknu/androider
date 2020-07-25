@@ -5,10 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/default_background_color"
-    tools:context=".navigation.addpost.addstore.SelectStoreActivity">
+    tools:context=".navigation.addpost.additem.SelectItemActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layout_selectstore_top"
+        android:id="@+id/layout_selectitem_appbartop"
         android:layout_width="match_parent"
         android:layout_height="120dp"
         android:background="@color/white"
@@ -17,7 +17,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <Button
-            android:id="@+id/btn_selectstore_back"
+            android:id="@+id/btn_selectitem_back"
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="@dimen/size_all_appbar"
             android:layout_height="@dimen/size_all_appbar"
@@ -26,12 +26,12 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/textview_selectstore_title"
+            android:id="@+id/textview_selectitem_title"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/size_all_appbar"
             android:fontFamily="sans-serif-black"
             android:gravity="center"
-            android:text="장소 선택"
+            android:text="아이템 선택"
             android:textColor="@color/black"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -39,7 +39,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.SearchView
-            android:id="@+id/searchview_selectstore"
+            android:id="@+id/searchview_selectitem"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginStart="15dp"
@@ -51,47 +51,47 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:queryBackground="@null"
-            app:queryHint="장소 이름" />
+            app:queryHint="아이템 이름" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <View
-        android:id="@+id/divider_selectstore_top"
+        android:id="@+id/divider_selectitem_appbartop"
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:background="@color/gray"
-        app:layout_constraintTop_toBottomOf="@id/layout_selectstore_top" />
+        app:layout_constraintTop_toBottomOf="@id/layout_selectitem_appbartop" />
 
     <TextView
-        android:id="@+id/textview_selectstore_nearstore"
+        android:id="@+id/textview_selectitem_recentitem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
         android:layout_marginTop="10dp"
-        android:text="주변 장소"
+        android:text="최근 등록된 아이템"
         android:textSize="12sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/layout_selectstore_top" />
+        app:layout_constraintTop_toBottomOf="@id/layout_selectitem_appbartop" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerview_selectstore_stores"
+        android:id="@+id/recyclerview_selectitem_items"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        app:layout_constraintTop_toBottomOf="@id/textview_selectstore_nearstore" />
+        app:layout_constraintTop_toBottomOf="@id/textview_selectitem_recentitem" />
 
     <TextView
-        android:id="@+id/textview_selectstore_nostore"
+        android:id="@+id/textview_selectitem_noitem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:text="찾는 장소가 없나요?"
+        android:text="찾는 아이템이 없나요?"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/recyclerview_selectstore_stores" />
+        app:layout_constraintTop_toBottomOf="@id/recyclerview_selectitem_items" />
 
     <Button
-        android:id="@+id/btn_selectstore_addstore"
+        android:id="@+id/btn_selectitem_additem"
         style="?borderlessButtonStyle"
         android:layout_width="match_parent"
         android:layout_height="45dp"
@@ -101,9 +101,9 @@
         android:background="@drawable/all_roundcorner"
         android:backgroundTint="@color/orange"
         android:fontFamily="sans-serif-black"
-        android:text="╋  신규 장소 등록"
+        android:text="╋  신규 아이템 등록"
         android:textColor="@color/white"
         android:textSize="16sp"
-        app:layout_constraintTop_toBottomOf="@id/textview_selectstore_nostore" />
+        app:layout_constraintTop_toBottomOf="@id/textview_selectitem_noitem" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

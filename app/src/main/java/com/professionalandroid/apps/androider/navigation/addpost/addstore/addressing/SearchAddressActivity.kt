@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.professionalandroid.apps.androider.R
-import com.professionalandroid.apps.androider.navigation.addpost.addstore.ChooseBuildingActivity
 import com.professionalandroid.apps.androider.navigation.addpost.addstore.PickCountryDialog
 import kotlinx.android.synthetic.main.activity_searchaddress.*
 
