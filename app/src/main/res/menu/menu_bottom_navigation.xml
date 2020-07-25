@@ -2,33 +2,32 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/menu_main"
-        android:icon="@drawable/ic_launcher_foreground"
+        android:icon="@drawable/ic_home"
         android:enabled="true"
         android:title="@string/main"
         />
     <item
         android:id="@+id/menu_news_feed"
-        android:icon="@drawable/ic_launcher_foreground"
+        android:icon="@drawable/ic_whatshot"
         android:enabled="true"
         android:title="@string/news_feed"
         />
     <item
         android:id="@+id/menu_write"
-        android:icon="@drawable/ic_launcher_foreground"
-        android:enabled="true"
+        android:enabled="false"
         android:title="@string/write"
         />
 
     <item
         android:id="@+id/menu_search"
-        android:icon="@drawable/ic_launcher_foreground"
+        android:icon="@drawable/ic_search"
         android:enabled="true"
         android:title="@string/search"
         />
 
     <item
         android:id="@+id/menu_alarm"
-        android:icon="@drawable/ic_launcher_foreground"
+        android:icon="@drawable/ic_notification"
         android:enabled="true"
         android:title="@string/alarm"
         />

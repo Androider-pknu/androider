@@ -24,8 +24,21 @@
         android:id="@+id/navigation_main_bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:itemIconSize="30dp"
+        app:itemIconTint="@drawable/bottomnavigation_color_selector"
         app:labelVisibilityMode="unlabeled"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:menu="@menu/menu_bottom_navigation" />
+        app:menu="@menu/menu_bottom_navigation">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btn_main_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_edit_white"
+            app:backgroundTint="@color/orange"
+            app:fabSize="mini" />
+
+    </com.google.android.material.bottomnavigation.BottomNavigationView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -20,11 +20,6 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
             supportFragmentManager.beginTransaction().replace(R.id.layout_main_content, NewsFeedFragment()).commit()
             true
         }
-        R.id.menu_write -> {
-            val intent = Intent(this, AddPostActivity::class.java)
-            startActivity(intent)
-            true
-        }
         R.id.menu_search -> {
             supportFragmentManager.beginTransaction().replace(R.id.layout_main_content, SearchFragment()).commit()
             true
@@ -41,5 +36,10 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         setContentView(R.layout.activity_main)
         navigation_main_bottom.setOnNavigationItemSelectedListener(this)
         navigation_main_bottom.selectedItemId = R.id.menu_main
+
+        btn_main_edit.setOnClickListener {
+            val intent = Intent(this, AddPostActivity::class.java)
+            startActivity(intent)
+        }
     }
 }
