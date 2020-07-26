@@ -37,40 +37,21 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <TextView
-        android:id="@+id/textview_choosecategory_store"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:text="음식점"
-        android:textSize="12sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/layout_choosecategory_appbartop" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerview_choosecategory_store"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:background="@color/white"
-        app:layout_constraintTop_toBottomOf="@id/textview_choosecategory_store" />
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layout_choosecategory_appbartop">
 
-    <TextView
-        android:id="@+id/textview_choosecategory_extra"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:text="기타 장소"
-        android:textSize="12sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/recyclerview_choosecategory_store" />
+        <LinearLayout
+            android:id="@+id/layout_choosecategory_scrolllinear"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingStart="5dp">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerview_choosecategory_extra"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:background="@color/white"
-        app:layout_constraintTop_toBottomOf="@id/textview_choosecategory_extra" />
+        </LinearLayout>
+
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
