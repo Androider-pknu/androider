@@ -345,4 +345,173 @@
         <item>주차장</item>
     </string-array>
 
+    <string-array name="item_category">
+        <item>음식/메뉴</item>
+        <item>카페</item>
+        <item>편의점</item>
+        <item>과자/빙과류</item>
+        <item>간식/간편식</item>
+        <item>냉동/반조리</item>
+        <item>라면</item>
+        <item>빵/떡</item>
+        <item>음료</item>
+        <item>루쥬</item>
+        <item>과일/식재료</item>
+        <item>요리</item>
+        <item>문화</item>
+        <item>기타</item>
+    </string-array>
+
+    <string-array name="item_sub_category_1">
+        <item>피자</item>
+        <item>치킨</item>
+        <item>햄버거</item>
+        <item>기타음식</item>
+        <item>사이드메뉴</item>
+        <item>음료</item>
+        <item>도시락</item>
+        <item>샐러드</item>
+        <item>회</item>
+        <item>반찬</item>
+    </string-array>
+
+    <string-array name="item_sub_category_2">
+        <item>커피</item>
+        <item>차음료</item>
+        <item>주스</item>
+        <item>밀크티</item>
+        <item>빙수</item>
+        <item>기타음료</item>
+        <item>샌드위치</item>
+        <item>샐러드</item>
+        <item>기타푸드</item>
+        <item>케이크</item>
+        <item>베이커리</item>
+        <item>아이스크림</item>
+        <item>커피원두</item>
+        <item>굿즈</item>
+    </string-array>
+
+    <string-array name="item_sub_category_3">
+        <item>도시락</item>
+        <item>즉석조리</item>
+        <item>김밥</item>
+        <item>샌드위치</item>
+        <item>햄버거</item>
+        <item>핫바</item>
+        <item>디저트</item>
+        <item>아이스크림</item>
+        <item>기타</item>
+    </string-array>
+
+    <string-array name="item_sub_category_4">
+        <item>과자</item>
+        <item>쿠키</item>
+        <item>초콜릿</item>
+        <item>카라멜</item>
+        <item>젤리</item>
+        <item>사탕</item>
+        <item>아이스크림</item>
+        <item>기타</item>
+    </string-array>
+
+    <string-array name="item_sub_category_5">
+        <item>씨리얼</item>
+        <item>요거트</item>
+        <item>죽</item>
+        <item>푸딩</item>
+        <item>분말스프</item>
+        <item>대체식</item>
+        <item>에너지바</item>
+        <item>견과류</item>
+        <item>건과일</item>
+        <item>건어물</item>
+        <item>육포</item>
+        <item>통조림</item>
+        <item>기타간식</item>
+    </string-array>
+
+    <string-array name="item_sub_category_6">
+        <item>냉동식품</item>
+        <item>반조리식품</item>
+        <item>간편조리식품</item>
+    </string-array>
+
+    <string-array name="item_sub_category_7">
+        <item>라면</item>
+        <item>컵라면</item>
+    </string-array>
+
+    <string-array name="item_sub_category_8">
+        <item>빵</item>
+        <item>식빵</item>
+        <item>도너츠</item>
+        <item>케이크</item>
+        <item>수제쿠키</item>
+        <item>디저트</item>
+        <item>떡</item>
+        <item>한과</item>
+        <item>화과자</item>
+        <item>특산품</item>
+    </string-array>
+
+    <string-array name="item_sub_category_9">
+        <item>주스</item>
+        <item>탄산음료</item>
+        <item>탄산수</item>
+        <item>기타음료</item>
+        <item>커피</item>
+        <item>차</item>
+        <item>우유</item>
+        <item>두유</item>
+        <item>유산균음료</item>
+    </string-array>
+
+    <string-array name="item_sub_category_10">
+        <item>맥주</item>
+        <item>와인</item>
+        <item>막걸리</item>
+        <item>소주</item>
+        <item>전통주</item>
+        <item>위스키</item>
+        <item>보드카</item>
+        <item>진</item>
+        <item>기타양주</item>
+        <item>사케</item>
+        <item>중국술</item>
+        <item>기타주류</item>
+    </string-array>
+
+    <string-array name="item_sub_category_11">
+        <item>과일</item>
+        <item>야채</item>
+        <item>농산물</item>
+        <item>수산물</item>
+        <item>육류</item>
+        <item>가공육류</item>
+        <item>비건육류</item>
+        <item>두부</item>
+        <item>유제품</item>
+        <item>잼</item>
+        <item>냉동과일</item>
+        <item>면</item>
+        <item>소스</item>
+        <item>조미료</item>
+        <item>향신료</item>
+        <item>가공식품</item>
+        <item>기타식재료</item>
+    </string-array>
+
+    <string-array name="item_sub_category_12">
+        <item>음식</item>
+        <item>간식</item>
+        <item>반찬</item>
+        <item>비건</item>
+        <item>샌드위치</item>
+        <item>베이킹</item>
+        <item>음료</item>
+        <item>간편레시피</item>
+        <item>기타</item>
+    </string-array>
+
 </resources>
