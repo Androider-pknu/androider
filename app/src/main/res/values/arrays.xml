@@ -33,22 +33,7 @@
         <item>바/와인</item>
     </string-array>
 
-    <string-array name="extra_store_category">
-        <item>갤러리/미술관</item>
-        <item>문화공간</item>
-        <item>쇼핑/로컬샵</item>
-        <item>마트/시장</item>
-        <item>생활편의</item>
-        <item>은행/관공서</item>
-        <item>병원/의료</item>
-        <item>엔터테인먼트</item>
-        <item>레저</item>
-        <item>숙박</item>
-        <item>명소</item>
-        <item>기타장소</item>
-    </string-array>
-    
-    <string-array name="sub_store_category_1">
+    <string-array name="sub_store_category_0">
         <item>한식</item>
         <item>일식</item>
         <item>베트남음식</item>
@@ -57,8 +42,8 @@
         <item>푸드코트</item>
         <item>구내식당</item>
     </string-array>
-    
-    <string-array name="sub_store_category_2">
+
+    <string-array name="sub_store_category_1">
         <item>양식</item>
         <item>브런치</item>
         <item>뷔페</item>
@@ -73,7 +58,7 @@
         <item>미트델리샵</item>
     </string-array>
 
-    <string-array name="sub_store_category_3">
+    <string-array name="sub_store_category_2">
         <item>중식당</item>
         <item>짬뽕전문점</item>
         <item>중식</item>
@@ -83,7 +68,7 @@
         <item>중국만두</item>
     </string-array>
 
-    <string-array name="sub_store_category_4">
+    <string-array name="sub_store_category_3">
         <item>일식당</item>
         <item>스시</item>
         <item>참치회</item>
@@ -92,7 +77,7 @@
         <item>퓨전스시</item>
     </string-array>
 
-    <string-array name="sub_store_category_5">
+    <string-array name="sub_store_category_4">
         <item>횟집</item>
         <item>해산물</item>
         <item>조개</item>
@@ -100,7 +85,7 @@
         <item>대게류</item>
     </string-array>
 
-    <string-array name="sub_store_category_6">
+    <string-array name="sub_store_category_5">
         <item>고깃집</item>
         <item>곱창류</item>
         <item>닭갈비</item>
@@ -111,17 +96,17 @@
         <item>바베큐</item>
     </string-array>
 
-    <string-array name="sub_store_category_7">
+    <string-array name="sub_store_category_6">
         <item>치킨</item>
         <item>닭강정</item>
     </string-array>
 
-    <string-array name="sub_store_category_8">
+    <string-array name="sub_store_category_7">
         <item>피자</item>
         <item>화덕피자</item>
     </string-array>
 
-    <string-array name="sub_store_category_9">
+    <string-array name="sub_store_category_8">
         <item>햄버거</item>
         <item>수제버거</item>
         <item>샌드위치</item>
@@ -129,7 +114,7 @@
         <item>핫도그</item>
     </string-array>
 
-    <string-array name="sub_store_category_10">
+    <string-array name="sub_store_category_9">
         <item>분식</item>
         <item>김밥</item>
         <item>만두</item>
@@ -141,7 +126,7 @@
         <item>고로케</item>
     </string-array>
 
-    <string-array name="sub_store_category_11">
+    <string-array name="sub_store_category_10">
         <item>카페</item>
         <item>디저트카페</item>
         <item>베이커리카페</item>
@@ -153,12 +138,12 @@
         <item>주스전문점</item>
     </string-array>
 
-    <string-array name="sub_store_category_12">
+    <string-array name="sub_store_category_11">
         <item>베이커리</item>
         <item>식빵전문점</item>
     </string-array>
 
-    <string-array name="sub_store_category_13">
+    <string-array name="sub_store_category_12">
         <item>디저트</item>
         <item>마카롱</item>
         <item>초콜릿</item>
@@ -170,7 +155,7 @@
         <item>젤라또</item>
     </string-array>
 
-    <string-array name="sub_store_category_14">
+    <string-array name="sub_store_category_13">
         <item>한식주점</item>
         <item>술집</item>
         <item>전/막걸리</item>
@@ -181,7 +166,7 @@
         <item>포장마차</item>
     </string-array>
 
-    <string-array name="sub_store_category_15">
+    <string-array name="sub_store_category_14">
         <item>호프</item>
         <item>펍</item>
         <item>수제맥주</item>
@@ -191,19 +176,34 @@
         <item>LP바</item>
     </string-array>
 
-    <string-array name="sub_store_category_16">
+    <string-array name="sub_store_category_15">
         <item>바</item>
         <item>와인</item>
         <item>라운지</item>
     </string-array>
 
-    <string-array name="sub_extra_category_1">
+    <string-array name="extra_store_category">
+        <item>갤러리/미술관</item>
+        <item>문화공간</item>
+        <item>쇼핑/로컬샵</item>
+        <item>마트/시장</item>
+        <item>생활편의</item>
+        <item>은행/관공서</item>
+        <item>병원/의료</item>
+        <item>엔터테인먼트</item>
+        <item>레저</item>
+        <item>숙박</item>
+        <item>명소</item>
+        <item>기타장소</item>
+    </string-array>
+
+    <string-array name="sub_extra_category_0">
         <item>갤러리</item>
         <item>미술관</item>
         <item>어린이미술관</item>
     </string-array>
 
-    <string-array name="sub_extra_category_2">
+    <string-array name="sub_extra_category_1">
         <item>서점</item>
         <item>소품</item>
         <item>편집샵</item>
@@ -216,7 +216,7 @@
         <item>기타문화공간</item>
     </string-array>
 
-    <string-array name="sub_extra_category_3">
+    <string-array name="sub_extra_category_2">
         <item>백화점</item>
         <item>쇼핑몰</item>
         <item>아울렛</item>
@@ -231,7 +231,7 @@
         <item>장난감</item>
     </string-array>
 
-    <string-array name="sub_extra_category_4">
+    <string-array name="sub_extra_category_3">
         <item>편의점</item>
         <item>마트</item>
         <item>시장</item>
@@ -242,7 +242,7 @@
         <item>주류판매점</item>
     </string-array>
 
-    <string-array name="sub_extra_category_5">
+    <string-array name="sub_extra_category_4">
         <item>미용실</item>
         <item>이발소</item>
         <item>마사지</item>
@@ -257,7 +257,7 @@
         <item>사진관</item>
     </string-array>
 
-    <string-array name="sub_extra_category_6">
+    <string-array name="sub_extra_category_5">
         <item>은행</item>
         <item>경찰서</item>
         <item>우체국</item>
@@ -266,7 +266,7 @@
         <item>공공기관</item>
     </string-array>
 
-    <string-array name="sub_extra_category_7">
+    <string-array name="sub_extra_category_6">
         <item>병원</item>
         <item>종합병원</item>
         <item>한의원</item>
@@ -274,7 +274,7 @@
         <item>약국</item>
     </string-array>
 
-    <string-array name="sub_extra_category_8">
+    <string-array name="sub_extra_category_7">
         <item>영화관</item>
         <item>보드게임카페</item>
         <item>만화카페</item>
@@ -286,7 +286,7 @@
         <item>테마파크</item>
     </string-array>
 
-    <string-array name="sub_extra_category_9">
+    <string-array name="sub_extra_category_8">
         <item>요가</item>
         <item>필라테스</item>
         <item>헬스</item>
@@ -302,7 +302,7 @@
         <item>경기장</item>
     </string-array>
 
-    <string-array name="sub_extra_category_10">
+    <string-array name="sub_extra_category_9">
         <item>호텔</item>
         <item>리조트</item>
         <item>펜션</item>
@@ -315,7 +315,7 @@
         <item>레지던스</item>
     </string-array>
 
-    <string-array name="sub_extra_category_11">
+    <string-array name="sub_extra_category_10">
         <item>관광지</item>
         <item>문화재</item>
         <item>지역축제</item>
@@ -334,7 +334,7 @@
         <item>농장</item>
     </string-array>
 
-    <string-array name="sub_extra_category_12">
+    <string-array name="sub_extra_category_11">
         <item>지하철역</item>
         <item>고속도로휴게소</item>
         <item>팝업스토어</item>
@@ -362,7 +362,7 @@
         <item>기타</item>
     </string-array>
 
-    <string-array name="item_sub_category_1">
+    <string-array name="item_sub_category_0">
         <item>피자</item>
         <item>치킨</item>
         <item>햄버거</item>
@@ -375,7 +375,7 @@
         <item>반찬</item>
     </string-array>
 
-    <string-array name="item_sub_category_2">
+    <string-array name="item_sub_category_1">
         <item>커피</item>
         <item>차음료</item>
         <item>주스</item>
@@ -392,7 +392,7 @@
         <item>굿즈</item>
     </string-array>
 
-    <string-array name="item_sub_category_3">
+    <string-array name="item_sub_category_2">
         <item>도시락</item>
         <item>즉석조리</item>
         <item>김밥</item>
@@ -404,7 +404,7 @@
         <item>기타</item>
     </string-array>
 
-    <string-array name="item_sub_category_4">
+    <string-array name="item_sub_category_3">
         <item>과자</item>
         <item>쿠키</item>
         <item>초콜릿</item>
@@ -415,7 +415,7 @@
         <item>기타</item>
     </string-array>
 
-    <string-array name="item_sub_category_5">
+    <string-array name="item_sub_category_4">
         <item>씨리얼</item>
         <item>요거트</item>
         <item>죽</item>
@@ -431,18 +431,18 @@
         <item>기타간식</item>
     </string-array>
 
-    <string-array name="item_sub_category_6">
+    <string-array name="item_sub_category_5">
         <item>냉동식품</item>
         <item>반조리식품</item>
         <item>간편조리식품</item>
     </string-array>
 
-    <string-array name="item_sub_category_7">
+    <string-array name="item_sub_category_6">
         <item>라면</item>
         <item>컵라면</item>
     </string-array>
 
-    <string-array name="item_sub_category_8">
+    <string-array name="item_sub_category_7">
         <item>빵</item>
         <item>식빵</item>
         <item>도너츠</item>
@@ -455,7 +455,7 @@
         <item>특산품</item>
     </string-array>
 
-    <string-array name="item_sub_category_9">
+    <string-array name="item_sub_category_8">
         <item>주스</item>
         <item>탄산음료</item>
         <item>탄산수</item>
@@ -467,7 +467,7 @@
         <item>유산균음료</item>
     </string-array>
 
-    <string-array name="item_sub_category_10">
+    <string-array name="item_sub_category_9">
         <item>맥주</item>
         <item>와인</item>
         <item>막걸리</item>
@@ -482,7 +482,7 @@
         <item>기타주류</item>
     </string-array>
 
-    <string-array name="item_sub_category_11">
+    <string-array name="item_sub_category_10">
         <item>과일</item>
         <item>야채</item>
         <item>농산물</item>
@@ -502,7 +502,7 @@
         <item>기타식재료</item>
     </string-array>
 
-    <string-array name="item_sub_category_12">
+    <string-array name="item_sub_category_11">
         <item>음식</item>
         <item>간식</item>
         <item>반찬</item>

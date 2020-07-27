@@ -24,6 +24,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:id="@+id/textview_choosesubcategory_supercategory"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-black"
@@ -37,34 +38,45 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <TextView
-        android:id="@+id/textview_choosesubcategory_subcategory"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:text="상세 업종"
-        android:textSize="12sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/layout_choosecategory_appbartop" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerview_choosesubcategory_subcategory"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:background="@color/white"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textview_choosesubcategory_subcategory" />
+        android:fillViewport="true"
+        app:layout_constraintTop_toBottomOf="@id/layout_choosecategory_appbartop">
 
-    <Button
-        style="?borderlessButtonStyle"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/size_all_appbar"
-        android:layout_marginTop="30dp"
-        android:background="@color/white"
-        android:text="직접 입력"
-        android:textColor="@color/gray"
-        android:textSize="20sp"
-        app:layout_constraintTop_toBottomOf="@id/recyclerview_choosesubcategory_subcategory" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textview_choosesubcategory_subcategory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="상세 업종"
+                android:textSize="12sp" />
+
+            <LinearLayout
+                android:id="@+id/layout_choosesubcategory_subcategory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+
+            <Button
+                android:id="@+id/btn_choosesubcategory_selfinput"
+                style="?borderlessButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="30dp"
+                android:background="@color/white"
+                android:text="직접 입력"
+                android:textColor="@color/gray"
+                android:textSize="20sp" />
+
+        </LinearLayout>
+
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
