@@ -22,11 +22,13 @@ class AddStoreActivity : AppCompatActivity() {
             )
         }
 
+        layout_addstore_address.setOnClickListener {
+            startActivity(Intent(this, ChangeAddressActivity::class.java))
+        }
+
         btn_addstore_back.setOnClickListener {
             onBackPressed()
         }
-
-        textview_addstore_category.text = "??"
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
