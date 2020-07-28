@@ -51,7 +51,7 @@ class SearchAddressActivity : AppCompatActivity(),
             .create()
 
         val retrofit = Retrofit.Builder()
-            .baseUrl("http://3.134.76.225/") // aws ip address
+            .baseUrl("http://18.220.173.161/") // aws ip address
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
 

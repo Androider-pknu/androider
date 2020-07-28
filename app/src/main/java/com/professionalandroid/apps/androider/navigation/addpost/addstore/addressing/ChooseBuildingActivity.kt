@@ -1,14 +1,21 @@
 package com.professionalandroid.apps.androider.navigation.addpost.addstore.addressing
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.MapFragment
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 import com.professionalandroid.apps.androider.R
 import com.professionalandroid.apps.androider.navigation.addpost.addstore.input.AddStoreActivity
 import kotlinx.android.synthetic.main.activity_choosebuilding.*
 
-class ChooseBuildingActivity : AppCompatActivity() {
+
+class ChooseBuildingActivity : AppCompatActivity(), OnMapReadyCallback {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,6 +33,19 @@ class ChooseBuildingActivity : AppCompatActivity() {
         }
         btn_choosebuilding_back.setOnClickListener {
             onBackPressed()
+        }
+
+        val mapFragment : SupportMapFragment? =
+            supportFragmentManager.findFragmentById(R.id.fragment_choosebuilding_mapfragment) as? SupportMapFragment
+        mapFragment?.getMapAsync(this)
+    }
+
+    override fun onMapReady(googleMap: GoogleMap?) {
+        googleMap ?: return
+        with(googleMap) {
+            addMarker(MarkerOptions()
+                .position(LatLng(0.0, 0.0))
+                .title("Marker"))
         }
     }
 }
