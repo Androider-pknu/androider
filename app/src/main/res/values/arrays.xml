@@ -355,7 +355,7 @@
         <item>라면</item>
         <item>빵/떡</item>
         <item>음료</item>
-        <item>루쥬</item>
+        <item>주류</item>
         <item>과일/식재료</item>
         <item>요리</item>
         <item>문화</item>
@@ -513,5 +513,27 @@
         <item>간편레시피</item>
         <item>기타</item>
     </string-array>
+
+    <string-array name="item_sub_category_12">
+        <item>책</item>
+        <item>영화</item>
+        <item>연극</item>
+        <item>공연</item>
+        <item>전시</item>
+        <item>행사</item>
+    </string-array>
+
+    <string-array name="item_sub_category_13">
+        <item>생활용품</item>
+        <item>주방용품</item>
+        <item>화장품</item>
+        <item>건강식품</item>
+        <item>영양제</item>
+        <item>약</item>
+        <item>전자제품</item>
+        <item>모바일앱</item>
+        <item>기타</item>
+    </string-array>
+
 
 </resources>
