@@ -51,7 +51,7 @@ class SearchAddressActivity : AppCompatActivity(),
             .create()
 
         val retrofit = Retrofit.Builder()
-            .baseUrl("http://18.220.173.161/") // aws ip address
+            .baseUrl("http://18.191.77.157/") // aws ip address
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
 
@@ -85,7 +85,9 @@ class SearchAddressActivity : AppCompatActivity(),
                 )
                 view.textview_itemcategory_category.text = juso.roadAddrPart1
                 view.textview_itemcategory_category.setOnClickListener {
-                    startActivity(Intent(this, ChooseBuildingActivity::class.java))
+                    val intent = Intent(this, ChooseBuildingActivity::class.java)
+                    intent.putExtra("address", view.textview_itemcategory_category.text.toString())
+                    startActivity(intent)
                 }
                 layout_searchaddress_addresslist.addView(view)
             }

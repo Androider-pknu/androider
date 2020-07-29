@@ -22,6 +22,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <RadioGroup
+            android:id="@+id/radiogroup_choosebuilding"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -36,7 +37,6 @@
                 android:layout_height="30dp"
                 android:background="@drawable/radiobutton_choosebuilding_leftselector"
                 android:button="@android:color/transparent"
-                android:checked="true"
                 android:gravity="center"
                 android:text="빌딩 선택"
                 android:textColor="@android:color/white" />
@@ -47,7 +47,6 @@
                 android:layout_height="30dp"
                 android:background="@drawable/radiobutton_choosebuilding_rightselector"
                 android:button="@android:color/transparent"
-                android:checked="false"
                 android:gravity="center"
                 android:text="위치 지정"
                 android:textColor="@color/blue_default" />
@@ -59,7 +58,6 @@
             android:layout_width="@dimen/size_all_appbar"
             android:layout_height="@dimen/size_all_appbar"
             android:background="@android:color/transparent"
-            android:clickable="false"
             android:text="다음"
             android:textColor="@color/gray"
             android:textSize="20sp"
@@ -68,19 +66,39 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <Button
-        android:id="@+id/btn_sample"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
+    <View
+        android:id="@+id/divider_choosebuilding_appbartop"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/gray"
         app:layout_constraintTop_toBottomOf="@id/layout_choosebuilding_appbartop" />
 
-    <fragment
-        android:id="@+id/fragment_choosebuilding_mapfragment"
-        android:name="com.google.android.gms.maps.SupportMapFragment"
+    <!--
+        <fragment
+            android:id="@+id/fragment_choosebuilding_mapfragment"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layout_choosebuilding_appbartop" />
+    -->
+    <FrameLayout
+        android:id="@+id/layout_choosebuilding_mapcontainer"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/layout_choosebuilding_appbartop" />
+        app:layout_constraintTop_toBottomOf="@id/divider_choosebuilding_appbartop" />
+
+    <TextView
+        android:id="@+id/textview_choosebuilding_detailinfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:text="test"
+        android:textSize="17sp"
+        android:visibility="invisible"
+        app:layout_constraintTop_toBottomOf="@id/divider_choosebuilding_appbartop" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
