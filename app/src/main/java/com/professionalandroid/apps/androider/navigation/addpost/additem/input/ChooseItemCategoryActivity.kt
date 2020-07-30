@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.item_category.view.*
 
 class
 ChooseItemCategoryActivity : AppCompatActivity() {
-    val ITEM_CATEGORY_REQUEST_CODE = 5003
+    val ITEM_SUB_CATEGORY_REQUEST_CODE = 5004
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,13 +47,13 @@ ChooseItemCategoryActivity : AppCompatActivity() {
             putExtra("name", item)
             putExtra("index", index)
         }
-        startActivityForResult(intent, ITEM_CATEGORY_REQUEST_CODE)
+        startActivityForResult(intent, ITEM_SUB_CATEGORY_REQUEST_CODE)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (requestCode == ITEM_CATEGORY_REQUEST_CODE) {
+        if (requestCode == ITEM_SUB_CATEGORY_REQUEST_CODE) {
             when (resultCode) {
                 Activity.RESULT_OK -> {
                     val subCategory = data?.getStringExtra("subCategory")
