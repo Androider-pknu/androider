@@ -19,15 +19,17 @@
             android:background="@color/transparent"
             android:text="@string/cancel"
             android:textColor="@color/blue_default"
-            android:textSize="20sp"
+            android:textSize="@dimen/textsize_appbar_default"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/imageview_addpost_profile"
-            android:layout_width="@dimen/size_all_appbar"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_launcher_foreground"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/all_circle"
+            android:src="@drawable/ic_person"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -38,9 +40,10 @@
             android:layout_height="match_parent"
             android:background="@color/transparent"
             android:clickable="false"
+            android:enabled="false"
             android:text="@string/complete"
-            android:textColor="@color/blue_default"
-            android:textSize="20sp"
+            android:textColor="@color/gray"
+            android:textSize="@dimen/textsize_appbar_default"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -112,7 +115,7 @@
             android:layout_height="match_parent"
             android:layout_marginEnd="20dp"
             android:background="@color/transparent"
-            android:drawableStart="@drawable/ic_push_pin"
+            android:drawableStart="@drawable/ic_place"
             android:minWidth="10dp"
             android:text="장소"
             android:textColor="@color/gray"

@@ -60,7 +60,7 @@
             android:background="@android:color/transparent"
             android:text="다음"
             android:textColor="@color/gray"
-            android:textSize="20sp"
+            android:textSize="@dimen/textsize_appbar_default"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -73,15 +73,6 @@
         android:background="@color/gray"
         app:layout_constraintTop_toBottomOf="@id/layout_choosebuilding_appbartop" />
 
-    <!--
-        <fragment
-            android:id="@+id/fragment_choosebuilding_mapfragment"
-            android:name="com.google.android.gms.maps.SupportMapFragment"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/layout_choosebuilding_appbartop" />
-    -->
     <FrameLayout
         android:id="@+id/layout_choosebuilding_mapcontainer"
         android:layout_width="match_parent"
@@ -94,6 +85,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
+        android:drawableStart="@drawable/ic_place"
+        android:gravity="center_vertical"
         android:paddingTop="5dp"
         android:paddingBottom="5dp"
         android:text="test"

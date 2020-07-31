@@ -42,8 +42,8 @@
             android:id="@+id/searchview_selectstore"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="15dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
             android:layout_marginBottom="15dp"
             android:background="@drawable/all_semiroundcorner"
             app:iconifiedByDefault="false"
@@ -66,10 +66,10 @@
         android:id="@+id/textview_selectstore_nearstore"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         android:text="주변 장소"
-        android:textSize="12sp"
+        android:textSize="@dimen/textsize_detail_description"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/layout_selectstore_top" />
 
@@ -103,7 +103,7 @@
         android:fontFamily="sans-serif-black"
         android:text="╋  신규 장소 등록"
         android:textColor="@color/white"
-        android:textSize="16sp"
+        android:textSize="@dimen/textsize_item"
         app:layout_constraintTop_toBottomOf="@id/textview_selectstore_nostore" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

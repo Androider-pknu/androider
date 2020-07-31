@@ -30,7 +30,7 @@
             android:fontFamily="sans-serif-black"
             android:text="상위 카테코리명"
             android:textColor="@color/black"
-            android:textSize="20sp"
+            android:textSize="@dimen/textsize_appbar_default"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -40,12 +40,11 @@
             android:id="@+id/btn_choosesubcategory_complete"
             android:layout_width="@dimen/size_all_appbar"
             android:layout_height="match_parent"
-            android:layout_gravity="end"
             android:background="@android:color/transparent"
+            android:enabled="false"
             android:text="@string/complete"
             android:textColor="@color/gray"
-            android:textSize="20sp"
-            android:enabled="false"
+            android:textSize="@dimen/textsize_item"
             android:visibility="invisible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -67,9 +66,10 @@
                 android:id="@+id/textview_choosesubcategory_subcategory"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
                 android:text="상세 업종"
-                android:textSize="12sp" />
+                android:textSize="@dimen/textsize_detail_description" />
 
             <LinearLayout
                 android:id="@+id/layout_choosesubcategory_subcategory"
@@ -81,12 +81,12 @@
                 android:id="@+id/btn_choosesubcategory_selfinput"
                 style="?borderlessButtonStyle"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="@dimen/height_item"
                 android:layout_marginTop="30dp"
                 android:background="@color/white"
                 android:text="직접 입력"
                 android:textColor="@color/gray"
-                android:textSize="20sp" />
+                android:textSize="@dimen/textsize_appbar_default" />
 
         </LinearLayout>
 
