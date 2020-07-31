@@ -4,24 +4,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/light_gray"
+    android:background="@color/default_background_color"
     android:orientation="vertical"
-    tools:context=".navigation.addpost.addstore.AddStoreActivity">
+    tools:context=".navigation.addpost.addstore.input.AddStoreActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_addstore_appbartop"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="@dimen/height_all_appbartop"
         android:background="@color/white">
 
         <Button
             android:id="@+id/btn_addstore_back"
-            android:layout_width="50dp"
+            android:layout_width="@dimen/size_all_appbar"
             android:layout_height="match_parent"
             android:layout_gravity="start"
             android:background="@android:color/transparent"
             android:text="@string/cancel"
-            android:textColor="@color/classic_blue"
+            android:textColor="@color/blue_default"
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -41,11 +41,12 @@
 
         <Button
             android:id="@+id/btn_addstore_complete"
-            android:layout_width="50dp"
+            android:layout_width="@dimen/size_all_appbar"
             android:layout_height="match_parent"
             android:layout_gravity="end"
             android:background="@android:color/transparent"
             android:text="@string/complete"
+            android:textColor="@color/gray"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -55,7 +56,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="30dp"
         android:layout_marginBottom="5dp"
         android:text="장소정보" />
@@ -75,7 +76,7 @@
         <TextView
             android:layout_width="80dp"
             android:layout_height="match_parent"
-            android:layout_marginStart="5dp"
+            android:layout_marginStart="10dp"
             android:gravity="start|center"
             android:text="장소명"
             android:textColor="@color/black"
@@ -94,7 +95,7 @@
         android:background="@color/gray" />
 
     <LinearLayout
-        android:id="@+id/layout_addstore_choosecategory"
+        android:id="@+id/layout_addstore_category"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@color/white"
@@ -105,15 +106,24 @@
         <TextView
             android:layout_width="80dp"
             android:layout_height="match_parent"
-            android:layout_marginStart="5dp"
+            android:layout_marginStart="10dp"
             android:gravity="start|center"
             android:text="업종"
             android:textColor="@color/black"
             android:textSize="18sp" />
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:id="@+id/textview_addstore_category"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:textSize="18sp" />
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_chevron_right_light_gray" />
 
     </LinearLayout>
 
@@ -123,24 +133,34 @@
         android:background="@color/gray" />
 
     <LinearLayout
+        android:id="@+id/layout_addstore_address"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:background="@color/white"
+        android:clickable="true"
+        android:focusable="true"
+        android:minHeight="50dp"
         android:orientation="horizontal">
-
 
         <TextView
             android:layout_width="80dp"
             android:layout_height="match_parent"
-            android:layout_marginStart="5dp"
+            android:layout_marginStart="10dp"
             android:gravity="start|center"
             android:text="주소"
             android:textColor="@color/black"
             android:textSize="18sp" />
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_chevron_right_light_gray" />
+
 
     </LinearLayout>
 
@@ -158,43 +178,17 @@
         <TextView
             android:layout_width="80dp"
             android:layout_height="match_parent"
-            android:layout_marginStart="5dp"
-            android:gravity="start|center"
-            android:text="층"
-            android:textColor="@color/black"
-            android:textSize="18sp" />
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@android:color/transparent" />
-
-    </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="@color/gray" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@color/white"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="80dp"
-            android:layout_height="match_parent"
-            android:layout_marginStart="5dp"
+            android:layout_marginStart="10dp"
             android:gravity="start|center"
             android:text="전화번호"
             android:textColor="@color/black"
             android:textSize="18sp" />
 
-        <EditText
+        <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@android:color/transparent" />
+            android:background="@android:color/transparent"
+            android:hint="02-123-4567" />
 
     </LinearLayout>
 

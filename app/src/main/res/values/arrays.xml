@@ -13,5 +13,505 @@
         <item>중국</item>
         <item>한국</item>
     </string-array>
-    
+
+    <string-array name="store_category" >
+        <item>한식/일식/동남아</item>
+        <item>서양식/중동/남미</item>
+        <item>중식</item>
+        <item>스시/참치회</item>
+        <item>횟집/수산물</item>
+        <item>고깃집/구이류</item>
+        <item>치킨/닭강정</item>
+        <item>피자</item>
+        <item>햄버거/패스트푸드</item>
+        <item>분식/떡집/간식류</item>
+        <item>카페/음료</item>
+        <item>베이커리</item>
+        <item>디저트/케이크/빙과류</item>
+        <item>주점/포차/이자카야</item>
+        <item>호프/펍</item>
+        <item>바/와인</item>
+    </string-array>
+
+    <string-array name="sub_store_category_0">
+        <item>한식</item>
+        <item>일식</item>
+        <item>베트남음식</item>
+        <item>타이</item>
+        <item>동남아</item>
+        <item>푸드코트</item>
+        <item>구내식당</item>
+    </string-array>
+
+    <string-array name="sub_store_category_1">
+        <item>양식</item>
+        <item>브런치</item>
+        <item>뷔페</item>
+        <item>멕시칸</item>
+        <item>이탈리안</item>
+        <item>프렌치</item>
+        <item>스페인음식</item>
+        <item>인도음식</item>
+        <item>중동음식</item>
+        <item>경양식</item>
+        <item>퓨전양식</item>
+        <item>미트델리샵</item>
+    </string-array>
+
+    <string-array name="sub_store_category_2">
+        <item>중식당</item>
+        <item>짬뽕전문점</item>
+        <item>중식</item>
+        <item>양꼬치</item>
+        <item>훠궈</item>
+        <item>마라</item>
+        <item>중국만두</item>
+    </string-array>
+
+    <string-array name="sub_store_category_3">
+        <item>일식당</item>
+        <item>스시</item>
+        <item>참치회</item>
+        <item>회전초밥</item>
+        <item>스시뷔페</item>
+        <item>퓨전스시</item>
+    </string-array>
+
+    <string-array name="sub_store_category_4">
+        <item>횟집</item>
+        <item>해산물</item>
+        <item>조개</item>
+        <item>생선요리</item>
+        <item>대게류</item>
+    </string-array>
+
+    <string-array name="sub_store_category_5">
+        <item>고깃집</item>
+        <item>곱창류</item>
+        <item>닭갈비</item>
+        <item>장어구이</item>
+        <item>꼼장어</item>
+        <item>양고기</item>
+        <item>스테이크</item>
+        <item>바베큐</item>
+    </string-array>
+
+    <string-array name="sub_store_category_6">
+        <item>치킨</item>
+        <item>닭강정</item>
+    </string-array>
+
+    <string-array name="sub_store_category_7">
+        <item>피자</item>
+        <item>화덕피자</item>
+    </string-array>
+
+    <string-array name="sub_store_category_8">
+        <item>햄버거</item>
+        <item>수제버거</item>
+        <item>샌드위치</item>
+        <item>토스트</item>
+        <item>핫도그</item>
+    </string-array>
+
+    <string-array name="sub_store_category_9">
+        <item>분식</item>
+        <item>김밥</item>
+        <item>만두</item>
+        <item>샐러드전문점</item>
+        <item>떡집</item>
+        <item>도넛</item>
+        <item>베이글</item>
+        <item>핫도그</item>
+        <item>고로케</item>
+    </string-array>
+
+    <string-array name="sub_store_category_10">
+        <item>카페</item>
+        <item>디저트카페</item>
+        <item>베이커리카페</item>
+        <item>북카페</item>
+        <item>브런치카페</item>
+        <item>티하우스</item>
+        <item>전통찻집</item>
+        <item>밀크티전문점</item>
+        <item>주스전문점</item>
+    </string-array>
+
+    <string-array name="sub_store_category_11">
+        <item>베이커리</item>
+        <item>식빵전문점</item>
+    </string-array>
+
+    <string-array name="sub_store_category_12">
+        <item>디저트</item>
+        <item>마카롱</item>
+        <item>초콜릿</item>
+        <item>케이크</item>
+        <item>요거트</item>
+        <item>한과</item>
+        <item>빙수</item>
+        <item>아이스크림</item>
+        <item>젤라또</item>
+    </string-array>
+
+    <string-array name="sub_store_category_13">
+        <item>한식주점</item>
+        <item>술집</item>
+        <item>전/막걸리</item>
+        <item>이자카야</item>
+        <item>요리주점</item>
+        <item>해물주점</item>
+        <item>실내포차</item>
+        <item>포장마차</item>
+    </string-array>
+
+    <string-array name="sub_store_category_14">
+        <item>호프</item>
+        <item>펍</item>
+        <item>수제맥주</item>
+        <item>요리주점</item>
+        <item>술집</item>
+        <item>가맥</item>
+        <item>LP바</item>
+    </string-array>
+
+    <string-array name="sub_store_category_15">
+        <item>바</item>
+        <item>와인</item>
+        <item>라운지</item>
+    </string-array>
+
+    <string-array name="extra_store_category">
+        <item>갤러리/미술관</item>
+        <item>문화공간</item>
+        <item>쇼핑/로컬샵</item>
+        <item>마트/시장</item>
+        <item>생활편의</item>
+        <item>은행/관공서</item>
+        <item>병원/의료</item>
+        <item>엔터테인먼트</item>
+        <item>레저</item>
+        <item>숙박</item>
+        <item>명소</item>
+        <item>기타장소</item>
+    </string-array>
+
+    <string-array name="sub_extra_category_0">
+        <item>갤러리</item>
+        <item>미술관</item>
+        <item>어린이미술관</item>
+    </string-array>
+
+    <string-array name="sub_extra_category_1">
+        <item>서점</item>
+        <item>소품</item>
+        <item>편집샵</item>
+        <item>복합문화공간</item>
+        <item>쿠킹스튜디오</item>
+        <item>도서관</item>
+        <item>박물관</item>
+        <item>전시관</item>
+        <item>공연장</item>
+        <item>기타문화공간</item>
+    </string-array>
+
+    <string-array name="sub_extra_category_2">
+        <item>백화점</item>
+        <item>쇼핑몰</item>
+        <item>아울렛</item>
+        <item>드럭스토어</item>
+        <item>화장품</item>
+        <item>생활용품</item>
+        <item>가구</item>
+        <item>꽃집</item>
+        <item>패션</item>
+        <item>악세사리</item>
+        <item>문구</item>
+        <item>장난감</item>
+    </string-array>
+
+    <string-array name="sub_extra_category_3">
+        <item>편의점</item>
+        <item>마트</item>
+        <item>시장</item>
+        <item>정육점</item>
+        <item>과일가게</item>
+        <item>수입식료품점</item>
+        <item>반찬가게</item>
+        <item>주류판매점</item>
+    </string-array>
+
+    <string-array name="sub_extra_category_4">
+        <item>미용실</item>
+        <item>이발소</item>
+        <item>마사지</item>
+        <item>스파</item>
+        <item>찜질방</item>
+        <item>네일샵</item>
+        <item>애견카페</item>
+        <item>애견샵</item>
+        <item>동물병원</item>
+        <item>철물점</item>
+        <item>빨래방</item>
+        <item>사진관</item>
+    </string-array>
+
+    <string-array name="sub_extra_category_5">
+        <item>은행</item>
+        <item>경찰서</item>
+        <item>우체국</item>
+        <item>관공서</item>
+        <item>정부기관</item>
+        <item>공공기관</item>
+    </string-array>
+
+    <string-array name="sub_extra_category_6">
+        <item>병원</item>
+        <item>종합병원</item>
+        <item>한의원</item>
+        <item>심리상담센터</item>
+        <item>약국</item>
+    </string-array>
+
+    <string-array name="sub_extra_category_7">
+        <item>영화관</item>
+        <item>보드게임카페</item>
+        <item>만화카페</item>
+        <item>방탈출카페</item>
+        <item>키즈카페</item>
+        <item>PC방</item>
+        <item>노래방</item>
+        <item>클럽</item>
+        <item>테마파크</item>
+    </string-array>
+
+    <string-array name="sub_extra_category_8">
+        <item>요가</item>
+        <item>필라테스</item>
+        <item>헬스</item>
+        <item>캠핑장</item>
+        <item>요트장</item>
+        <item>선착장</item>
+        <item>볼링장</item>
+        <item>탁구장</item>
+        <item>수영장</item>
+        <item>스키장</item>
+        <item>야구장</item>
+        <item>축구장</item>
+        <item>경기장</item>
+    </string-array>
+
+    <string-array name="sub_extra_category_9">
+        <item>호텔</item>
+        <item>리조트</item>
+        <item>펜션</item>
+        <item>게스트하우스</item>
+        <item>호스텔</item>
+        <item>민박</item>
+        <item>한옥스테이</item>
+        <item>료칸</item>
+        <item>모텔</item>
+        <item>레지던스</item>
+    </string-array>
+
+    <string-array name="sub_extra_category_10">
+        <item>관광지</item>
+        <item>문화재</item>
+        <item>지역축제</item>
+        <item>플리마켓</item>
+        <item>야시장</item>
+        <item>양조장</item>
+        <item>사찰</item>
+        <item>고택</item>
+        <item>온천</item>
+        <item>수목원</item>
+        <item>공원</item>
+        <item>식물원</item>
+        <item>해변</item>
+        <item>오름</item>
+        <item>섬</item>
+        <item>농장</item>
+    </string-array>
+
+    <string-array name="sub_extra_category_11">
+        <item>지하철역</item>
+        <item>고속도로휴게소</item>
+        <item>팝업스토어</item>
+        <item>모임공간</item>
+        <item>스터디카페</item>
+        <item>파티룸</item>
+        <item>예식장</item>
+        <item>주차장</item>
+    </string-array>
+
+    <string-array name="item_category">
+        <item>음식/메뉴</item>
+        <item>카페</item>
+        <item>편의점</item>
+        <item>과자/빙과류</item>
+        <item>간식/간편식</item>
+        <item>냉동/반조리</item>
+        <item>라면</item>
+        <item>빵/떡</item>
+        <item>음료</item>
+        <item>루쥬</item>
+        <item>과일/식재료</item>
+        <item>요리</item>
+        <item>문화</item>
+        <item>기타</item>
+    </string-array>
+
+    <string-array name="item_sub_category_0">
+        <item>피자</item>
+        <item>치킨</item>
+        <item>햄버거</item>
+        <item>기타음식</item>
+        <item>사이드메뉴</item>
+        <item>음료</item>
+        <item>도시락</item>
+        <item>샐러드</item>
+        <item>회</item>
+        <item>반찬</item>
+    </string-array>
+
+    <string-array name="item_sub_category_1">
+        <item>커피</item>
+        <item>차음료</item>
+        <item>주스</item>
+        <item>밀크티</item>
+        <item>빙수</item>
+        <item>기타음료</item>
+        <item>샌드위치</item>
+        <item>샐러드</item>
+        <item>기타푸드</item>
+        <item>케이크</item>
+        <item>베이커리</item>
+        <item>아이스크림</item>
+        <item>커피원두</item>
+        <item>굿즈</item>
+    </string-array>
+
+    <string-array name="item_sub_category_2">
+        <item>도시락</item>
+        <item>즉석조리</item>
+        <item>김밥</item>
+        <item>샌드위치</item>
+        <item>햄버거</item>
+        <item>핫바</item>
+        <item>디저트</item>
+        <item>아이스크림</item>
+        <item>기타</item>
+    </string-array>
+
+    <string-array name="item_sub_category_3">
+        <item>과자</item>
+        <item>쿠키</item>
+        <item>초콜릿</item>
+        <item>카라멜</item>
+        <item>젤리</item>
+        <item>사탕</item>
+        <item>아이스크림</item>
+        <item>기타</item>
+    </string-array>
+
+    <string-array name="item_sub_category_4">
+        <item>씨리얼</item>
+        <item>요거트</item>
+        <item>죽</item>
+        <item>푸딩</item>
+        <item>분말스프</item>
+        <item>대체식</item>
+        <item>에너지바</item>
+        <item>견과류</item>
+        <item>건과일</item>
+        <item>건어물</item>
+        <item>육포</item>
+        <item>통조림</item>
+        <item>기타간식</item>
+    </string-array>
+
+    <string-array name="item_sub_category_5">
+        <item>냉동식품</item>
+        <item>반조리식품</item>
+        <item>간편조리식품</item>
+    </string-array>
+
+    <string-array name="item_sub_category_6">
+        <item>라면</item>
+        <item>컵라면</item>
+    </string-array>
+
+    <string-array name="item_sub_category_7">
+        <item>빵</item>
+        <item>식빵</item>
+        <item>도너츠</item>
+        <item>케이크</item>
+        <item>수제쿠키</item>
+        <item>디저트</item>
+        <item>떡</item>
+        <item>한과</item>
+        <item>화과자</item>
+        <item>특산품</item>
+    </string-array>
+
+    <string-array name="item_sub_category_8">
+        <item>주스</item>
+        <item>탄산음료</item>
+        <item>탄산수</item>
+        <item>기타음료</item>
+        <item>커피</item>
+        <item>차</item>
+        <item>우유</item>
+        <item>두유</item>
+        <item>유산균음료</item>
+    </string-array>
+
+    <string-array name="item_sub_category_9">
+        <item>맥주</item>
+        <item>와인</item>
+        <item>막걸리</item>
+        <item>소주</item>
+        <item>전통주</item>
+        <item>위스키</item>
+        <item>보드카</item>
+        <item>진</item>
+        <item>기타양주</item>
+        <item>사케</item>
+        <item>중국술</item>
+        <item>기타주류</item>
+    </string-array>
+
+    <string-array name="item_sub_category_10">
+        <item>과일</item>
+        <item>야채</item>
+        <item>농산물</item>
+        <item>수산물</item>
+        <item>육류</item>
+        <item>가공육류</item>
+        <item>비건육류</item>
+        <item>두부</item>
+        <item>유제품</item>
+        <item>잼</item>
+        <item>냉동과일</item>
+        <item>면</item>
+        <item>소스</item>
+        <item>조미료</item>
+        <item>향신료</item>
+        <item>가공식품</item>
+        <item>기타식재료</item>
+    </string-array>
+
+    <string-array name="item_sub_category_11">
+        <item>음식</item>
+        <item>간식</item>
+        <item>반찬</item>
+        <item>비건</item>
+        <item>샌드위치</item>
+        <item>베이킹</item>
+        <item>음료</item>
+        <item>간편레시피</item>
+        <item>기타</item>
+    </string-array>
+
 </resources>

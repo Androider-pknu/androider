@@ -18,19 +18,26 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
-
-        <activity android:name=".navigation.addpost.addstore.ChangeAddressActivity"></activity>
-        <activity android:name=".navigation.addpost.addstore.ChoosingSubCategoryActivity" />
-        <activity android:name=".navigation.addpost.addstore.ChooseCategoryActivity" />
-        <activity android:name=".navigation.addpost.addstore.AddStoreActivity" />
-        <activity android:name=".navigation.addpost.addstore.ChooseBuildingActivity" />
-        <activity android:name=".navigation.addpost.addstore.ChooseFromGoogleMapActivity" />
-        <activity android:name=".navigation.addpost.addstore.ChooseFromMapActivity" />
-        <activity android:name=".navigation.addpost.addstore.SearchAddressActivity" />
         <activity android:name=".navigation.addpost.addstore.SelectStoreActivity" />
+
+        <activity android:name=".navigation.addpost.additem.input.ChooseItemCategoryActivity"></activity>
+        <activity android:name=".navigation.addpost.additem.input.AddItemActivity" />
+        <activity android:name=".navigation.addpost.additem.SelectItemActivity" />
+        <activity android:name=".navigation.addpost.addstore.input.ChangeAddressActivity" />
+        <activity android:name=".navigation.addpost.addstore.input.ChooseSubCategoryActivity" />
+        <activity android:name=".navigation.addpost.addstore.input.ChooseCategoryActivity" />
+        <activity android:name=".navigation.addpost.addstore.input.AddStoreActivity" />
+        <activity android:name=".navigation.addpost.addstore.addressing.ChooseBuildingActivity" />
+        <activity android:name=".navigation.addpost.addstore.addressing.ChooseFromGoogleMapActivity" />
+        <activity android:name=".navigation.addpost.addstore.addressing.ChooseFromMapActivity" />
+        <activity android:name=".navigation.addpost.addstore.addressing.SearchAddressActivity" />
+            <activity android:name=".UserSelectLocal" />
+        <activity android:name=".PlaceSearch" />
+        <activity android:name=".MoreAndMore" />
+
         <activity
             android:name=".navigation.addpost.AddPostActivity"
-            android:screenOrientation="portrait"
+            android:screenOrientation="fullSensor"
             android:windowSoftInputMode="adjustResize" />
         <activity android:name=".LoginActivity">
             <intent-filter>

@@ -4,42 +4,65 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".navigation.addpost.addstore.ChooseBuildingActivity">
+    tools:context=".navigation.addpost.addstore.addressing.ChooseBuildingActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_choosebuilding_appbartop"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="@dimen/size_all_appbar"
         app:layout_constraintTop_toTopOf="parent">
 
         <Button
             android:id="@+id/btn_choosebuilding_back"
-            android:layout_width="60dp"
-            android:layout_height="match_parent"
+            android:layout_width="40dp"
+            android:layout_height="50dp"
+            android:background="@drawable/ic_chevron_left"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <RadioGroup
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+            <androidx.appcompat.widget.AppCompatRadioButton
+                android:id="@+id/btn_choosebuilding_building"
+                android:layout_width="100dp"
+                android:layout_height="30dp"
+                android:background="@drawable/radiobutton_choosebuilding_leftselector"
+                android:button="@android:color/transparent"
+                android:checked="true"
+                android:gravity="center"
+                android:text="빌딩 선택"
+                android:textColor="@android:color/white" />
 
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+            <androidx.appcompat.widget.AppCompatRadioButton
+                android:id="@+id/btn_choosebuilding_location"
+                android:layout_width="100dp"
+                android:layout_height="30dp"
+                android:background="@drawable/radiobutton_choosebuilding_rightselector"
+                android:button="@android:color/transparent"
+                android:checked="false"
+                android:gravity="center"
+                android:text="위치 지정"
+                android:textColor="@color/blue_default" />
 
         </RadioGroup>
 
         <Button
             android:id="@+id/btn_choosebuilding_next"
-            android:layout_width="60dp"
-            android:layout_height="match_parent"
+            android:layout_width="@dimen/size_all_appbar"
+            android:layout_height="@dimen/size_all_appbar"
+            android:background="@android:color/transparent"
+            android:clickable="false"
+            android:text="다음"
+            android:textColor="@color/gray"
+            android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

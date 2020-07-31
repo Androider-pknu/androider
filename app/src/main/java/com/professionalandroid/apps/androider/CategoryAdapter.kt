@@ -22,7 +22,7 @@ class CategoryAdapter(val categoryList: ArrayList<Category>) : RecyclerView.Adap
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryAdapter.CustomViewHolder {
         /*context란 엑티비테에서 담고있는 모든 정보를 말함어댑터랑 연결될 엑티비티의 모든 context를 가져옴  */
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_category, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_search_category, parent, false)
         return CustomViewHolder(view)
     }
 

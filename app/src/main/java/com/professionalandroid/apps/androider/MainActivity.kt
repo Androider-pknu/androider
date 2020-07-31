@@ -13,8 +13,10 @@ import com.professionalandroid.apps.androider.navigation.addpost.AddPostActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
-    var mListener: OnBackPressedListener? = null
+
+
     private val REQUEST_CODE_PERMISSIONS = 1000
+     var mListener: OnBackPressedListener?=null
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean = when (item.itemId) {
         R.id.menu_main -> {
@@ -22,12 +24,10 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
             true
         }
         R.id.menu_news_feed -> {
-            supportFragmentManager.beginTransaction().replace(R.id.layout_main_content, NewsFeedFragment()).commit()
-            true
-        }
-        R.id.menu_write -> {
-            val intent = Intent(this, AddPostActivity::class.java)
-            startActivity(intent)
+//            val intent = Intent(this, SampleActivity::class.java)
+//            startActivity(intent)
+//            true
+            supportFragmentManager.beginTransaction().replace(R.id.layout_main_content,NewsFeedFragment()).addToBackStack(null).commit()
             true
         }
         R.id.menu_search -> {
@@ -48,6 +48,11 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         setContentView(R.layout.activity_main)
         navigation_main_bottom.setOnNavigationItemSelectedListener(this)
         navigation_main_bottom.selectedItemId = R.id.menu_main
+
+        btn_main_edit.setOnClickListener {
+            val intent = Intent(this, AddPostActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     override fun onBackPressed() {
@@ -57,8 +62,6 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         }
         super.onBackPressed()
     }
-
-
     /**/
     fun setOnBackPressedListener(listener: OnBackPressedListener?){
         mListener = listener

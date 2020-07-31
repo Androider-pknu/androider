@@ -10,7 +10,12 @@
     <color name="black">#000000</color>
     <color name="light_gray">#C8C8C8</color>
     <color name="orange">#ffa500</color>
+
     <color name="colorLine">#DCDCDC</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorMainBackground">#DCDCDC</color>
+
+    <color name="blue_default">#0076FF</color>
+    <color name="default_background_color">#F0F0F0</color>
+>>>>>>> master
 </resources>
