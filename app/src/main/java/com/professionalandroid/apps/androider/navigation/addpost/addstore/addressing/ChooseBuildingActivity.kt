@@ -5,10 +5,12 @@ import android.location.Address
 import android.location.Geocoder
 import android.os.Bundle
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import com.google.android.gms.maps.*
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
@@ -33,7 +35,8 @@ class ChooseBuildingActivity : AppCompatActivity(), OnMapReadyCallback {
         mapFragment.getMapAsync(this)
 
         geocoder = Geocoder(this, Locale.getDefault())
-        addressResult = geocoder.getFromLocationName(intent.getStringExtra("address"), 10)
+        if (intent.hasExtra("address"))
+            addressResult = geocoder.getFromLocationName(intent.getStringExtra("address"), 10)
 
         btn_choosebuilding_next.setOnClickListener {
             startActivity(Intent(this, AddStoreActivity::class.java))
@@ -116,7 +119,10 @@ class ChooseBuildingActivity : AppCompatActivity(), OnMapReadyCallback {
 
     override fun onMapReady(googleMap: GoogleMap) {
         with(googleMap) {
-            latLng = LatLng(addressResult[0].latitude, addressResult[0].longitude)
+            latLng = if (::addressResult.isInitialized)
+                LatLng(addressResult[0].latitude, addressResult[0].longitude)
+            else
+                intent.getParcelableExtra("latLng")
             val camera = CameraUpdateFactory.newLatLngZoom(latLng, 16F)
             moveCamera(camera)
             map = googleMap
