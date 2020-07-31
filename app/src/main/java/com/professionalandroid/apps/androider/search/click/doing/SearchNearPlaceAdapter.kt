@@ -1,10 +1,12 @@
-package com.professionalandroid.apps.androider
+package com.professionalandroid.apps.androider.search.click.doing
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.professionalandroid.apps.androider.R
+import com.professionalandroid.apps.androider.search.click.NearPlace
 
 // 검색어 입력중에 뜨는 근처 장소 어댑터
 class SearchNearPlaceAdapter(private val nearPlaceList: ArrayList<NearPlace>): RecyclerView.Adapter<SearchNearPlaceAdapter.NearPlaceViewHolder>(){
@@ -19,15 +21,17 @@ class SearchNearPlaceAdapter(private val nearPlaceList: ArrayList<NearPlace>): R
         mListener = listener
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchNearPlaceAdapter.NearPlaceViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NearPlaceViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_location_category,parent,false)
-        return NearPlaceViewHolder(view)
+        return NearPlaceViewHolder(
+            view
+        )
     }
     override fun getItemCount(): Int {
         return nearPlaceList.size
     }
     //nearPlaceName,Location,Category,PlaceDistance는 item_location_category 의 id값
-    override fun onBindViewHolder(holder: SearchNearPlaceAdapter.NearPlaceViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: NearPlaceViewHolder, position: Int) {
         holder.nearPlaceName.text = nearPlaceList[position].nearPlaceName
         holder.nearPlaceLocation.text = nearPlaceList[position].nearPlaceLocation
         holder.nearPlaceCategory.text = nearPlaceList[position].nearPlaceCategory

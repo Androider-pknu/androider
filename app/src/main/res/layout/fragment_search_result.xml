@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/colorWhite"
-    tools:context=".SearchResultFragment">
+    tools:context=".search.click.result.SearchResultFragment">
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/search_tab_layout"

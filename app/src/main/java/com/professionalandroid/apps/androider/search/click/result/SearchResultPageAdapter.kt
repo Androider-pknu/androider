@@ -1,4 +1,4 @@
-package com.professionalandroid.apps.androider
+package com.professionalandroid.apps.androider.search.click.result
 
 import android.content.Context
 import android.util.Log
@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.viewpager.widget.PagerAdapter
+import com.professionalandroid.apps.androider.R
+import com.professionalandroid.apps.androider.search.map.marker.SearchResultMarkerModel
 
 class SearchResultPageAdapter (private var context: Context) : PagerAdapter(){
 

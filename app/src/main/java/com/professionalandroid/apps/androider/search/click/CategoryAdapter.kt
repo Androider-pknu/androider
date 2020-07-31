@@ -1,10 +1,12 @@
-package com.professionalandroid.apps.androider
+package com.professionalandroid.apps.androider.search.click
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.professionalandroid.apps.androider.Category
+import com.professionalandroid.apps.androider.R
 
 class CategoryAdapter(val categoryList: ArrayList<Category>) : RecyclerView.Adapter<CategoryAdapter.CustomViewHolder>(){
 
@@ -20,10 +22,12 @@ class CategoryAdapter(val categoryList: ArrayList<Category>) : RecyclerView.Adap
 
     //onCreateViewHolder 가 하는 역할 엑티비티에서 onCreate 와 비슷하다 플러그로 연결된 화면에 붙이는 작업을 한다
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryAdapter.CustomViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomViewHolder {
         /*context란 엑티비테에서 담고있는 모든 정보를 말함어댑터랑 연결될 엑티비티의 모든 context를 가져옴  */
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_search_category, parent, false)
-        return CustomViewHolder(view)
+        return CustomViewHolder(
+            view
+        )
     }
 
     override fun getItemCount(): Int {

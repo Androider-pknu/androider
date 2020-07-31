@@ -1,4 +1,4 @@
-package com.professionalandroid.apps.androider
+package com.professionalandroid.apps.androider.search.click
 
 import android.content.Context
 import android.os.Bundle
@@ -13,12 +13,16 @@ import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.professionalandroid.apps.androider.*
 import com.professionalandroid.apps.androider.navigation.SearchFragment.Companion.mapFragment
 import com.professionalandroid.apps.androider.navigation.SearchFragment.Companion.searchOnQueryFlag
 import kotlinx.android.synthetic.main.fragment_hot_place.*
 import kotlinx.android.synthetic.main.fragment_search.*
 
-class HotPlaceFragment : Fragment(), OnBackPressedListener, CategoryAdapter.OnCategoryItemClickListener, NearHotPlaceAdapter.OnNHPItemClickListener{
+class HotPlaceFragment : Fragment(),
+    OnBackPressedListener,
+    CategoryAdapter.OnCategoryItemClickListener,
+    NearHotPlaceAdapter.OnNHPItemClickListener {
     private lateinit var categoryAdapter: CategoryAdapter
     private lateinit var nearHotPlaceAdapter: NearHotPlaceAdapter
     private lateinit var categoryList: ArrayList<Category>
@@ -42,8 +46,14 @@ class HotPlaceFragment : Fragment(), OnBackPressedListener, CategoryAdapter.OnCa
         Log.d("hakjin", "HotPlaceFragment onCreateView")
         val view : View = inflater.inflate(R.layout.fragment_hot_place,container,false)
         initDataList()
-        categoryAdapter = CategoryAdapter(categoryList)
-        nearHotPlaceAdapter = NearHotPlaceAdapter(nearHotplaceList)
+        categoryAdapter =
+            CategoryAdapter(
+                categoryList
+            )
+        nearHotPlaceAdapter =
+            NearHotPlaceAdapter(
+                nearHotplaceList
+            )
         return view
     }
 
@@ -134,7 +144,13 @@ class HotPlaceFragment : Fragment(), OnBackPressedListener, CategoryAdapter.OnCa
         categoryList.add(Category("베이커리"))
     }
     private fun initNearHotPlaceList(){
-        for (i in 1..20) nearHotplaceList.add(NearHotPlace(R.drawable.image03,"이학진","유니온 썬 타워"))
+        for (i in 1..20) nearHotplaceList.add(
+            NearHotPlace(
+                R.drawable.image03,
+                "이학진",
+                "유니온 썬 타워"
+            )
+        )
     }
 
     override fun onCategoryItemClicked(view: View, position: Int) {
@@ -196,7 +212,12 @@ class HotPlaceFragment : Fragment(), OnBackPressedListener, CategoryAdapter.OnCa
             mainAct.sv_searchview.clearFocus()
 
             requireActivity().supportFragmentManager.beginTransaction()
-                .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left,R.anim.exit_to_right)
+                .setCustomAnimations(
+                    R.anim.enter_from_right,
+                    R.anim.exit_to_left,
+                    R.anim.enter_from_left,
+                    R.anim.exit_to_right
+                )
                 .replace(R.id.fragment_container, mapFragment) // 카메라의 위치를
                 .addToBackStack(null).commit()
 

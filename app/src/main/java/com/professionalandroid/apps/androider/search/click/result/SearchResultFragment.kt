@@ -1,4 +1,4 @@
-package com.professionalandroid.apps.androider
+package com.professionalandroid.apps.androider.search.click.result
 
 import android.content.Context
 import android.os.Bundle
@@ -7,16 +7,19 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.tabs.TabLayout
+import com.professionalandroid.apps.androider.MainActivity
+import com.professionalandroid.apps.androider.OnBackPressedListener
+import com.professionalandroid.apps.androider.R
 import com.professionalandroid.apps.androider.navigation.SearchFragment.Companion.mapFragment
 import kotlinx.android.synthetic.main.fragment_search_result.*
 import kotlinx.android.synthetic.main.fragment_search_result.view.rv_search_result
 
-class SearchResultFragment : Fragment(), OnBackPressedListener, SearchResultAdapter.OnSRItemClickListener {
+class SearchResultFragment : Fragment(),
+    OnBackPressedListener, SearchResultAdapter.OnSRItemClickListener {
     private lateinit var resultAdapter: SearchResultAdapter
     private lateinit var mainAct: MainActivity
     private lateinit var cfm: FragmentManager
@@ -93,17 +96,31 @@ class SearchResultFragment : Fragment(), OnBackPressedListener, SearchResultAdap
 
     private fun initSearchResultList(op: Int){
         /*adapter 에 넣을 리스트를 초기화 0 -> 주변장소 1 -> 추천장소 */
-        resultAdapter = SearchResultAdapter()
+        resultAdapter =
+            SearchResultAdapter()
         when(op){
             0 -> for(i in 1..20){
-                resultAdapter.addItem(SearchResultPlace(R.drawable.image03,"학진",100,
-                        "유니온썬 타워","한식","100KM")
+                resultAdapter.addItem(
+                    SearchResultPlace(
+                        R.drawable.image03,
+                        "학진",
+                        100,
+                        "유니온썬 타워",
+                        "한식",
+                        "100KM"
+                    )
                 )
             }
             1 -> for(i in 1..20){
                 resultAdapter.addItem(
-                    SearchResultPlace(R.drawable.image03,"종윤",200,
-                        "프리빌리지","양식","200KM")
+                    SearchResultPlace(
+                        R.drawable.image03,
+                        "종윤",
+                        200,
+                        "프리빌리지",
+                        "양식",
+                        "200KM"
+                    )
                 )
             }
         }
@@ -128,7 +145,8 @@ class SearchResultFragment : Fragment(), OnBackPressedListener, SearchResultAdap
 
     override fun onSRItemClicked(view: View, position: Int) {
         Log.d("hakjin", "검색결과 클릭$position")
-        requireActivity().supportFragmentManager.beginTransaction().replace(R.id.fragment_container,
+        requireActivity().supportFragmentManager.beginTransaction().replace(
+            R.id.fragment_container,
             mapFragment).commit()
     }
 }

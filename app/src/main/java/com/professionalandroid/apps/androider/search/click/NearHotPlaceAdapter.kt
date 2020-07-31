@@ -1,4 +1,4 @@
-package com.professionalandroid.apps.androider
+package com.professionalandroid.apps.androider.search.click
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.professionalandroid.apps.androider.R
 
 class NearHotPlaceAdapter (private val nearHotPlaceList: ArrayList<NearHotPlace>): RecyclerView.Adapter<NearHotPlaceAdapter.NearHotPlaceViewHolder>(){
 
@@ -21,7 +22,9 @@ class NearHotPlaceAdapter (private val nearHotPlaceList: ArrayList<NearHotPlace>
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NearHotPlaceViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_near_hotplace,parent,false)
-        return NearHotPlaceViewHolder(view)
+        return NearHotPlaceViewHolder(
+            view
+        )
     }
 
     override fun getItemCount(): Int {

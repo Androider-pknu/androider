@@ -1,10 +1,11 @@
-package com.professionalandroid.apps.androider
+package com.professionalandroid.apps.androider.search.click.doing
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.professionalandroid.apps.androider.R
 
 // 연관 카테고리 어댑터 //
 class SearchRelatedCategoryAdapter (private val relatedCategoryList: ArrayList<SearchRelatedCategory>) :
@@ -22,7 +23,9 @@ class SearchRelatedCategoryAdapter (private val relatedCategoryList: ArrayList<S
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RelatedCategoryViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_search_related_category,parent,false)
-        return RelatedCategoryViewHolder(view) // 커스텀뷰 홀더에 만든 view를 전달
+        return RelatedCategoryViewHolder(
+            view
+        ) // 커스텀뷰 홀더에 만든 view를 전달
     }
 
     override fun getItemCount(): Int {

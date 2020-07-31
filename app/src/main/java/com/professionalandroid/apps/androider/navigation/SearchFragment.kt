@@ -14,6 +14,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.google.android.gms.maps.model.LatLng
 import com.professionalandroid.apps.androider.*
+import com.professionalandroid.apps.androider.search.click.HotPlaceFragment
+import com.professionalandroid.apps.androider.search.map.MainMapFragment
+import com.professionalandroid.apps.androider.search.click.doing.SearchLocationMenuFragment
+import com.professionalandroid.apps.androider.search.click.result.SearchResultFragment
 import kotlinx.android.synthetic.main.fragment_search.*
 
 class SearchFragment: Fragment(), OnBackPressedListener{
@@ -21,7 +25,7 @@ class SearchFragment: Fragment(), OnBackPressedListener{
     private lateinit var mainAct: MainActivity
     private lateinit var cfm: FragmentManager
 
-    lateinit var hotPlaceFragment: HotPlaceFragment
+    private lateinit var hotPlaceFragment: HotPlaceFragment
     lateinit var searchLocationMenuFragment: SearchLocationMenuFragment
     lateinit var searchResultFragment: SearchResultFragment
 

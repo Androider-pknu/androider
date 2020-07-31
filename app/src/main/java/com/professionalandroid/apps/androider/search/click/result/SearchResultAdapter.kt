@@ -1,10 +1,11 @@
-package com.professionalandroid.apps.androider
+package com.professionalandroid.apps.androider.search.click.result
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.professionalandroid.apps.androider.R
 
 class SearchResultAdapter(): RecyclerView.Adapter<SearchResultAdapter.SearchResultViewHolder>(){
     private var  list = ArrayList<SearchResultPlace>()
@@ -21,7 +22,9 @@ class SearchResultAdapter(): RecyclerView.Adapter<SearchResultAdapter.SearchResu
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchResultViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_search_result_place,parent,false)
-        return SearchResultViewHolder(view)
+        return SearchResultViewHolder(
+            view
+        )
     }
 
     override fun getItemCount(): Int {

@@ -1,4 +1,4 @@
-package com.professionalandroid.apps.androider
+package com.professionalandroid.apps.androider.search.click.doing
 
 import android.content.Context
 import android.os.Bundle
@@ -9,11 +9,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.professionalandroid.apps.androider.*
 import com.professionalandroid.apps.androider.navigation.SearchFragment.Companion.mapFragment
+import com.professionalandroid.apps.androider.search.click.NearPlace
 import kotlinx.android.synthetic.main.fragment_search_location_menu.*
 
 /* 검색을 하는도중 연관 카테고리와, 근처 장소를 나타나는 프래그먼트*/
-class SearchLocationMenuFragment : Fragment(), OnBackPressedListener, SearchRelatedCategoryAdapter.OnSRCItemClickListener, SearchNearPlaceAdapter.OnSNHItemClickListener {
+class SearchLocationMenuFragment : Fragment(),
+    OnBackPressedListener,
+    SearchRelatedCategoryAdapter.OnSRCItemClickListener,
+    SearchNearPlaceAdapter.OnSNHItemClickListener {
     private lateinit var searchRelatedAdapter: SearchRelatedCategoryAdapter
     private lateinit var searchNearPlaceAdapter: SearchNearPlaceAdapter
     private lateinit var relatedCategoryList: ArrayList<SearchRelatedCategory>
@@ -46,8 +51,14 @@ class SearchLocationMenuFragment : Fragment(), OnBackPressedListener, SearchRela
     }
 
     private fun createAdapter(){ // 어댑터 설정
-        searchRelatedAdapter = SearchRelatedCategoryAdapter(relatedCategoryList)
-        searchNearPlaceAdapter = SearchNearPlaceAdapter(nearPlaceList)
+        searchRelatedAdapter =
+            SearchRelatedCategoryAdapter(
+                relatedCategoryList
+            )
+        searchNearPlaceAdapter =
+            SearchNearPlaceAdapter(
+                nearPlaceList
+            )
 
         searchRelatedAdapter.setOnSRClickListener(this)
         searchNearPlaceAdapter.setOnSNHClickListener(this)
@@ -85,11 +96,19 @@ class SearchLocationMenuFragment : Fragment(), OnBackPressedListener, SearchRela
         relatedCategoryList = ArrayList()
         nearPlaceList = ArrayList()
         for (i in 1..30) {
-            nearPlaceList.add(NearPlace("낭만포차","부산 광역시 남구 대연동",
-                "한식","120m"))
+            nearPlaceList.add(
+                NearPlace(
+                    "낭만포차", "부산 광역시 남구 대연동",
+                    "한식", "120m"
+                )
+            )
         }
         for (i in 1..4){
-            relatedCategoryList.add(SearchRelatedCategory("낭만포차"))
+            relatedCategoryList.add(
+                SearchRelatedCategory(
+                    "낭만포차"
+                )
+            )
         }
     }
     override fun onBackPressed() {

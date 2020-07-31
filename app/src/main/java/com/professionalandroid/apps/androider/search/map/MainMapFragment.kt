@@ -1,4 +1,4 @@
-package com.professionalandroid.apps.androider
+package com.professionalandroid.apps.androider.search.map
 
 import android.Manifest
 import android.content.Context
@@ -19,7 +19,12 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
+import com.professionalandroid.apps.androider.*
 import com.professionalandroid.apps.androider.navigation.SearchFragment.Companion.mCurrentCameraLocation
+import com.professionalandroid.apps.androider.search.map.marker.LocalMasterMarkerModel
+import com.professionalandroid.apps.androider.search.click.result.SearchResultPageAdapter
+import com.professionalandroid.apps.androider.search.map.marker.LMMarkerAdapter
+import com.professionalandroid.apps.androider.search.map.marker.SearchResultMarkerModel
 import kotlinx.android.synthetic.main.fragment_main_map.*
 import kotlinx.android.synthetic.main.fragment_main_map.view.*
 import kotlinx.android.synthetic.main.fragment_main_map.vp_local_master_viewPager
@@ -135,10 +140,16 @@ class MainMapFragment() : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraIdle
 
     /* 마커, 맵 클릭리스너 시작 */
     private fun initMarkerAdapter(){ // 마커 초기화, 데이터 설정
-        localMasterAdapter = LMMarkerAdapter(requireContext())
+        localMasterAdapter =
+            LMMarkerAdapter(
+                requireContext()
+            )
         addLocalMasterMarkerModel()
 
-        searchResultPageAdapter = SearchResultPageAdapter(requireContext())
+        searchResultPageAdapter =
+            SearchResultPageAdapter(
+                requireContext()
+            )
         addSearchResultMarkerModel()
     }
 
@@ -258,21 +269,42 @@ class MainMapFragment() : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraIdle
     private fun addSearchResultMarkerModel(){ // 마커에 담길 카드뷰 데이터 추가
         Log.d("hakjin","addSearchResultMarkerModel 호출")
         searchResultPageAdapter.addItem(
-            SearchResultMarkerModel(R.drawable.image03,"잭슨바","바",
-        "051-611-4608","부산광역시 남구 대연동 52-18 대영빌딩")
+            SearchResultMarkerModel(
+                R.drawable.image03,
+                "잭슨바",
+                "바",
+                "051-611-4608",
+                "부산광역시 남구 대연동 52-18 대영빌딩"
+            )
         )
-        searchResultPageAdapter.addItem(SearchResultMarkerModel(R.drawable.image03,"학진바","바",
-            "051-611-4608","부산광역시 남구 대연동 52-18 대영빌딩"))
+        searchResultPageAdapter.addItem(
+            SearchResultMarkerModel(
+                R.drawable.image03,
+                "학진바",
+                "바",
+                "051-611-4608",
+                "부산광역시 남구 대연동 52-18 대영빌딩"
+            )
+        )
         searchResultPageAdapter.notifyDataSetChanged()
     }
 
     private fun addLocalMasterMarkerModel() { // 동네마스터 마커데이터 초기화
         Log.d("hakjin","addLocalMasterMarkerModel 호출")
-        localMasterAdapter.addItem(LocalMasterMarkerModel(R.drawable.image03,R.drawable.image03, "하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하", "아관파천"))
         localMasterAdapter.addItem(
             LocalMasterMarkerModel(
-                R.drawable.image03, R.drawable.image02,
-                "하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하", "동서남북"
+                R.drawable.image03,
+                R.drawable.image03,
+                "하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하",
+                "아관파천"
+            )
+        )
+        localMasterAdapter.addItem(
+            LocalMasterMarkerModel(
+                R.drawable.image03,
+                R.drawable.image02,
+                "하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하",
+                "동서남북"
             )
         )
         localMasterAdapter.notifyDataSetChanged()
