@@ -10,6 +10,7 @@ import com.professionalandroid.apps.androider.navigation.addpost.AddPostActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
+     var mListener: OnBackPressedListener?=null
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean = when (item.itemId) {
         R.id.menu_main -> {
@@ -17,8 +18,10 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
             true
         }
         R.id.menu_news_feed -> {
-            val intent = Intent(this, SampleActivity::class.java)
-            startActivity(intent)
+//            val intent = Intent(this, SampleActivity::class.java)
+//            startActivity(intent)
+//            true
+            supportFragmentManager.beginTransaction().replace(R.id.layout_main_content,NewsFeedFragment()).addToBackStack(null).commit()
             true
         }
         R.id.menu_write -> {
@@ -42,5 +45,16 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         setContentView(R.layout.activity_main)
         navigation_main_bottom.setOnNavigationItemSelectedListener(this)
         navigation_main_bottom.selectedItemId = R.id.menu_main
+    }
+
+    override fun onBackPressed() {
+        mListener?.let {
+            it.onBackPressed()
+            return
+        }
+        super.onBackPressed()
+    }
+    fun setOnBackPressedListener(listener:OnBackPressedListener){
+        mListener=listener
     }
 }

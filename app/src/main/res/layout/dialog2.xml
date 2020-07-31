@@ -20,7 +20,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/dialog_close"
+        android:id="@+id/dialog_close2"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_marginStart="160dp"

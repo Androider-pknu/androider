@@ -16,11 +16,11 @@ class PickCountryDialog : BottomSheetDialogFragment() {
         fun onDialogCompleteClick(value: String)
     }
 
-    override fun onAttach(context: Context?) {
-        super.onAttach(context)
+    override fun onAttach(context: Context) {
+        super.onAttach(requireContext())
 
         listener = context as? NoticeDialogListener
-            ?: throw ClassCastException((context.toString() + " must implement NoticeDialogListener"))
+            ?: throw ClassCastException((context.toString() + " must implement NoticeDialogListener")) as Throwable
     }
 
     override fun onCreateView(

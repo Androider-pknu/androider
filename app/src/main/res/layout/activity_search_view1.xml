@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SearchView1">
+    tools:context=".PlaceSearch">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -55,6 +55,7 @@
                 android:layout_marginRight="10dp"
                 android:background="@drawable/search"
                 android:queryHint="지역 검색"
+                android:queryBackground="@null"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -66,7 +67,7 @@
             android:background="#ECEBEB">
 
             <TextView
-                android:id="@+id/textView14"
+                android:id="@+id/local_search_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
@@ -76,6 +77,13 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <FrameLayout
+            android:id="@+id/local_search_frame"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </FrameLayout>
 
     </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

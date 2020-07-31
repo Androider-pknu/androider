@@ -7,68 +7,42 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".ItemFrag">
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:background="#E6E6E6"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/category_item">
-
-    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/category_item"
         android:layout_width="match_parent"
-        android:layout_height="44dp"
-        android:layout_marginTop="40dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="65dp"
         android:layout_marginEnd="60dp"
-        android:layout_marginRight="60dp"
+        android:layout_marginBottom="630dp"
         android:scrollbars="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/search_item"
-        android:layout_width="60dp"
-        android:layout_height="44dp"
-        android:layout_marginTop="40dp"
-        android:background="@drawable/search_button"
+<!--    <Button-->
+<!--        android:id="@+id/search_item"-->
+<!--        android:layout_width="60dp"-->
+<!--        android:layout_height="44dp"-->
+<!--        android:layout_marginTop="65dp"-->
+<!--        android:background="@drawable/search_button"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toEndOf="@+id/category_item"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintVertical_bias="0.0" />-->
+
+    <FrameLayout
+        android:id="@+id/category_frame"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/category_item"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="240dp"
-        android:layout_marginTop="1dp"
-        android:background="@drawable/only_bottom"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+        app:layout_constraintTop_toBottomOf="@+id/category_item">
 
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="match_parent"
-            android:layout_height="62dp"
-            android:paddingLeft="7dp"
-            android:paddingTop="10dp"
-            android:text="실시간 인기 찜 아이템"
-            android:textColor="#000000"
-            android:textSize="23sp"
-            android:textStyle="bold" />
+    </FrameLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/food_item"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scrollbars="horizontal" />
-    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

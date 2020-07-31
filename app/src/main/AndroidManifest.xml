@@ -11,8 +11,8 @@
         android:theme="@style/AppTheme">
         <activity android:name=".navigation.SampleActivity"></activity>
         <activity android:name=".Profile" />
-        <activity android:name=".SearchView2" />
-        <activity android:name=".SearchView1" />
+        <activity android:name=".UserSelectLocal" />
+        <activity android:name=".PlaceSearch" />
         <activity android:name=".MoreAndMore" />
         <activity android:name=".navigation.addpost.addstore.ChangeAddressActivity" />
         <activity android:name=".navigation.addpost.addstore.ChoosingSubCategoryActivity" />

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SearchView1">
+    tools:context=".PlaceSearch">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -32,8 +32,9 @@
             app:layout_constraintTop_toTopOf="@+id/textView11" />
 
         <LinearLayout
-            android:layout_width="409dp"
-            android:layout_height="689dp"
+            android:id="@+id/linear"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -42,31 +43,11 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="70dp">
-
-                <SearchView
-                    android:id="@+id/local_search"
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_marginRight="10dp"
-                    android:background="@drawable/search"
-                    android:queryHint="지역 검색"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:background="#ECEBEB">
 
                 <TextView
-                    android:id="@+id/textView14"
+                    android:id="@+id/local_search_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="12dp"
@@ -77,6 +58,13 @@
                     app:layout_constraintStart_toStartOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/local_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="40dp" />
+
         </LinearLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>
