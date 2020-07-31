@@ -19,7 +19,7 @@
     <string name="Search_location_menu">지역,장소 메뉴, 검색</string>
     <string name="search_all">모두</string>
     <string name="my_location">내 위치</string>
-    <string name="place_master">동네마스터</string>
+    <string name="local_master">동네마스터</string>
     <string name="search_hint">지역,장소,메뉴,검색</string>
     <string name="app_label">안드로이더</string>
     <string name="title_activity_search_location_menu">SearchLocationMenu</string>
@@ -33,4 +33,11 @@
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="title_activity_maps">Map</string>
     <string name="myLocation">내위치</string>
+    <string name="map">지도</string>
+    <string name="test_search_postingCount">학진님의 포스팅 장소 (2000개)</string>
+    <string name="culture">문화</string>
+    <string name="life">생활</string>
+    <string name="restaurant">음식점</string>
+    <string name="cafe">카페</string>
+    <string name="alchol">술집</string>
 </resources>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,25 +9,23 @@
 
     <Button
         android:id="@+id/btn_filter"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="60dp"
-        android:layout_marginEnd="16dp"
-        android:background="@drawable/btn_main_search"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="70dp"
+        android:layout_marginEnd="24dp"
+        android:background="@drawable/all_circle"
+        android:drawableTop="@drawable/ic_more_vert_lightgray_32dp"
         android:text="@string/filter"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintLeft_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-    </Button>
-
+        app:layout_constraintTop_toTopOf="parent" />
     <Button
         android:id="@+id/btn_pin"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_marginEnd="16dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="24dp"
         android:layout_marginBottom="16dp"
-        android:background="@drawable/btn_main_search"
+        android:background="@drawable/all_circle"
         android:text="@string/search_all"
         android:textSize="15sp"
         app:layout_constraintBottom_toTopOf="@id/btn_my_location"
@@ -34,21 +33,121 @@
 
     <Button
         android:id="@+id/btn_my_location"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_marginEnd="16dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="24dp"
         android:layout_marginBottom="16dp"
-        android:text="@string/myLocation"
-        android:drawableTop="@drawable/ic_location_on_black_32dp"
+        android:background="@drawable/all_circle"
+        android:drawableStart="@drawable/ic_my_location_lightgray_32dp"
         android:textSize="15sp"
-        android:background="@drawable/btn_main_search"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <fragrment
+    <Button
+        android:id="@+id/btn_search_culture"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@drawable/all_circle"
+        android:drawableTop="@drawable/ic_business_center_chocolate_32dp"
+        android:text="@string/culture"
+        android:textColor="#D2691E"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="70dp"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btn_search_life"
+        tools:layout_editor_absoluteY="70dp" />
+
+    <Button
+        android:id="@+id/btn_search_life"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@drawable/all_circle"
+        android:drawableTop="@drawable/ic_local_grocery_store_lightslategray_32dp"
+        android:textColor="#778899"
+        android:text="@string/life"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="70dp"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btn_filter"
+        tools:layout_editor_absoluteY="70dp" />
+
+    <Button
+        android:id="@+id/btn_search_restautrant"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@drawable/all_circle"
+        android:drawableTop="@drawable/ic_restaurant_orange_32dp"
+        android:text="@string/restaurant"
+        android:textColor="#FFA500"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toStartOf="@+id/btn_search_cafe"
+        app:layout_constraintTop_toBottomOf="@+id/btn_search_culture" />
+
+    <Button
+        android:id="@+id/btn_search_cafe"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@drawable/all_circle"
+        android:drawableTop="@drawable/ic_local_cafe_limegreen_32dp"
+        android:textColor="#32CD32"
+        android:text="@string/cafe"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="16dp"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@+id/btn_search_life"
+        app:layout_constraintEnd_toStartOf="@+id/btn_search_alcohol" />
+
+    <Button
+        android:id="@+id/btn_search_alcohol"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@drawable/all_circle"
+        android:drawableTop="@drawable/ic_local_bar_indianred_32dp"
+        android:text="@string/alchol"
+        android:textColor="#CD5C5C"
+        android:layout_marginEnd="40dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@+id/btn_filter"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:layout_editor_absoluteY="131dp" />
+
+    <fragment
         android:id="@+id/Main_map_Fragment"
         class="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/vp_local_master_viewPager"
+        android:layout_width="385dp"
+        android:layout_height="140dp"
+        android:clipToPadding="false"
+        android:foregroundGravity="center"
+        android:overScrollMode="never"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/vp_searchresult_viewPager"
+        android:layout_width="385dp"
+        android:layout_height="250dp"
+        android:clipToPadding="false"
+        android:foregroundGravity="center"
+        android:overScrollMode="never"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

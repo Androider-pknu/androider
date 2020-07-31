@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/btn_lm_marker"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@drawable/all_circle_imageview"
+        android:gravity="center"
+        android:drawableTop="@drawable/ic_restaurant_white_24dp" />
+
+</FrameLayout>
