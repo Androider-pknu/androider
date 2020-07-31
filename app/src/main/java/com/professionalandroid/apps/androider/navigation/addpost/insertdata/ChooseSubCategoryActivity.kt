@@ -1,4 +1,4 @@
-package com.professionalandroid.apps.androider.navigation.addpost.addstore.input
+package com.professionalandroid.apps.androider.navigation.addpost.insertdata
 
 import android.app.Activity
 import android.content.Intent
@@ -10,7 +10,6 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import com.google.android.material.textfield.TextInputEditText
 import com.professionalandroid.apps.androider.R
 import kotlinx.android.synthetic.main.activity_choosesubcategory.*
 import kotlinx.android.synthetic.main.item_category.view.*

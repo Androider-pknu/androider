@@ -1,10 +1,10 @@
-package com.professionalandroid.apps.androider.navigation.addpost.additem
+package com.professionalandroid.apps.androider.navigation.addpost
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.professionalandroid.apps.androider.R
-import com.professionalandroid.apps.androider.navigation.addpost.additem.input.AddItemActivity
+import com.professionalandroid.apps.androider.navigation.addpost.insertdata.AddItemActivity
 import kotlinx.android.synthetic.main.activity_selectitem.*
 
 class SelectItemActivity : AppCompatActivity() {

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/default_background_color"
-    tools:context=".navigation.addpost.additem.SelectItemActivity">
+    tools:context=".navigation.addpost.SelectItemActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_selectitem_appbartop"
@@ -98,8 +98,7 @@
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
-        android:background="@drawable/all_roundcorner"
-        android:backgroundTint="@color/orange"
+        android:background="@drawable/all_roundcorner_orange"
         android:fontFamily="sans-serif-black"
         android:text="╋  신규 아이템 등록"
         android:textColor="@color/white"

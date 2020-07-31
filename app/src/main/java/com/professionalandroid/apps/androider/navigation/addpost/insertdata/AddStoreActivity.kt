@@ -1,4 +1,4 @@
-package com.professionalandroid.apps.androider.navigation.addpost.addstore.input
+package com.professionalandroid.apps.androider.navigation.addpost.insertdata
 
 import android.app.Activity
 import android.content.Intent
@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.professionalandroid.apps.androider.R
+import com.professionalandroid.apps.androider.navigation.addpost.addressing.ChangeAddressActivity
 import kotlinx.android.synthetic.main.activity_addstore.*
 
 class AddStoreActivity : AppCompatActivity() {

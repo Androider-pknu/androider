@@ -1,15 +1,12 @@
-package com.professionalandroid.apps.androider.navigation.addpost.additem.input
+package com.professionalandroid.apps.androider.navigation.addpost.insertdata
 
 import android.app.Activity
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.professionalandroid.apps.androider.R
-import com.professionalandroid.apps.androider.navigation.addpost.addstore.input.ChooseCategoryActivity
 import kotlinx.android.synthetic.main.activity_additem.*
-import kotlinx.android.synthetic.main.activity_addstore.*
-import kotlinx.android.synthetic.main.activity_choosesubcategory.*
 
 class AddItemActivity : AppCompatActivity() {
     val ITEM_CATEGORY_REQUEST_CODE = 5003

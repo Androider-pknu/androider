@@ -1,4 +1,4 @@
-package com.professionalandroid.apps.androider.navigation.addpost.addstore.input
+package com.professionalandroid.apps.androider.navigation.addpost.insertdata
 
 import android.app.Activity
 import android.content.Intent

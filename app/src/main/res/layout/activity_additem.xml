@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/default_background_color"
     android:orientation="vertical"
-    tools:context=".navigation.addpost.additem.input.AddItemActivity">
+    tools:context=".navigation.addpost.insertdata.AddItemActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_additem_appbartop"

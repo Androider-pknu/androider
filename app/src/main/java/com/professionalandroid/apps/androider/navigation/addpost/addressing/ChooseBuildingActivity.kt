@@ -1,4 +1,4 @@
-package com.professionalandroid.apps.androider.navigation.addpost.addstore.addressing
+package com.professionalandroid.apps.androider.navigation.addpost.addressing
 
 import android.content.Intent
 import android.location.Address
@@ -15,7 +15,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.professionalandroid.apps.androider.R
-import com.professionalandroid.apps.androider.navigation.addpost.addstore.input.AddStoreActivity
+import com.professionalandroid.apps.androider.navigation.addpost.insertdata.AddStoreActivity
 import kotlinx.android.synthetic.main.activity_choosebuilding.*
 import java.util.*
 
@@ -59,7 +59,7 @@ class ChooseBuildingActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     private fun resetMapListener(checkedId: Int) {
-        var address = "test"
+        var address : String
         when (checkedId) {
             R.id.btn_choosebuilding_building -> map?.apply {
                 setOnCameraIdleListener { }

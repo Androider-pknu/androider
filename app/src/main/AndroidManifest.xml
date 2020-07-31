@@ -14,16 +14,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".navigation.addpost.additem.input.ChooseItemCategoryActivity" />
-        <activity android:name=".navigation.addpost.additem.input.AddItemActivity" />
-        <activity android:name=".navigation.addpost.additem.SelectItemActivity" />
-        <activity android:name=".navigation.addpost.addstore.input.ChangeAddressActivity" />
-        <activity android:name=".navigation.addpost.addstore.input.ChooseSubCategoryActivity" />
-        <activity android:name=".navigation.addpost.addstore.input.ChooseCategoryActivity" />
-        <activity android:name=".navigation.addpost.addstore.input.AddStoreActivity" />
-        <activity android:name=".navigation.addpost.addstore.addressing.ChooseBuildingActivity" />
-        <activity android:name=".navigation.addpost.addstore.addressing.SearchAddressActivity" />
-        <activity android:name=".navigation.addpost.addstore.SelectStoreActivity" />
+        <activity android:name=".navigation.addpost.insertdata.ChooseItemCategoryActivity" />
+        <activity android:name=".navigation.addpost.insertdata.AddItemActivity" />
+        <activity android:name=".navigation.addpost.SelectItemActivity" />
+        <activity android:name=".navigation.addpost.addressing.ChangeAddressActivity" />
+        <activity android:name=".navigation.addpost.insertdata.ChooseSubCategoryActivity" />
+        <activity android:name=".navigation.addpost.insertdata.ChooseCategoryActivity" />
+        <activity android:name=".navigation.addpost.insertdata.AddStoreActivity" />
+        <activity android:name="com.professionalandroid.apps.androider.navigation.addpost.addressing.ChooseBuildingActivity" />
+        <activity android:name="com.professionalandroid.apps.androider.navigation.addpost.addressing.SearchAddressActivity" />
+        <activity android:name=".navigation.addpost.SelectStoreActivity" />
         <activity
             android:name=".navigation.addpost.AddPostActivity"
             android:screenOrientation="portrait"

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/default_background_color"
-    tools:context=".navigation.addpost.addstore.input.ChooseSubCategoryActivity">
+    tools:context=".navigation.addpost.insertdata.ChooseSubCategoryActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_choosecategory_appbartop"

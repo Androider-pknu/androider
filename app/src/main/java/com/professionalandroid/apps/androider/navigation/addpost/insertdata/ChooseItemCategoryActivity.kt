@@ -1,13 +1,12 @@
-package com.professionalandroid.apps.androider.navigation.addpost.additem.input
+package com.professionalandroid.apps.androider.navigation.addpost.insertdata
 
 import android.app.Activity
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.professionalandroid.apps.androider.R
-import com.professionalandroid.apps.androider.navigation.addpost.addstore.input.ChooseSubCategoryActivity
 import kotlinx.android.synthetic.main.activity_chooseitemcategory.*
 import kotlinx.android.synthetic.main.item_category.view.*
 

@@ -1,4 +1,4 @@
-package com.professionalandroid.apps.androider.navigation.addpost.addstore.addressing
+package com.professionalandroid.apps.androider.navigation.addpost.addressing
 
 import android.content.Intent
 import android.os.Bundle
@@ -10,7 +10,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.GsonBuilder
 import com.professionalandroid.apps.androider.R
 import com.professionalandroid.apps.androider.model.AddressModel
-import com.professionalandroid.apps.androider.navigation.addpost.addstore.PickCountryDialog
 import com.professionalandroid.apps.androider.util.RetrofitAPI
 import kotlinx.android.synthetic.main.activity_searchaddress.*
 import kotlinx.android.synthetic.main.item_category.view.*
