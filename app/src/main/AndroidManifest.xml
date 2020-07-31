@@ -31,9 +31,9 @@
         <activity android:name=".navigation.addpost.addstore.addressing.ChooseFromGoogleMapActivity" />
         <activity android:name=".navigation.addpost.addstore.addressing.ChooseFromMapActivity" />
         <activity android:name=".navigation.addpost.addstore.addressing.SearchAddressActivity" />
-            <activity android:name=".UserSelectLocal" />
-        <activity android:name=".PlaceSearch" />
-        <activity android:name=".MoreAndMore" />
+            <activity android:name=".newsfeed.user.search.UserSelectLocal" />
+        <activity android:name=".newsfeed.place.search.PlaceSearch" />
+        <activity android:name=".newsfeed.user.more.MoreAndMore" />
 
         <activity
             android:name=".navigation.addpost.AddPostActivity"

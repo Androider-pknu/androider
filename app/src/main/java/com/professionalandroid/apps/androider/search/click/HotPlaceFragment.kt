@@ -16,6 +16,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.professionalandroid.apps.androider.*
 import com.professionalandroid.apps.androider.navigation.SearchFragment.Companion.mapFragment
 import com.professionalandroid.apps.androider.navigation.SearchFragment.Companion.searchOnQueryFlag
+import com.professionalandroid.apps.androider.newsfeed.Category
+import com.professionalandroid.apps.androider.newsfeed.CategoryAdapter
 import kotlinx.android.synthetic.main.fragment_hot_place.*
 import kotlinx.android.synthetic.main.fragment_search.*
 
@@ -50,10 +52,14 @@ class HotPlaceFragment : Fragment(),
             CategoryAdapter(
                 categoryList
             )
+<<<<<<< HEAD:app/src/main/java/com/professionalandroid/apps/androider/search/click/HotPlaceFragment.kt
         nearHotPlaceAdapter =
             NearHotPlaceAdapter(
                 nearHotplaceList
             )
+=======
+        nearHotPlaceAdapter = NearHotPlaceAdapter(nearHotplaceList)
+>>>>>>> exbranch:app/src/main/java/com/professionalandroid/apps/androider/HotPlaceFragment.kt
         return view
     }
 
@@ -130,18 +136,66 @@ class HotPlaceFragment : Fragment(),
         initNearHotPlaceList()
     }
     private fun initCategoryList(){
-        categoryList.add(Category("음식점"))
-        categoryList.add(Category("카페"))
-        categoryList.add(Category("술집"))
-        categoryList.add(Category("한식"))
-        categoryList.add(Category("일식"))
-        categoryList.add(Category("중식"))
-        categoryList.add(Category("양식"))
-        categoryList.add(Category("분식"))
-        categoryList.add(Category("고깃집"))
-        categoryList.add(Category("해산물"))
-        categoryList.add(Category("디저트"))
-        categoryList.add(Category("베이커리"))
+        categoryList.add(
+            Category(
+                "음식점"
+            )
+        )
+        categoryList.add(
+            Category(
+                "카페"
+            )
+        )
+        categoryList.add(
+            Category(
+                "술집"
+            )
+        )
+        categoryList.add(
+            Category(
+                "한식"
+            )
+        )
+        categoryList.add(
+            Category(
+                "일식"
+            )
+        )
+        categoryList.add(
+            Category(
+                "중식"
+            )
+        )
+        categoryList.add(
+            Category(
+                "양식"
+            )
+        )
+        categoryList.add(
+            Category(
+                "분식"
+            )
+        )
+        categoryList.add(
+            Category(
+                "고깃집"
+            )
+        )
+        categoryList.add(
+            Category(
+                "해산물"
+            )
+        )
+        categoryList.add(
+            Category(
+                "디저트"
+            )
+        )
+        categoryList.add(
+            Category(
+                "베이커리"
+            )
+        )
     }
     private fun initNearHotPlaceList(){
         for (i in 1..20) nearHotplaceList.add(

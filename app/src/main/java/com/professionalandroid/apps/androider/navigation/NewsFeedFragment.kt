@@ -9,26 +9,30 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.professionalandroid.apps.androider.*
+import com.professionalandroid.apps.androider.newsfeed.*
+import com.professionalandroid.apps.androider.newsfeed.item.ItemFrag
+import com.professionalandroid.apps.androider.newsfeed.place.PlaceFrag
+import com.professionalandroid.apps.androider.newsfeed.user.UserFrag
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_newsfeed.view.*
 
-class NewsFeedFragment : Fragment() ,OnBackPressedListener{
+class NewsFeedFragment : Fragment(){
     companion object{
         var flag:Boolean=true
         lateinit var thisFragment: NewsFeedFragment
-        var pageSet = arrayListOf<Fragment>()
-        var pageList= arrayListOf<Fragment>()
     }
+    var pageList= arrayListOf<Fragment>()
     var nameList=arrayOf("장소","아이템","사용자")
     var index:Int=0
     var preIndex:Int=-1
-    lateinit var searchFragment:AllSearchView
+    lateinit var searchFragment: AllSearchView
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_newsfeed, container, false)
         thisFragment=this
         view.tabLayout.setSelectedTabIndicatorColor(Color.parseColor("#FF4500")) //탭바 밑줄 색상 변경.
         makeFragment()
-        searchFragment= AllSearchView(view)
+        searchFragment=
+            AllSearchView(view)
         tabListener(view)
         setSearchButton(view)
         makeViewPage(view)//View Pager 만들기.
@@ -49,7 +53,9 @@ class NewsFeedFragment : Fragment() ,OnBackPressedListener{
 //        adapter.addItems(pageList[2])
 //        view.viewPager.adapter = adapter//view pager 에 adapter 장착.
 //        view.tabLayout.setupWithViewPager(view.viewPager)//tabLayout 과 view pager 연동.
-        val adapter=PageAdapter(requireActivity())
+        val adapter= PageAdapter(
+            requireActivity()
+        )
         adapter.setFragment(pageList)
         view.viewPager.adapter=adapter
         TabLayoutMediator(view.tabLayout,view.viewPager){ tab,position ->
@@ -81,7 +87,6 @@ class NewsFeedFragment : Fragment() ,OnBackPressedListener{
 //                            .replace(R.id.main_frame,searchFragment).commit()
                     requireActivity().supportFragmentManager.beginTransaction()
                         .replace(R.id.main_frame,searchFragment).hide(pageList[index]).commit()
-                    if(!pageSet.contains(pageList[index])) pageSet.add(pageList[index])
                     AllSearchView.index=index
                     searchFragment.setHint(AllSearchView.searchView)
                 }
@@ -99,7 +104,7 @@ class NewsFeedFragment : Fragment() ,OnBackPressedListener{
             //View.INVISIBLE - View 를 감춤(공간 차지 x) View.VISIBLE - View 를 보여줌(공간 차지 o)
         }
     }
-    override fun onBackPressed() {
-        childFragmentManager.popBackStack()
-    }
+//    override fun onBackPressed() {
+//        childFragmentManager.popBackStack()
+//    }
 }
