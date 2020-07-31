@@ -9,6 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity android:name=".navigation.addpost.additem.input.ChooseItemCategoryActivity"></activity>
         <activity android:name=".navigation.addpost.additem.input.AddItemActivity" />
         <activity android:name=".navigation.addpost.additem.SelectItemActivity" />
@@ -20,10 +21,14 @@
         <activity android:name=".navigation.addpost.addstore.addressing.ChooseFromGoogleMapActivity" />
         <activity android:name=".navigation.addpost.addstore.addressing.ChooseFromMapActivity" />
         <activity android:name=".navigation.addpost.addstore.addressing.SearchAddressActivity" />
-        <activity android:name=".navigation.addpost.addstore.SelectStoreActivity" />
+            <activity android:name=".UserSelectLocal" />
+        <activity android:name=".PlaceSearch" />
+        <activity android:name=".MoreAndMore" />
+
+            <activity android:name=".navigation.addpost.addstore.SelectStoreActivity" />
         <activity
             android:name=".navigation.addpost.AddPostActivity"
-            android:screenOrientation="portrait"
+            android:screenOrientation="fullSensor"
             android:windowSoftInputMode="adjustResize" />
         <activity android:name=".LoginActivity">
             <intent-filter>
