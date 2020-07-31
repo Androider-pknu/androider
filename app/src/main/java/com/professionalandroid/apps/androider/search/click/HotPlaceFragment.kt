@@ -17,7 +17,6 @@ import com.professionalandroid.apps.androider.*
 import com.professionalandroid.apps.androider.navigation.SearchFragment.Companion.mapFragment
 import com.professionalandroid.apps.androider.navigation.SearchFragment.Companion.searchOnQueryFlag
 import com.professionalandroid.apps.androider.newsfeed.Category
-import com.professionalandroid.apps.androider.newsfeed.CategoryAdapter
 import kotlinx.android.synthetic.main.fragment_hot_place.*
 import kotlinx.android.synthetic.main.fragment_search.*
 
@@ -52,14 +51,11 @@ class HotPlaceFragment : Fragment(),
             CategoryAdapter(
                 categoryList
             )
-<<<<<<< HEAD:app/src/main/java/com/professionalandroid/apps/androider/search/click/HotPlaceFragment.kt
         nearHotPlaceAdapter =
             NearHotPlaceAdapter(
                 nearHotplaceList
             )
-=======
         nearHotPlaceAdapter = NearHotPlaceAdapter(nearHotplaceList)
->>>>>>> exbranch:app/src/main/java/com/professionalandroid/apps/androider/HotPlaceFragment.kt
         return view
     }
 

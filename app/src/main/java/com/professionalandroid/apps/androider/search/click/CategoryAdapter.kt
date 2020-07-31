@@ -1,19 +1,12 @@
-<<<<<<< HEAD:app/src/main/java/com/professionalandroid/apps/androider/search/click/CategoryAdapter.kt
 package com.professionalandroid.apps.androider.search.click
-=======
-package com.professionalandroid.apps.androider.newsfeed
->>>>>>> exbranch:app/src/main/java/com/professionalandroid/apps/androider/navigation/CategoryAdapter.kt
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-<<<<<<< HEAD:app/src/main/java/com/professionalandroid/apps/androider/search/click/CategoryAdapter.kt
-import com.professionalandroid.apps.androider.Category
-=======
->>>>>>> exbranch:app/src/main/java/com/professionalandroid/apps/androider/navigation/CategoryAdapter.kt
 import com.professionalandroid.apps.androider.R
+import com.professionalandroid.apps.androider.newsfeed.Category
 
 class CategoryAdapter(val categoryList: ArrayList<Category>) : RecyclerView.Adapter<CategoryAdapter.CustomViewHolder>(){
 
