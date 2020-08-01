@@ -4,23 +4,16 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <View
-        android:id="@+id/divider_itemcategory_horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="@color/light_gray" />
-
     <TextView
         android:id="@+id/textview_itemcategory_category"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="@dimen/height_item"
         android:background="@color/white"
         android:clickable="true"
-        android:drawableStart="@drawable/ic_clear"
         android:focusable="true"
         android:gravity="center_vertical"
+        android:paddingStart="10dp"
         android:text="category"
         android:textColor="@color/black"
-        android:textSize="17sp" />
-
+        android:textSize="@dimen/textsize_item" />
 </LinearLayout>

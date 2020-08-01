@@ -4,15 +4,16 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.professionalandroid.apps.androider.R
 import kotlinx.android.synthetic.main.activity_choosecategory.*
 import kotlinx.android.synthetic.main.item_category.view.*
+import kotlinx.android.synthetic.main.layout_category.view.*
 
-class ChooseCategoryActivity : AppCompatActivity() {
-    private val SUB_CATEGORY_REQUEST_CODE = 5002
+class
+ChooseCategoryActivity : AppCompatActivity() {
+    val SUB_CATEGORY_REQUEST = 6001
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,64 +23,58 @@ class ChooseCategoryActivity : AppCompatActivity() {
             onBackPressed()
         }
 
-        inflateContent()
+        inflateContent(intent.getStringArrayExtra("type"))
     }
 
-    private fun inflateContent() {
-        val categoryList = resources.getStringArray(R.array.store_category)
-        val extraList = resources.getStringArray(R.array.extra_store_category)
-        val layout = layout_choosecategory_scrolllinear
+    private fun inflateContent(type: Array<String>) {
         val inflater = LayoutInflater.from(this)
 
-        val store = TextView(this)
-        store.text = "음식점"
-        store.textSize = 13f
-        layout.addView(store)
+        for (description in type) {
+            val categoryLayout = inflater.inflate(
+                R.layout.layout_category, layout_choosecategory_content, false
+            )
+            layout_choosecategory_content.addView(categoryLayout)
 
-        for ((index, name) in categoryList.withIndex()) {
-            val view = inflater.inflate(R.layout.item_category, layout, false)
-            view.textview_itemcategory_category.text = name
-            view.textview_itemcategory_category.setOnClickListener {
-                startSubCategory("store", name, index)
+            val targetName = "${description}_category"
+            val targetLayout = categoryLayout.layout_category_content
+            val descriptionView = categoryLayout.textview_category_description
+
+            when (description) {
+                "store" -> descriptionView.text = "음식점"
+                "extra" -> descriptionView.text = "기타장소"
+                "item" -> targetLayout.removeView(descriptionView)
             }
-            layout.addView(view)
-        }
 
-        val extra = TextView(this)
-        extra.text = "기타 장소"
-        extra.textSize = 13f
-        layout.addView(extra)
+            val field = R.array::class.java.getField(targetName)
+            val categoryList = resources.getStringArray(field.getInt(null))
 
-        for ((index, name) in extraList.withIndex()) {
-            val view = inflater.inflate(R.layout.item_category, layout, false)
-            view.textview_itemcategory_category.text = name
-            view.textview_itemcategory_category.setOnClickListener {
-                startSubCategory("extra", name, index)
+            for ((index, category) in categoryList.withIndex()) {
+                val view = inflater.inflate(R.layout.item_category, targetLayout, false)
+                view.textview_itemcategory_category.text = category
+                view.textview_itemcategory_category.setOnClickListener {
+                    startSubCategory(description, category, index)
+                }
+                targetLayout.addView(view)
             }
-            layout.addView(view)
         }
-
     }
 
-    private fun startSubCategory(subTitle: String, name: String?, index: Int) {
+    private fun startSubCategory(description: String, category: String, index: Int) {
         val intent = Intent(this, ChooseSubCategoryActivity::class.java).apply {
-            putExtra("subTitle", subTitle)
-            putExtra("name", name)
-            putExtra("index", index)
+            putExtra("description", description)
+            putExtra("category", category)
+            putExtra("index", index.toString())
         }
-        startActivityForResult(intent, SUB_CATEGORY_REQUEST_CODE)
+        startActivityForResult(intent, SUB_CATEGORY_REQUEST)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (requestCode == SUB_CATEGORY_REQUEST_CODE) {
+        if (requestCode == SUB_CATEGORY_REQUEST) {
             when (resultCode) {
                 Activity.RESULT_OK -> {
-                    val subCategory = data?.getStringExtra("subCategory")
-                    val result = Intent()
-                    result.putExtra("category", subCategory)
-                    setResult(Activity.RESULT_OK, result)
+                    setResult(Activity.RESULT_OK, data)
                     finish()
                 }
                 else ->

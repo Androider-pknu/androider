@@ -14,12 +14,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".navigation.addpost.insertdata.ChooseItemCategoryActivity" />
+        <activity android:name=".navigation.addpost.insertdata.ChooseCategoryActivity" />
         <activity android:name=".navigation.addpost.insertdata.AddItemActivity" />
         <activity android:name=".navigation.addpost.SelectItemActivity" />
         <activity android:name=".navigation.addpost.addressing.ChangeAddressActivity" />
         <activity android:name=".navigation.addpost.insertdata.ChooseSubCategoryActivity" />
-        <activity android:name=".navigation.addpost.insertdata.ChooseCategoryActivity" />
+        <activity android:name=".navigation.addpost.insertdata.InputCategoryActivity" />
         <activity android:name=".navigation.addpost.insertdata.AddStoreActivity" />
         <activity android:name="com.professionalandroid.apps.androider.navigation.addpost.addressing.ChooseBuildingActivity" />
         <activity android:name="com.professionalandroid.apps.androider.navigation.addpost.addressing.SearchAddressActivity" />

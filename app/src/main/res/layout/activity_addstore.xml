@@ -152,6 +152,7 @@
             android:textSize="@dimen/textsize_item" />
 
         <TextView
+            android:id="@+id/textview_addstore_address"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"

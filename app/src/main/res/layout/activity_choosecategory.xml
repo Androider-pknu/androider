@@ -10,7 +10,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_choosecategory_appbartop"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/height_all_appbartop"
+        android:layout_height="60dp"
         android:background="@color/white"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -45,12 +45,10 @@
         app:layout_constraintTop_toBottomOf="@id/layout_choosecategory_appbartop">
 
         <LinearLayout
-            android:id="@+id/layout_choosecategory_scrolllinear"
+            android:id="@+id/layout_choosecategory_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-        </LinearLayout>
+            android:orientation="vertical" />
 
     </ScrollView>
 

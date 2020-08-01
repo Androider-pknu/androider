@@ -9,7 +9,7 @@ import com.professionalandroid.apps.androider.R
 import kotlinx.android.synthetic.main.activity_additem.*
 
 class AddItemActivity : AppCompatActivity() {
-    val ITEM_CATEGORY_REQUEST_CODE = 5003
+    val ITEM_CATEGORY_REQUEST = 5002
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,21 +20,27 @@ class AddItemActivity : AppCompatActivity() {
         }
 
         layout_additem_category.setOnClickListener {
-            startActivityForResult(
-                Intent(this, ChooseItemCategoryActivity::class.java),
-                ITEM_CATEGORY_REQUEST_CODE
-            )
+            val intent = Intent(this, ChooseCategoryActivity::class.java)
+            intent.putExtra("type", arrayOf("item"))
+            startActivityForResult(intent, ITEM_CATEGORY_REQUEST)
+        }
+
+        btn_additem_complete.setOnClickListener {
+            // TODO
+            // make item data model
+            // insert data model to database
+            // return data model to add post activity
         }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (requestCode == ITEM_CATEGORY_REQUEST_CODE) {
+        if (requestCode == ITEM_CATEGORY_REQUEST) {
             when (resultCode) {
                 Activity.RESULT_OK -> {
-                    val item = data?.getStringExtra("item")
-                    textview_additem_selecteditem.text = item
+                    val category = data?.getStringExtra("subCategory")
+                    textview_additem_selecteditem.text = category
                 }
                 else -> Toast.makeText(this, "fail", Toast.LENGTH_LONG).show()
             }

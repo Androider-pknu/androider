@@ -10,16 +10,18 @@ import com.professionalandroid.apps.androider.navigation.addpost.addressing.Chan
 import kotlinx.android.synthetic.main.activity_addstore.*
 
 class AddStoreActivity : AppCompatActivity() {
-    private val CATEGORY_REQUEST_CODE = 5001
+    private val STORE_CATEGORY_REQUEST = 5001
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_addstore)
 
         layout_addstore_category.setOnClickListener {
+            val intent = Intent(this, ChooseCategoryActivity::class.java)
+            intent.putExtra("type", arrayOf("store", "extra"))
             startActivityForResult(
-                Intent(this, ChooseCategoryActivity::class.java),
-                CATEGORY_REQUEST_CODE
+                intent,
+                STORE_CATEGORY_REQUEST
             )
         }
 
@@ -30,15 +32,24 @@ class AddStoreActivity : AppCompatActivity() {
         btn_addstore_back.setOnClickListener {
             onBackPressed()
         }
+
+        btn_addstore_complete.setOnClickListener {
+            // TODO
+            // make store data model
+            // insert data model to database
+            // return data model to add post activity
+        }
+
+        textview_addstore_address.text = intent.getStringExtra("address")
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (requestCode == CATEGORY_REQUEST_CODE) {
+        if (requestCode == STORE_CATEGORY_REQUEST) {
             when (resultCode) {
                 Activity.RESULT_OK -> {
-                    val category = data?.getStringExtra("category")
+                    val category = data?.getStringExtra("subCategory")
                     textview_addstore_category.text = category
                 }
                 else -> Toast.makeText(this, "fail", Toast.LENGTH_LONG).show()
