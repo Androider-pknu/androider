@@ -5,17 +5,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/default_background_color"
-    tools:context=".navigation.addpost.insertdata.ChooseSubCategoryActivity">
+    tools:context=".navigation.addpost.insertdata.InputCategoryActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_inputcategory_appbartop"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/size_all_appbar"
+        android:layout_height="@dimen/height_all_appbartop"
         android:background="@color/white"
         app:layout_constraintTop_toTopOf="parent">
 
         <Button
-            android:id="@+id/btn_choosesubcategory_back"
+            android:id="@+id/btn_inputcategory_back"
             android:layout_width="40dp"
             android:layout_height="50dp"
             android:background="@drawable/ic_chevron_left"
@@ -24,11 +24,11 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/textview_choosesubcategory_supercategory"
+            android:id="@+id/textview_inputcategory_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-black"
-            android:text="상위 카테코리명"
+            android:text="상위 카테고리"
             android:textColor="@color/black"
             android:textSize="@dimen/textsize_appbar_default"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -37,59 +37,55 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/btn_choosesubcategory_complete"
+            android:id="@+id/btn_inputcategory_complete"
             android:layout_width="@dimen/size_all_appbar"
             android:layout_height="match_parent"
             android:background="@android:color/transparent"
             android:enabled="false"
             android:text="@string/complete"
             android:textColor="@color/gray"
-            android:textSize="@dimen/textsize_item"
-            android:visibility="invisible"
+            android:textSize="@dimen/textsize_appbar_default"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
         app:layout_constraintTop_toBottomOf="@id/layout_inputcategory_appbartop">
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:text="상세 업종"
+            android:textSize="@dimen/textsize_detail_description" />
 
-            <TextView
-                android:id="@+id/textview_choosesubcategory_subcategory"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:text="상세 업종"
-                android:textSize="@dimen/textsize_detail_description" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/light_gray" />
 
-            <LinearLayout
-                android:id="@+id/layout_choosesubcategory_content"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical" />
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/textinput_inputcategory_detail"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_item"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:hint="상세 업종"
+            android:paddingStart="10dp"
+            android:textColor="@color/black"
+            android:textSize="@dimen/textsize_item" />
 
-            <Button
-                android:id="@+id/btn_choosesubcategory_selfinput"
-                style="?borderlessButtonStyle"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/height_item"
-                android:layout_marginTop="30dp"
-                android:background="@color/white"
-                android:text="직접 입력"
-                android:textColor="@color/gray"
-                android:textSize="@dimen/textsize_appbar_default" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/light_gray" />
 
-        </LinearLayout>
-
-    </ScrollView>
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

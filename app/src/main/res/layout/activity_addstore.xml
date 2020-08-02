@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/default_background_color"
     android:orientation="vertical"
-    tools:context=".navigation.addpost.addstore.input.AddStoreActivity">
+    tools:context=".navigation.addpost.insertdata.AddStoreActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_addstore_appbartop"
@@ -18,22 +18,20 @@
             android:id="@+id/btn_addstore_back"
             android:layout_width="@dimen/size_all_appbar"
             android:layout_height="match_parent"
-            android:layout_gravity="start"
             android:background="@android:color/transparent"
             android:text="@string/cancel"
             android:textColor="@color/blue_default"
-            android:textSize="20sp"
+            android:textSize="@dimen/textsize_appbar_default"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:fontFamily="sans-serif-black"
             android:text="장소 등록"
             android:textColor="@android:color/black"
-            android:textSize="20sp"
+            android:textSize="@dimen/textsize_appbar_default"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -43,11 +41,11 @@
             android:id="@+id/btn_addstore_complete"
             android:layout_width="@dimen/size_all_appbar"
             android:layout_height="match_parent"
-            android:layout_gravity="end"
             android:background="@android:color/transparent"
+            android:enabled="false"
             android:text="@string/complete"
             android:textColor="@color/gray"
-            android:textSize="20sp"
+            android:textSize="@dimen/textsize_appbar_default"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -59,7 +57,8 @@
         android:layout_marginStart="10dp"
         android:layout_marginTop="30dp"
         android:layout_marginBottom="5dp"
-        android:text="장소정보" />
+        android:text="장소정보"
+        android:textSize="@dimen/textsize_detail_description" />
 
     <View
         android:layout_width="match_parent"
@@ -68,7 +67,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="@dimen/height_item"
         android:background="@color/white"
         android:orientation="horizontal">
 
@@ -80,12 +79,14 @@
             android:gravity="start|center"
             android:text="장소명"
             android:textColor="@color/black"
-            android:textSize="18sp" />
+            android:textSize="@dimen/textsize_item" />
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@android:color/transparent" />
+            android:background="@android:color/transparent"
+            android:textColor="@color/item_content"
+            android:textSize="@dimen/textsize_item" />
 
     </LinearLayout>
 
@@ -97,7 +98,7 @@
     <LinearLayout
         android:id="@+id/layout_addstore_category"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="@dimen/height_item"
         android:background="@color/white"
         android:clickable="true"
         android:focusable="true"
@@ -110,7 +111,7 @@
             android:gravity="start|center"
             android:text="업종"
             android:textColor="@color/black"
-            android:textSize="18sp" />
+            android:textSize="@dimen/textsize_item" />
 
         <TextView
             android:id="@+id/textview_addstore_category"
@@ -118,7 +119,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center_vertical"
-            android:textSize="18sp" />
+            android:textColor="@color/item_content"
+            android:textSize="@dimen/textsize_item" />
 
         <ImageView
             android:layout_width="30dp"
@@ -139,7 +141,7 @@
         android:background="@color/white"
         android:clickable="true"
         android:focusable="true"
-        android:minHeight="50dp"
+        android:minHeight="@dimen/height_item"
         android:orientation="horizontal">
 
         <TextView
@@ -149,12 +151,15 @@
             android:gravity="start|center"
             android:text="주소"
             android:textColor="@color/black"
-            android:textSize="18sp" />
+            android:textSize="@dimen/textsize_item" />
 
         <TextView
+            android:id="@+id/textview_addstore_address"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:textColor="@color/item_content"
+            android:textSize="@dimen/textsize_item" />
 
         <ImageView
             android:layout_width="30dp"
@@ -171,7 +176,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="@dimen/height_item"
         android:background="@color/white"
         android:orientation="horizontal">
 
@@ -182,13 +187,15 @@
             android:gravity="start|center"
             android:text="전화번호"
             android:textColor="@color/black"
-            android:textSize="18sp" />
+            android:textSize="@dimen/textsize_item" />
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@android:color/transparent"
-            android:hint="02-123-4567" />
+            android:hint="02-123-4567"
+            android:textColor="@color/item_content"
+            android:textSize="@dimen/textsize_item" />
 
     </LinearLayout>
 

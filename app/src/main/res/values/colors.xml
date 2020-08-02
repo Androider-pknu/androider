@@ -17,5 +17,7 @@
 
     <color name="blue_default">#0076FF</color>
     <color name="default_background_color">#F0F0F0</color>
->>>>>>> master
+
+    <color name="item_content">#424242</color>
+
 </resources>

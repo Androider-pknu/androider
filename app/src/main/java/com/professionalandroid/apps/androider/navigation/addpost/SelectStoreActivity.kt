@@ -1,9 +1,9 @@
-package com.professionalandroid.apps.androider.navigation.addpost.addstore
+package com.professionalandroid.apps.androider.navigation.addpost
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.professionalandroid.apps.androider.R
-import com.professionalandroid.apps.androider.navigation.addpost.addstore.addressing.ChooseAddressingDialog
+import com.professionalandroid.apps.androider.navigation.addpost.addressing.ChooseAddressingDialog
 import kotlinx.android.synthetic.main.activity_selectstore.*
 
 class SelectStoreActivity : AppCompatActivity() {

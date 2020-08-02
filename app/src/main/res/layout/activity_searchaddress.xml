@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".navigation.addpost.addstore.addressing.SearchAddressActivity">
+    tools:context=".navigation.addpost.addressing.SearchAddressActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_searchaddress_appbartop"
@@ -18,12 +18,12 @@
         <TextView
             android:id="@+id/textview_searchaddress_title"
             android:layout_width="wrap_content"
-            android:layout_height="60dp"
+            android:layout_height="@dimen/size_all_appbar"
             android:fontFamily="sans-serif-black"
             android:gravity="center"
             android:text="주소입력"
             android:textColor="@color/black"
-            android:textSize="20sp"
+            android:textSize="@dimen/textsize_appbar_default"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -31,13 +31,13 @@
         <Button
             android:id="@+id/btn_searchaddress_cancel"
             style="?android:attr/borderlessButtonStyle"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="@dimen/size_all_appbar"
+            android:layout_height="@dimen/size_all_appbar"
             android:background="@color/transparent"
             android:fontFamily="sans-serif-black"
             android:text="⨉"
             android:textColor="@color/black"
-            android:textSize="20sp"
+            android:textSize="@dimen/textsize_appbar_default"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -61,13 +61,15 @@
             android:layout_marginBottom="15dp"
             android:background="@drawable/all_semiroundcorner"
             android:drawableStart="@drawable/ic_search_24px"
+            android:drawablePadding="5dp"
             android:hint="도로명 또는 지번 주소 (예: 삼일대로 343)"
+            android:imeOptions="actionSearch"
+            android:inputType="text"
             android:paddingStart="10dp"
             android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/btn_searchaddress_choosecountry"
-            app:queryBackground="@null" />
+            app:layout_constraintStart_toEndOf="@+id/btn_searchaddress_choosecountry" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -78,17 +80,11 @@
         android:background="@color/gray"
         app:layout_constraintTop_toBottomOf="@id/layout_searchaddress_appbartop" />
 
-    <Button
-        android:id="@+id/btn_sample1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/divider_searchaddress_appbartop" />
-
-
-    <FrameLayout
+    <LinearLayout
+        android:id="@+id/layout_searchaddress_addresslist"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
         app:layout_constraintTop_toBottomOf="@id/divider_searchaddress_appbartop" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
