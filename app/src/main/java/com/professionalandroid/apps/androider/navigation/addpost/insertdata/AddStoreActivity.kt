@@ -11,6 +11,9 @@ import kotlinx.android.synthetic.main.activity_addstore.*
 
 class AddStoreActivity : AppCompatActivity() {
     private val STORE_CATEGORY_REQUEST = 5001
+    private val CHANGE_ADDRESS_REQUEST = 8001
+    var address: String? = ""
+    var building: String? = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,7 +29,10 @@ class AddStoreActivity : AppCompatActivity() {
         }
 
         layout_addstore_address.setOnClickListener {
-            startActivity(Intent(this, ChangeAddressActivity::class.java))
+            val intent = Intent(this, ChangeAddressActivity::class.java)
+            intent.putExtra("address", address)
+            intent.putExtra("building", building)
+            startActivityForResult(intent, CHANGE_ADDRESS_REQUEST)
         }
 
         btn_addstore_back.setOnClickListener {
@@ -40,19 +46,33 @@ class AddStoreActivity : AppCompatActivity() {
             // return data model to add post activity
         }
 
-        textview_addstore_address.text = intent.getStringExtra("address")
+        address = intent.getStringExtra("address")
+        textview_addstore_address.text = address
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (requestCode == STORE_CATEGORY_REQUEST) {
-            when (resultCode) {
-                Activity.RESULT_OK -> {
-                    val category = data?.getStringExtra("subCategory")
-                    textview_addstore_category.text = category
+        when (requestCode) {
+            STORE_CATEGORY_REQUEST -> {
+                when (resultCode) {
+                    Activity.RESULT_OK -> {
+                        val category = data?.getStringExtra("subCategory")
+                        textview_addstore_category.text = category
+                    }
+                    else -> Toast.makeText(this, "fail", Toast.LENGTH_LONG).show()
                 }
-                else -> Toast.makeText(this, "fail", Toast.LENGTH_LONG).show()
+            }
+            CHANGE_ADDRESS_REQUEST -> {
+                when (resultCode) {
+                    Activity.RESULT_OK -> {
+                        address = data?.getStringExtra("address")
+                        building = data?.getStringExtra("building")
+                        val display = "$address $building"
+                        textview_addstore_address.text = display
+                    }
+                    else -> Toast.makeText(this, "fail", Toast.LENGTH_LONG).show()
+                }
             }
         }
     }

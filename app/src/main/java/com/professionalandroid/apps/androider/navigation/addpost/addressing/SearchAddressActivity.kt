@@ -1,5 +1,6 @@
 package com.professionalandroid.apps.androider.navigation.addpost.addressing
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -19,8 +20,8 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class SearchAddressActivity : AppCompatActivity(),
-    PickCountryDialog.NoticeDialogListener {
+class SearchAddressActivity : AppCompatActivity(), PickCountryDialog.NoticeDialogListener {
+    private val SEARCH_ADDRESS_REQUEST = 9001
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -83,10 +84,24 @@ class SearchAddressActivity : AppCompatActivity(),
                     false
                 )
                 view.textview_itemcategory_category.text = juso.roadAddrPart1
-                view.textview_itemcategory_category.setOnClickListener {
-                    val intent = Intent(this, ChooseBuildingActivity::class.java)
-                    intent.putExtra("address", view.textview_itemcategory_category.text.toString())
-                    startActivity(intent)
+
+                if (intent.getBooleanExtra("changeAddress", false)) {
+                    view.textview_itemcategory_category.setOnClickListener {
+                        val intent = Intent(this, ChooseBuildingActivity::class.java)
+                        intent.putExtra(
+                            "address", view.textview_itemcategory_category.text.toString()
+                        )
+                        intent.putExtra("changeAddress", true)
+                        startActivityForResult(intent, SEARCH_ADDRESS_REQUEST)
+                    }
+                } else {
+                    view.textview_itemcategory_category.setOnClickListener {
+                        val intent = Intent(this, ChooseBuildingActivity::class.java)
+                        intent.putExtra(
+                            "address", view.textview_itemcategory_category.text.toString()
+                        )
+                        startActivity(intent)
+                    }
                 }
                 layout_searchaddress_addresslist.addView(view)
             }
@@ -95,6 +110,19 @@ class SearchAddressActivity : AppCompatActivity(),
 
     override fun onDialogCompleteClick(value: String) {
         btn_searchaddress_choosecountry.text = value
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == SEARCH_ADDRESS_REQUEST) {
+            when (resultCode) {
+                Activity.RESULT_OK -> {
+                    setResult(Activity.RESULT_OK, data)
+                    finish()
+                }
+            }
+        }
     }
 
 }

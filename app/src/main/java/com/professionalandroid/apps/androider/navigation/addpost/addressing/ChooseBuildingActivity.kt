@@ -1,5 +1,6 @@
 package com.professionalandroid.apps.androider.navigation.addpost.addressing
 
+import android.app.Activity
 import android.content.Intent
 import android.location.Geocoder
 import android.os.Bundle
@@ -45,10 +46,20 @@ class ChooseBuildingActivity : AppCompatActivity(), OnMapReadyCallback {
             onBackPressed()
         }
 
-        btn_choosebuilding_next.setOnClickListener {
-            val intent = Intent(this, AddStoreActivity::class.java)
-            intent.putExtra("address", textview_choosebuilding_detailinfo.text.toString())
-            startActivity(intent)
+        if(intent.getBooleanExtra("changeAddress", false)){
+            btn_choosebuilding_next.text = "확인"
+            btn_choosebuilding_next.setOnClickListener {
+                val intent = Intent()
+                intent.putExtra("address", textview_choosebuilding_detailinfo.text.toString())
+                setResult(Activity.RESULT_OK, intent)
+                finish()
+            }
+        } else {
+            btn_choosebuilding_next.setOnClickListener {
+                val intent = Intent(this, AddStoreActivity::class.java)
+                intent.putExtra("address", textview_choosebuilding_detailinfo.text.toString())
+                startActivity(intent)
+            }
         }
 
         radiogroup_choosebuilding.setOnCheckedChangeListener { _, checkedId ->

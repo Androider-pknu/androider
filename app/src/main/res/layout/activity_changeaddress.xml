@@ -41,9 +41,8 @@
             android:layout_width="@dimen/size_all_appbar"
             android:layout_height="match_parent"
             android:background="@android:color/transparent"
-            android:enabled="false"
             android:text="@string/complete"
-            android:textColor="@color/gray"
+            android:textColor="@color/blue_default"
             android:textSize="@dimen/textsize_appbar_default"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -73,12 +72,13 @@
             android:textSize="@dimen/textsize_item" />
 
         <TextView
+            android:id="@+id/textview_changeaddress_address"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="주소"
             android:textColor="@color/item_content"
-            android:textSize="18sp" />
+            android:textSize="@dimen/textsize_item" />
 
         <ImageView
             android:layout_width="30dp"
@@ -107,6 +107,7 @@
             android:textSize="@dimen/textsize_item" />
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/textinput_changeaddress_buildingname"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"

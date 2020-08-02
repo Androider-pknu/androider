@@ -7,6 +7,11 @@
         <item>구글지도에서 검색 (해외)</item>
     </string-array>
 
+    <string-array name="change_address_method">
+        <item>주소 검색</item>
+        <item>지도에서 빌딩 선택</item>
+    </string-array>
+
     <string-array name="country_list">
         <item>미국</item>
         <item>일본</item>
