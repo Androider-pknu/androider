@@ -1,6 +1,7 @@
 package com.professionalandroid.apps.androider.newsfeed.place.search
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -44,10 +45,7 @@ class SearchListFragment : Fragment() {
             thisView.search_list.layoutManager=LinearLayoutManager(requireContext())
             thisView.search_list.setHasFixedSize(true)
             makeHintList()
-            adapter=
-                EachLocalAdapter(
-                    hintList
-                )
+            adapter= EachLocalAdapter(hintList)
             adapter.setEachLocalClickListener(object:
                 EachLocalAdapter.OnEachLocalClickListener {
                 override fun onClick(view: View, position: Int, localName: TextView) {
@@ -60,23 +58,19 @@ class SearchListFragment : Fragment() {
     }
     private fun makeHintList(){
         var length= hintOfTest!!.length
+        Log.d("Test",length.toString())
         var hintFlag:Boolean
         for(i  in 0 until cityList.size){
             hintFlag=true
             var hint:String=cityList[i]
+            if(hint.length<length) continue
             for(j in 0 until length){
                 if(hint[j]!= hintOfTest!![j]){
                     hintFlag=false
                     break
                 }
             }
-            if(hintFlag) hintList.add(
-                EachLocal(
-                    R.drawable.local_location,
-                    cityList[i],
-                    "1111km"
-                )
-            )
+            if(hintFlag) hintList.add(EachLocal(R.drawable.local_location, cityList[i], "1111km"))
         }
     }
 }

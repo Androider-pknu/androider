@@ -2,6 +2,7 @@ package com.professionalandroid.apps.androider.navigation
 
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,13 +11,14 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.professionalandroid.apps.androider.*
 import com.professionalandroid.apps.androider.newsfeed.*
+import com.professionalandroid.apps.androider.newsfeed.commonsearch.AllSearchView
 import com.professionalandroid.apps.androider.newsfeed.item.ItemFrag
 import com.professionalandroid.apps.androider.newsfeed.place.PlaceFrag
 import com.professionalandroid.apps.androider.newsfeed.user.UserFrag
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_newsfeed.view.*
 
-class NewsFeedFragment : Fragment(){
+class NewsFeedFragment() : Fragment(){
     companion object{
         var flag:Boolean=true
         lateinit var thisFragment: NewsFeedFragment
@@ -32,7 +34,9 @@ class NewsFeedFragment : Fragment(){
         view.tabLayout.setSelectedTabIndicatorColor(Color.parseColor("#FF4500")) //탭바 밑줄 색상 변경.
         makeFragment()
         searchFragment=
-            AllSearchView(view)
+            AllSearchView(
+                view
+            )
         tabListener(view)
         setSearchButton(view)
         makeViewPage(view)//View Pager 만들기.
@@ -88,13 +92,14 @@ class NewsFeedFragment : Fragment(){
                     requireActivity().supportFragmentManager.beginTransaction()
                         .replace(R.id.main_frame,searchFragment).hide(pageList[index]).commit()
                     AllSearchView.index=index
-                    searchFragment.setHint(AllSearchView.searchView)
+                    searchFragment.setHint(searchFragment.searchView)
                 }
             }
         })
     }
     private fun setSearchButton(view: View){
         view.search_button.setOnClickListener {
+            makeSearchView(view)
             flag=false
             requireActivity().supportFragmentManager.beginTransaction().addToBackStack(null)
                 .add(R.id.main_frame,searchFragment).hide(pageList[index]).commit()
@@ -104,7 +109,10 @@ class NewsFeedFragment : Fragment(){
             //View.INVISIBLE - View 를 감춤(공간 차지 x) View.VISIBLE - View 를 보여줌(공간 차지 o)
         }
     }
+    private fun makeSearchView(view:View){
+        searchFragment= AllSearchView(view)
+    }
 //    override fun onBackPressed() {
-//        childFragmentManager.popBackStack()
+//
 //    }
 }
