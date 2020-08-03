@@ -1,3 +1,5 @@
 package com.professionalandroid.apps.androider.newsfeed.commonsearch
 
-data class ForFirstList (val text:String)
+import android.text.SpannableString
+
+data class ForFirstList (val text:SpannableString)

@@ -18,7 +18,7 @@ import com.professionalandroid.apps.androider.newsfeed.user.UserFrag
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_newsfeed.view.*
 
-class NewsFeedFragment() : Fragment(){
+class NewsFeedFragment(val mainContext:MainActivity) : Fragment(){
     companion object{
         var flag:Boolean=true
         lateinit var thisFragment: NewsFeedFragment
@@ -33,10 +33,6 @@ class NewsFeedFragment() : Fragment(){
         thisFragment=this
         view.tabLayout.setSelectedTabIndicatorColor(Color.parseColor("#FF4500")) //탭바 밑줄 색상 변경.
         makeFragment()
-        searchFragment=
-            AllSearchView(
-                view
-            )
         tabListener(view)
         setSearchButton(view)
         makeViewPage(view)//View Pager 만들기.
@@ -110,7 +106,7 @@ class NewsFeedFragment() : Fragment(){
         }
     }
     private fun makeSearchView(view:View){
-        searchFragment= AllSearchView(view)
+        searchFragment= AllSearchView(view,mainContext)
     }
 //    override fun onBackPressed() {
 //

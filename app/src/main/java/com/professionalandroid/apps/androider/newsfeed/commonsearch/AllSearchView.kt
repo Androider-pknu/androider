@@ -17,13 +17,13 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_newsfeed.view.*
 import kotlinx.android.synthetic.main.fragment_search_view.view.*
 
-class AllSearchView(private val newsFeedFragment: View) : Fragment(),OnBackPressedListener{
+class AllSearchView(private val newsFeedFragment: View,val mainContext: MainActivity) : Fragment(),OnBackPressedListener{
     companion object{
         var index:Int=-1
     }
     lateinit var searchView:View
     lateinit var mSuper: MainActivity
-    var searchList:OnlyPlaceItemSearchList= OnlyPlaceItemSearchList()
+    var searchList:OnlyPlaceItemSearchList= OnlyPlaceItemSearchList(mainContext)
     var queryFlag:Boolean=false
     lateinit var haveNotSearched:HaveNotSearched
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?{
@@ -55,7 +55,6 @@ class AllSearchView(private val newsFeedFragment: View) : Fragment(),OnBackPress
         //여기서는 Search View 가 연관있기에 넣음.
     }
     fun setHint(view:View){
-        Log.d("Test","1111")
         queryFlag=false
         if(index ==0) {
             view.search_bar.queryHint="장소명을 입력하세요"
@@ -98,7 +97,7 @@ class AllSearchView(private val newsFeedFragment: View) : Fragment(),OnBackPress
                 }
                 if(view.search_bar.query.isEmpty()) {
                     searchList.hintList.clear()
-                    //haveNotSearched()
+                    haveNotSearched()
 //                    requireActivity().supportFragmentManager.beginTransaction().replace(R.id.all_search_list,haveNotSearched).commit()
                     //parentFragmentManager.beginTransaction().replace(R.id.all_search_list,haveNotSearched).commit()
                 }

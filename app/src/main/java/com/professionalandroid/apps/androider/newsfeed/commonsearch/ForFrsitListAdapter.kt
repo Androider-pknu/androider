@@ -3,11 +3,9 @@ package com.professionalandroid.apps.androider.newsfeed.commonsearch
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.professionalandroid.apps.androider.R
-import com.professionalandroid.apps.androider.newsfeed.place.partranking.InsidePartRank
 
 class ForFirstListAdapter(val list:ArrayList<ForFirstList>) : RecyclerView.Adapter<ForFirstListAdapter.CustomViewHolder>(){
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomViewHolder {
