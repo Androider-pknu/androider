@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".navigation.addpost.SelectPhotoActivity">
+
+    <Button
+        android:id="@+id/btn_selectphoto_cancel"
+        android:layout_width="@dimen/size_all_appbar"
+        android:layout_height="@dimen/size_all_appbar"
+        android:background="@drawable/ic_clear"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textview_selectphoto_title"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/size_all_appbar"
+        android:fontFamily="sans-serif-black"
+        android:gravity="center"
+        android:text="모든 사진"
+        android:textColor="@color/black"
+        android:textSize="@dimen/textsize_appbar_default"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btn_selectphoto_complete"
+        android:layout_width="@dimen/size_all_appbar"
+        android:layout_height="@dimen/size_all_appbar"
+        android:background="@android:color/transparent"
+        android:text="@string/complete"
+        android:textColor="@color/blue_default"
+        android:textSize="@dimen/textsize_appbar_default"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/divider_selectphoto_appbartop"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/gray"
+        app:layout_constraintTop_toBottomOf="@id/textview_selectphoto_title" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerview_selectphoto"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/divider_selectphoto_appbartop" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
