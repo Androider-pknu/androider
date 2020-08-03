@@ -3,4 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools" android:shape="rectangle">
     <corners android:radius="100dp" tools:ignore="StateListReachable" />
     <solid android:color="@color/colorWhite"/>
+
+    <!--android:shape="oval">
+
+    <solid android:color="@color/default_background_color" />
+
+    <size
+        android:width="120dp"
+        android:height="120dp" />-->
 </shape>

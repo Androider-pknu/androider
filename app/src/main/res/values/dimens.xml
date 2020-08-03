@@ -5,5 +5,8 @@
 
     <dimen name="height_all_appbartop">60dp</dimen>
     <dimen name="size_all_appbar">60dp</dimen>
-
+    <dimen name="textsize_appbar_default">20sp</dimen>
+    <dimen name="textsize_detail_description">12sp</dimen>
+    <dimen name="height_item">50dp</dimen>
+    <dimen name="textsize_item">18sp</dimen>
 </resources>

@@ -4,11 +4,10 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.professionalandroid.apps.androider.R
-import com.professionalandroid.apps.androider.navigation.addpost.additem.SelectItemActivity
-import com.professionalandroid.apps.androider.navigation.addpost.addstore.SelectStoreActivity
 import kotlinx.android.synthetic.main.activity_addpost.*
 
 class AddPostActivity : AppCompatActivity() {
+    val ADD_PHOTO_REQUEST = 5
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,6 +19,11 @@ class AddPostActivity : AppCompatActivity() {
 
         btn_addpost_additem.setOnClickListener {
             startActivity(Intent(this, SelectItemActivity::class.java))
+        }
+
+        btn_addpost_addphoto.setOnClickListener {
+            val intent = Intent(this, SelectPhotoActivity::class.java)
+            startActivityForResult(intent, ADD_PHOTO_REQUEST)
         }
 
         btn_addpost_cancle.setOnClickListener {

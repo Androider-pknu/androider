@@ -24,6 +24,7 @@
         android:id="@+id/navigation_main_bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/white"
         app:itemIconSize="30dp"
         app:itemIconTint="@drawable/bottomnavigation_color_selector"
         app:labelVisibilityMode="unlabeled"

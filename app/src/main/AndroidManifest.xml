@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
@@ -13,28 +14,27 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
+        <activity android:name=".navigation.addpost.SelectPhotoActivity"></activity>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
-        <activity android:name=".navigation.addpost.addstore.SelectStoreActivity" />
 
-        <activity android:name=".navigation.addpost.additem.input.ChooseItemCategoryActivity"></activity>
-        <activity android:name=".navigation.addpost.additem.input.AddItemActivity" />
-        <activity android:name=".navigation.addpost.additem.SelectItemActivity" />
-        <activity android:name=".navigation.addpost.addstore.input.ChangeAddressActivity" />
-        <activity android:name=".navigation.addpost.addstore.input.ChooseSubCategoryActivity" />
-        <activity android:name=".navigation.addpost.addstore.input.ChooseCategoryActivity" />
-        <activity android:name=".navigation.addpost.addstore.input.AddStoreActivity" />
-        <activity android:name=".navigation.addpost.addstore.addressing.ChooseBuildingActivity" />
-        <activity android:name=".navigation.addpost.addstore.addressing.ChooseFromGoogleMapActivity" />
-        <activity android:name=".navigation.addpost.addstore.addressing.ChooseFromMapActivity" />
-        <activity android:name=".navigation.addpost.addstore.addressing.SearchAddressActivity" />
-            <activity android:name=".newsfeed.user.search.UserSelectLocal" />
+        <activity android:name=".newsfeed.user.search.UserSelectLocal" />
         <activity android:name=".newsfeed.place.search.PlaceSearch" />
         <activity android:name=".newsfeed.user.more.MoreAndMore" />
-
+        <activity android:name=".navigation.addpost.insertdata.ChooseCategoryActivity" />
+        <activity android:name=".navigation.addpost.insertdata.AddItemActivity" />
+        <activity android:name=".navigation.addpost.SelectItemActivity" />
+        <activity android:name=".navigation.addpost.addressing.ChangeAddressActivity" />
+        <activity android:name=".navigation.addpost.insertdata.ChooseSubCategoryActivity" />
+        <activity android:name=".navigation.addpost.insertdata.InputCategoryActivity" />
+        <activity android:name=".navigation.addpost.insertdata.AddStoreActivity" />
+        <activity android:name=".navigation.addpost.addressing.ChooseBuildingActivity" />
+        <activity android:name=".navigation.addpost.addressing.SearchAddressActivity" />
+        <activity android:name=".navigation.addpost.SelectStoreActivity" />
         <activity
             android:name=".navigation.addpost.AddPostActivity"
             android:screenOrientation="fullSensor"
