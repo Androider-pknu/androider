@@ -34,6 +34,7 @@ class NewsFeedFragment(val mainContext:MainActivity) : Fragment(){
         view.tabLayout.setSelectedTabIndicatorColor(Color.parseColor("#FF4500")) //탭바 밑줄 색상 변경.
         makeFragment()
         tabListener(view)
+        makeSearchView(view)
         setSearchButton(view)
         makeViewPage(view)//View Pager 만들기.
         return view
@@ -47,12 +48,6 @@ class NewsFeedFragment(val mainContext:MainActivity) : Fragment(){
         pageList.add(page3)
     }
     private fun makeViewPage(view:View) {
-//        val adapter = PageAdapter(childFragmentManager)
-//        adapter.addItems(pageList[0])//어뎁터에 원하는 fragment 삽입.
-//        adapter.addItems(pageList[1])
-//        adapter.addItems(pageList[2])
-//        view.viewPager.adapter = adapter//view pager 에 adapter 장착.
-//        view.tabLayout.setupWithViewPager(view.viewPager)//tabLayout 과 view pager 연동.
         val adapter= PageAdapter(
             requireActivity()
         )
@@ -72,19 +67,6 @@ class NewsFeedFragment(val mainContext:MainActivity) : Fragment(){
                     index=p0.position
                 }
                 if(!flag){
-//                    if(index==0) {
-//                        requireActivity().supportFragmentManager.beginTransaction()
-//                            .replace(R.id.main_frame, searchFragment).commit()
-//                        Log.d("test222222","ssssss")
-//                    }
-//                    else if(index==1) {
-//                        requireActivity().supportFragmentManager.beginTransaction()
-//                            .replace(R.id.main_frame, searchFragment).commit()
-//                        Log.d("test3333","ssssss")
-//                    }
-//                    else if(index==2)
-//                        requireActivity().supportFragmentManager.beginTransaction()
-//                            .replace(R.id.main_frame,searchFragment).commit()
                     requireActivity().supportFragmentManager.beginTransaction()
                         .replace(R.id.main_frame,searchFragment).hide(pageList[index]).commit()
                     AllSearchView.index=index
@@ -95,7 +77,6 @@ class NewsFeedFragment(val mainContext:MainActivity) : Fragment(){
     }
     private fun setSearchButton(view: View){
         view.search_button.setOnClickListener {
-            makeSearchView(view)
             flag=false
             requireActivity().supportFragmentManager.beginTransaction().addToBackStack(null)
                 .add(R.id.main_frame,searchFragment).hide(pageList[index]).commit()
@@ -108,7 +89,4 @@ class NewsFeedFragment(val mainContext:MainActivity) : Fragment(){
     private fun makeSearchView(view:View){
         searchFragment= AllSearchView(view,mainContext)
     }
-//    override fun onBackPressed() {
-//
-//    }
 }

@@ -22,7 +22,7 @@ class AllSearchView(private val newsFeedFragment: View,val mainContext: MainActi
         var index:Int=-1
     }
     lateinit var searchView:View
-    lateinit var mSuper: MainActivity
+    var mSuper: MainActivity=mainContext
     var searchList:OnlyPlaceItemSearchList= OnlyPlaceItemSearchList(mainContext)
     var queryFlag:Boolean=false
     lateinit var haveNotSearched:HaveNotSearched
@@ -50,7 +50,7 @@ class AllSearchView(private val newsFeedFragment: View,val mainContext: MainActi
         }
     }
     private fun hideKeyboard(view:View){
-        val imm= requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        val imm= mainContext.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(view.search_bar.windowToken,0)//첫번째 인자는 기능상 키보드가 사라짐과 연관있는 view 를 넣어야함.
         //여기서는 Search View 가 연관있기에 넣음.
     }
@@ -58,18 +58,15 @@ class AllSearchView(private val newsFeedFragment: View,val mainContext: MainActi
         queryFlag=false
         if(index ==0) {
             view.search_bar.queryHint="장소명을 입력하세요"
-            //view.no_search_result.text="최근에 검색한 장소가 없습니다."
             haveNotSearched()
             setOnQueryTextChange(view)
         }
         else if(index ==1) {
             view.search_bar.queryHint="아이템명 or 메이커를 입력하세요"
-            //view.no_search_result.text="최근에 검색한 아이템이 없습니다."
             haveNotSearched()
         }
         else if(index ==2) {
             view.search_bar.queryHint="사용자명을 입력하세요"
-            //view.no_search_result.text="최근에 검색한 사용자가 없습니다."
             haveNotSearched()
         }
     }
@@ -80,32 +77,39 @@ class AllSearchView(private val newsFeedFragment: View,val mainContext: MainActi
     private fun setOnQueryTextChange(view:View){
         view.search_bar.setOnQueryTextListener(object: SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(p0: String?): Boolean {//검색버튼을 눌렀을 때.
-//                local_search.clearFocus()
-//                if(p0!=null) SearchListFragment.hintOfTest =p0
-//                supportFragmentManager.beginTransaction().replace(R.id.local_search_frame, searchListFragment).commit()
-//                searchListFragment.hintList.clear()
-//                searchListFragment.setRecyclerView()
+                if(p0!=null) searchList.hintOfTest=p0
+                //childFragmentManager.beginTransaction().replace(R.id.all_search_list,PlaceSearchResult()).commit()
+                //parentFragmentManager.beginTransaction().replace(R.id.all_search_list,PlaceSearchResult()).commit()
+                hideKeyboard(view)
+                mSuper.navigation_main_bottom.visibility = View.VISIBLE
+                requireActivity().supportFragmentManager.beginTransaction().replace(R.id.all_search_list,PlaceSearchResult(mainContext)).commit()
                 return true
             }
-
             override fun onQueryTextChange(p0: String?): Boolean {
                 if(p0!=null) searchList.hintOfTest =p0
                 requireActivity().supportFragmentManager.beginTransaction().replace(R.id.all_search_list,searchList).commit()
                 if(queryFlag){
-                    searchList.hintList.clear()
+                    searchList.firstHintList.clear()
                     searchList.setFirstRecyclerView()
+                    searchList.secondHintList.clear()
+                    searchList.setSecondRecyclerView()
                 }
                 if(view.search_bar.query.isEmpty()) {
-                    searchList.hintList.clear()
+                    searchList.firstHintList.clear()
+                    searchList.secondHintList.clear()
                     haveNotSearched()
-//                    requireActivity().supportFragmentManager.beginTransaction().replace(R.id.all_search_list,haveNotSearched).commit()
-                    //parentFragmentManager.beginTransaction().replace(R.id.all_search_list,haveNotSearched).commit()
                 }
                 queryFlag=true
                 return true
             }
         })
     }
+    /*
+    onAttach 에서 setOnBackPressedListener 를 호출하는 이유는 onAttach 가 Fragment 가 생성될 시 가장 먼저 호출되는 함수인데, 데이터가 로딩 도중 사용자가 back 키를 누를 수도
+    있기 때문. 쉽게 말해서 onBackPressed 에서 setOnBackPressedListener 를 설정하면 onAttach 단계에서 back 키를 누를시 오류가 발생 할 수 있기 떄문.
+    onDestroy 를 override 한 이유는 onAttach 에서 setOnBackPressedListener 를 호출하여 MainActivity 에 있는 mListener 를 초기화하였는데 onDestroy 에서 mListener 를
+    null 로 설정하지 않는다면 다른 프래그먼트나 MainActivity 에서 back 키를 누르면 이 프래그먼트에 있는 onBackPressed 가 호출 될 수 잇기 때문.
+     */
     override fun onBackPressed(){
         mSuper.supportFragmentManager.popBackStack()
         mSuper.navigation_main_bottom.visibility = View.VISIBLE
@@ -118,5 +122,9 @@ class AllSearchView(private val newsFeedFragment: View,val mainContext: MainActi
         super.onAttach(context)
         mSuper= context as MainActivity
         mSuper.setOnBackPressedListener(this)
+    }
+    override fun onDestroy() {
+        mSuper.setOnBackPressedListener(null)
+        super.onDestroy()
     }
 }
