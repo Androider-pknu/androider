@@ -21,14 +21,14 @@ class AllSearchView(private val newsFeedFragment: View,val mainContext: MainActi
     companion object{
         var index:Int=-1
     }
-    lateinit var searchView:View
+    //lateinit var searchView:View
     var mSuper: MainActivity=mainContext
     var searchList:OnlyPlaceItemSearchList= OnlyPlaceItemSearchList(mainContext)
     var queryFlag:Boolean=false
     lateinit var haveNotSearched:HaveNotSearched
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?{
         val view=inflater.inflate(R.layout.fragment_search_view,container,false)
-        searchView =view
+        //searchView =view
         //newsFeedFragment.viewPager.beginFakeDrag()
         newsFeedFragment.viewPager.isUserInputEnabled=false//disable to swipe viewpager2 when search view on.
         view.search_bar.isIconified=false//SearchView 키보드 띄우기.
@@ -40,6 +40,7 @@ class AllSearchView(private val newsFeedFragment: View,val mainContext: MainActi
     private fun setCancelButton(view:View){
         view.search_cancel.setOnClickListener {
             if(!NewsFeedFragment.flag) {
+                view.search_bar.setQuery(null,false)//남은 query 를 전부 삭제.
                 requireActivity().supportFragmentManager.popBackStack()
                 requireActivity().navigation_main_bottom.visibility = View.VISIBLE
                 hideKeyboard(view)
@@ -111,9 +112,10 @@ class AllSearchView(private val newsFeedFragment: View,val mainContext: MainActi
     null 로 설정하지 않는다면 다른 프래그먼트나 MainActivity 에서 back 키를 누르면 이 프래그먼트에 있는 onBackPressed 가 호출 될 수 잇기 때문.
      */
     override fun onBackPressed(){
+        requireView().search_bar.setQuery(null,false)
         mSuper.supportFragmentManager.popBackStack()
         mSuper.navigation_main_bottom.visibility = View.VISIBLE
-        hideKeyboard(searchView)
+        hideKeyboard(requireView())
         newsFeedFragment.search_button.visibility = View.VISIBLE //newsFeedFragment.viewPager.endFakeDrag()
         newsFeedFragment.viewPager.isUserInputEnabled = true//enable to swipe viewpager2 when search view off
         NewsFeedFragment.flag = true

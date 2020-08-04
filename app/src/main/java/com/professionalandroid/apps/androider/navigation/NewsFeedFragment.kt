@@ -29,6 +29,7 @@ class NewsFeedFragment(val mainContext:MainActivity) : Fragment(){
     var preIndex:Int=-1
     lateinit var searchFragment: AllSearchView
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        flag=true
         val view = inflater.inflate(R.layout.fragment_newsfeed, container, false)
         thisFragment=this
         view.tabLayout.setSelectedTabIndicatorColor(Color.parseColor("#FF4500")) //탭바 밑줄 색상 변경.
@@ -67,10 +68,13 @@ class NewsFeedFragment(val mainContext:MainActivity) : Fragment(){
                     index=p0.position
                 }
                 if(!flag){
+//                    requireActivity().supportFragmentManager.beginTransaction()
+//                        .replace(R.id.main_frame,searchFragment).hide(pageList[index]).commit()
+                    AllSearchView.index=index
+                    Log.d("Test",index.toString())
+                    searchFragment.setHint(searchFragment.requireView())
                     requireActivity().supportFragmentManager.beginTransaction()
                         .replace(R.id.main_frame,searchFragment).hide(pageList[index]).commit()
-                    AllSearchView.index=index
-                    searchFragment.setHint(searchFragment.searchView)
                 }
             }
         })

@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import com.professionalandroid.apps.androider.MainActivity
 
 import com.professionalandroid.apps.androider.R
+import kotlinx.android.synthetic.main.activity_main.*
 
 class PlaceSearchResult(val mainContext:MainActivity) : Fragment() {
 
