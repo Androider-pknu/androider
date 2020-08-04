@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.location.Geocoder
 import android.os.Bundle
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -92,10 +93,12 @@ class ChooseBuildingActivity : AppCompatActivity(), OnMapReadyCallback {
             R.id.btn_choosebuilding_building -> {
                 btn_choosebuilding_building.setTextColor(white)
                 btn_choosebuilding_location.setTextColor(blue)
+                imageview_choosebuilding_locationpoint.visibility = ImageView.INVISIBLE
             }
             R.id.btn_choosebuilding_location -> {
                 btn_choosebuilding_building.setTextColor(blue)
                 btn_choosebuilding_location.setTextColor(white)
+                imageview_choosebuilding_locationpoint.visibility = ImageView.VISIBLE
             }
         }
     }

@@ -27,14 +27,13 @@ import kotlinx.android.synthetic.main.item_selectphoto_image.view.*
 
 class SelectPhotoActivity : AppCompatActivity() {
     private val READ_EXTERNAL_STORAGE_REQUEST = 31
-    private val checkedList = mutableListOf<String>()
+    private val checkedList = arrayListOf<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_selectphotoactivity)
 
         if (storagePermissionCheck()) {
-            Log.d("MediaStore test", "gigi")
             recyclerview_selectphoto.adapter = SelectPhotoRecyclerViewAdapter()
             recyclerview_selectphoto.layoutManager = GridLayoutManager(this, 3)
         }
@@ -45,7 +44,7 @@ class SelectPhotoActivity : AppCompatActivity() {
 
         btn_selectphoto_complete.setOnClickListener {
             val intent = Intent()
-            intent.putExtra("imageURIs", checkedList.toTypedArray())
+            intent.putStringArrayListExtra("imageURIs", checkedList)
             setResult(Activity.RESULT_OK, intent)
             finish()
         }
@@ -121,11 +120,11 @@ class SelectPhotoActivity : AppCompatActivity() {
             if (uriList[position] !in checkedList && checkedList.size < 4) {
                 checkedList.add(uriList[position])
                 textViewList.add(textView)
-                view.layout_selectphotoitem.visibility = FrameLayout.VISIBLE
+                view.layout_selectphotoitem_check.visibility = FrameLayout.VISIBLE
                 view.textview_selectphotoitem_check.text = (checkedList.lastIndex + 1).toString()
             } else if (uriList[position] in checkedList) {
                 val removeIndex = checkedList.indexOf(uriList[position])
-                view.layout_selectphotoitem.visibility = FrameLayout.INVISIBLE
+                view.layout_selectphotoitem_check.visibility = FrameLayout.INVISIBLE
                 checkedList.removeAt(removeIndex)
                 textViewList.removeAt(removeIndex)
 

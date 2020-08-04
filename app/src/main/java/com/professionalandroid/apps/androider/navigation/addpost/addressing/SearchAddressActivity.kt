@@ -51,7 +51,7 @@ class SearchAddressActivity : AppCompatActivity(), PickCountryDialog.NoticeDialo
             .create()
 
         val retrofit = Retrofit.Builder()
-            .baseUrl("http://18.191.77.157/") // aws ip address
+            .baseUrl("http://3.129.184.111/") // aws ip address
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
 
@@ -66,6 +66,7 @@ class SearchAddressActivity : AppCompatActivity(), PickCountryDialog.NoticeDialo
 
             override fun onResponse(call: Call<AddressModel>, response: Response<AddressModel>) {
                 if (response.isSuccessful) {
+                    layout_searchaddress_addresslist.removeAllViews()
                     addAddressItem(response.body())
                 }
             }
@@ -79,9 +80,7 @@ class SearchAddressActivity : AppCompatActivity(), PickCountryDialog.NoticeDialo
         if (addressList.isNotEmpty()) {
             for (juso in addressList) {
                 val view = inflater.inflate(
-                    R.layout.item_category,
-                    layout_searchaddress_addresslist,
-                    false
+                    R.layout.item_category, layout_searchaddress_addresslist, false
                 )
                 view.textview_itemcategory_category.text = juso.roadAddrPart1
 
