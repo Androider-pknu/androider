@@ -24,10 +24,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
             true
         }
         R.id.menu_news_feed -> {
-//            val intent = Intent(this, SampleActivity::class.java)
-//            startActivity(intent)
-//            true
-            supportFragmentManager.beginTransaction().replace(R.id.layout_main_content,NewsFeedFragment()).addToBackStack(null).commit()
+            supportFragmentManager.beginTransaction().replace(R.id.layout_main_content,NewsFeedFragment(this)).addToBackStack(null).commit()
             true
         }
         R.id.menu_search -> {

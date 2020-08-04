@@ -47,7 +47,7 @@ class PlaceSearch : AppCompatActivity() {
             override fun onQueryTextChange(p0: String?): Boolean {
                 if(p0!=null) SearchListFragment.hintOfTest =p0
                 supportFragmentManager.beginTransaction().replace(R.id.local_search_frame, searchListFragment).commit()
-                if(queryFlag){//SearchListFragment 에 있는 thisView 가 초괴화 된 후라면 이 조건문이 성립.
+                if(queryFlag){
                     searchListFragment.hintList.clear()
                     searchListFragment.setRecyclerView()
                 }
