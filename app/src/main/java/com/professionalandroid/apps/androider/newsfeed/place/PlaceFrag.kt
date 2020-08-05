@@ -2,6 +2,7 @@ package com.professionalandroid.apps.androider.newsfeed.place
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -69,11 +70,7 @@ class PlaceFrag():Fragment(){
     private fun makeList1():ArrayList<ItemImageButton>{
         val list= arrayListOf<ItemImageButton>()
         list.add(
-            ItemImageButton(
-                R.drawable.bread,
-                "1. 미친 막창",
-                "육류"
-            )
+            ItemImageButton(R.drawable.bread, "1. 미친 막창", "육류")
         )
         list.add(
             ItemImageButton(
@@ -227,12 +224,12 @@ class PlaceFrag():Fragment(){
 //    }
 //
 //    override fun onStop() {
-//        //Log.d("test6666666","PlaceonStop")
+//        Log.d("test6666666","PlaceonStop")
 //        super.onStop()
 //    }
 //
 //    override fun onDetach() {
-//        //Log.d("test6666666","PlaceonDetach")
+//        Log.d("test6666666","PlaceonDetach")
 //        super.onDetach()
 //    }
 }
