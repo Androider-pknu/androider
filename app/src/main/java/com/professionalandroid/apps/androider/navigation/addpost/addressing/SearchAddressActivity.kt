@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.GsonBuilder
 import com.professionalandroid.apps.androider.R
 import com.professionalandroid.apps.androider.model.AddressModel
+import com.professionalandroid.apps.androider.util.AWSRetrofit
 import com.professionalandroid.apps.androider.util.RetrofitAPI
 import kotlinx.android.synthetic.main.activity_searchaddress.*
 import kotlinx.android.synthetic.main.item_category.view.*
@@ -46,17 +47,8 @@ class SearchAddressActivity : AppCompatActivity(), PickCountryDialog.NoticeDialo
     }
 
     private fun searchAddress(address: String) {
-        val gson = GsonBuilder()
-            .setLenient()
-            .create()
-
-        val retrofit = Retrofit.Builder()
-            .baseUrl("http://3.129.184.111/") // aws ip address
-            .addConverterFactory(GsonConverterFactory.create(gson))
-            .build()
-
-        val retrofitAPI = retrofit.create(RetrofitAPI::class.java)
-        val call = retrofitAPI.awsPost(address)
+        val retrofitAPI = AWSRetrofit.getAPI()
+        val call = retrofitAPI.searchAddress(address)
 
         call.enqueue(object : Callback<AddressModel> {
             override fun onFailure(call: Call<AddressModel>, t: Throwable) {
