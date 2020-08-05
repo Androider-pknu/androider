@@ -23,7 +23,7 @@ class AllSearchView(private val newsFeedFragment: View,val mainContext: MainActi
     }
     //lateinit var searchView:View
     var mSuper: MainActivity=mainContext
-    var searchList:OnlyPlaceItemSearchList= OnlyPlaceItemSearchList(mainContext)
+    var searchList:OnlyPlaceItemSearchList= OnlyPlaceItemSearchList(mainContext,this)
     var queryFlag:Boolean=false
     lateinit var haveNotSearched:HaveNotSearched
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?{
@@ -43,16 +43,16 @@ class AllSearchView(private val newsFeedFragment: View,val mainContext: MainActi
                 view.search_bar.setQuery(null,false)//남은 query 를 전부 삭제.
                 requireActivity().supportFragmentManager.popBackStack()
                 requireActivity().navigation_main_bottom.visibility = View.VISIBLE
-                hideKeyboard(view)
+                hideKeyboard()
                 newsFeedFragment.search_button.visibility = View.VISIBLE //newsFeedFragment.viewPager.endFakeDrag()
                 newsFeedFragment.viewPager.isUserInputEnabled = true//enable to swipe viewpager2 when search view off
                 NewsFeedFragment.flag = true
             }
         }
     }
-    private fun hideKeyboard(view:View){
+    fun hideKeyboard(){
         val imm= mainContext.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(view.search_bar.windowToken,0)//첫번째 인자는 기능상 키보드가 사라짐과 연관있는 view 를 넣어야함.
+        imm.hideSoftInputFromWindow(requireView().search_bar.windowToken,0)//첫번째 인자는 기능상 키보드가 사라짐과 연관있는 view 를 넣어야함.
         //여기서는 Search View 가 연관있기에 넣음.
     }
     fun setHint(view:View){
@@ -81,7 +81,7 @@ class AllSearchView(private val newsFeedFragment: View,val mainContext: MainActi
                 if(p0!=null) searchList.hintOfTest=p0
                 //childFragmentManager.beginTransaction().replace(R.id.all_search_list,PlaceSearchResult()).commit()
                 //parentFragmentManager.beginTransaction().replace(R.id.all_search_list,PlaceSearchResult()).commit()
-                hideKeyboard(view)
+                hideKeyboard()
                 mSuper.navigation_main_bottom.visibility = View.VISIBLE
                 requireActivity().supportFragmentManager.beginTransaction().replace(R.id.all_search_list,PlaceSearchResult(mainContext)).commit()
                 return true
@@ -115,7 +115,7 @@ class AllSearchView(private val newsFeedFragment: View,val mainContext: MainActi
         requireView().search_bar.setQuery(null,false)
         mSuper.supportFragmentManager.popBackStack()
         mSuper.navigation_main_bottom.visibility = View.VISIBLE
-        hideKeyboard(requireView())
+        hideKeyboard()
         newsFeedFragment.search_button.visibility = View.VISIBLE //newsFeedFragment.viewPager.endFakeDrag()
         newsFeedFragment.viewPager.isUserInputEnabled = true//enable to swipe viewpager2 when search view off
         NewsFeedFragment.flag = true
