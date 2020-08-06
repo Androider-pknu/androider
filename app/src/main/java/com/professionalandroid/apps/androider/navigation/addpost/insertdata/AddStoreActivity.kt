@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.professionalandroid.apps.androider.R
+import com.professionalandroid.apps.androider.model.ErrMsg
 import com.professionalandroid.apps.androider.model.StoreDTO
 import com.professionalandroid.apps.androider.navigation.addpost.addressing.ChangeAddressActivity
 import com.professionalandroid.apps.androider.util.AWSRetrofit
@@ -65,16 +66,18 @@ class AddStoreActivity : AppCompatActivity() {
                 "insert name: $name, category: $category, address: $address, number: $number"
             )
             val call = retrofitAPI.insertStore(name, category, address, number)
-            call.enqueue(object : Callback<StoreDTO> {
-                override fun onFailure(call: Call<StoreDTO>, t: Throwable) {
+            call.enqueue(object : Callback<ErrMsg> {
+                override fun onFailure(call: Call<ErrMsg>, t: Throwable) {
                     Log.d("AddStore::onFailure", "retrofit false")
                     Log.d("AddStore::onResponse", "${t.message}")
                 }
 
-                override fun onResponse(call: Call<StoreDTO>, response: Response<StoreDTO>) {
+                override fun onResponse(call: Call<ErrMsg>, response: Response<ErrMsg>) {
                     Log.d("AddStore::onResponse", "retrofit response")
                     if (response.isSuccessful) {
                         Log.d("AddStore::onResponse", "retrofit successful")
+                        val msg = response.body()
+                        Log.d("Err", msg?.msg)
                     } else {
                         Log.d("AddStore::onResponse", "${response.errorBody()?.string()}")
                     }
