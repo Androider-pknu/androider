@@ -52,10 +52,8 @@ class LMMarkerManager(context: Context, mMap: GoogleMap) {
         val position = LatLng(markerItem.lat,markerItem.lon)
 
         if(isSelectedMarker){ // 선택된 마커
-            //btnMarker.setBackgroundResource(R.drawable.ic_restaurant_white_24dp)
             btnMarker.setBackgroundColor(Color.RED)
         } else { // 선택되지 않은 마커
-            //btnMarker.setBackgroundResource(R.drawable.ic_restaurant_white_24dp)
             btnMarker.setBackgroundColor(Color.BLUE)
         }
         val markerOptions = MarkerOptions().title("Test").position(position).icon(
