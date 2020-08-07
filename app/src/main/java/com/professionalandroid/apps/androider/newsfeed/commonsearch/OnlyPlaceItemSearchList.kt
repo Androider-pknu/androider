@@ -15,12 +15,15 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.professionalandroid.apps.androider.MainActivity
 
 import com.professionalandroid.apps.androider.R
+import com.professionalandroid.apps.androider.navigation.NewsFeedFragment
+import com.professionalandroid.apps.androider.newsfeed.StorePage
 import com.professionalandroid.apps.androider.newsfeed.place.partranking.PartRank
 import com.professionalandroid.apps.androider.newsfeed.place.search.SearchListFragment
 import com.professionalandroid.apps.androider.newsfeed.searchlist.EachLocal
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_only_place_item_search_list.view.*
 
-class OnlyPlaceItemSearchList(val mainContext:MainActivity) : Fragment() {
+class OnlyPlaceItemSearchList(val mainContext:MainActivity,val allSearchView: AllSearchView) : Fragment() {
 
     var hintOfTest: String? = null
     lateinit var thisView:View
@@ -46,15 +49,32 @@ class OnlyPlaceItemSearchList(val mainContext:MainActivity) : Fragment() {
             thisView.first_list.setHasFixedSize(true)
             makeFirstHintList()
             firstAdapter = ForFirstListAdapter(firstHintList)
+            firstAdapter.setFirstListClickListener(object :ForFirstListAdapter.OnFirstListClickListener{
+                override fun onClick(view: View, position: Int) {
+                    allSearchView.hideKeyboard()
+                    mainContext.navigation_main_bottom.visibility = View.VISIBLE
+                    requireActivity().supportFragmentManager.beginTransaction()
+                        .replace(R.id.all_search_list,PlaceSearchResult(mainContext)).commit()
+                }
+            })
             thisView.first_list.adapter = firstAdapter
         }
     }
     fun setSecondRecyclerView(){
-        if(secondHintList!=null){
+        if(hintOfTest!=null){
             thisView.second_list.layoutManager=LinearLayoutManager(mainContext)
             thisView.second_list.setHasFixedSize(true)
             makeSecondHintList()
             secondAdapter=ForSecondListAdapter(secondHintList)
+            secondAdapter.setSecondListClickListener(object: ForSecondListAdapter.OnSecondListClickListener{
+                override fun onClick(view: View, position: Int) {
+                    allSearchView.hideKeyboard()
+                    mainContext.navigation_main_bottom.visibility = View.VISIBLE
+                    requireActivity().supportFragmentManager.beginTransaction()
+                        .setCustomAnimations(R.anim.start_more_view, R.anim.left_view, R.anim.right_view, R.anim.end_more_view).addToBackStack(null)
+                        .add(R.id.layout_main_content,StorePage("가게 정보")).hide(NewsFeedFragment.thisFragment).commit()
+                }
+            })
             thisView.second_list.adapter=secondAdapter
         }
     }

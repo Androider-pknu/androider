@@ -11,7 +11,6 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
-import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.Fragment
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -20,18 +19,15 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import com.professionalandroid.apps.androider.*
-import com.professionalandroid.apps.androider.navigation.SearchFragment.Companion.mCurrentCameraLocation
-import com.professionalandroid.apps.androider.search.map.marker.LocalMasterMarkerModel
 import com.professionalandroid.apps.androider.search.click.result.SearchResultPageAdapter
-import com.professionalandroid.apps.androider.search.map.marker.LMMarkerAdapter
-import com.professionalandroid.apps.androider.search.map.marker.SearchResultMarkerModel
+import com.professionalandroid.apps.androider.search.map.marker.*
 import kotlinx.android.synthetic.main.fragment_main_map.*
 import kotlinx.android.synthetic.main.fragment_main_map.view.*
 import kotlinx.android.synthetic.main.fragment_main_map.vp_local_master_viewPager
 
 /* 서치결과 맵 마커클릭시 가게정보 뜸 동네마스터 마커 클릭시 해당사람이 쓴 포스트 뜸*/
 
-class MainMapFragment() : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraIdleListener,
+class MainMapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraIdleListener,
     OnBackPressedListener,
     GoogleMap.OnMarkerClickListener, GoogleMap.OnMapClickListener {
 
@@ -39,13 +35,13 @@ class MainMapFragment() : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraIdle
     lateinit var mFusedLocationClient: FusedLocationProviderClient
     private val REQUEST_CODE_PERMISSIONS = 1000
     private var idleCameraCheck = true
+    private lateinit var cameraPosition: LatLng // 현재 카메라 위치
 
-    private lateinit var markerRootView: View
-    private lateinit var btnMarker: Button
+    private var lmMarkerManager : LMMarkerManager? = null
 
     private lateinit var btnList: Array<Button>
     private var btnFlag = false
-    private var markerLocationList = ArrayList<LatLng>()
+
 
     /* posting 을 표시할 list */
     private var restaurantList =  ArrayList<LatLng>()
@@ -57,7 +53,8 @@ class MainMapFragment() : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraIdle
     private lateinit var localMasterAdapter: LMMarkerAdapter
     private lateinit var searchResultPageAdapter: SearchResultPageAdapter
 
-    private var markerList =  ArrayList<Marker>()
+    private lateinit var mainActivity: MainActivity
+
     var markerFlag = true // 동네마스터 마커인지 검색결과 마커인지 판별 true: 동네마스터 마커 false 검색결과  searchFragment, hotplaceFramgent 에서 설정
 
     /* 현재위치 정보 저장을 위한 boolean true 이면 핸재위치로 업데이트 false 이면 camera 위치로 update
@@ -65,6 +62,7 @@ class MainMapFragment() : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraIdle
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
+        mainActivity = context as MainActivity
         initMarkerAdapter()
     }
 
@@ -82,6 +80,7 @@ class MainMapFragment() : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraIdle
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         val mapFragment: SupportMapFragment? =
             childFragmentManager.findFragmentById(R.id.Main_map_Fragment) as SupportMapFragment
         mapFragment?.getMapAsync(this)
@@ -100,7 +99,7 @@ class MainMapFragment() : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraIdle
         btnList = arrayOf(view.btn_search_culture,view.btn_search_life,view.btn_search_restautrant,view.btn_search_cafe,view.btn_search_alcohol)
     }
 
-    private fun changeVisibleBtn(){
+    private fun changeVisibleBtn(){ // 필터버튼 ( Inner 5걔)
         when(btnFlag){
             false ->{
                 for (i in btnList) i.visibility = View.VISIBLE
@@ -113,21 +112,6 @@ class MainMapFragment() : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraIdle
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        Log.d("hakjin", "Map onResume")
-    }
-
-    override fun onPause() {
-        super.onPause()
-        Log.d("hakjin", "Map onPause")
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        Log.d("hakjin", "Map onDestroy")
-    }
-
     /* onMapReady 는 비동기 방식으로 작동 매개변수로 구글맵 전달*/
     override fun onMapReady(googleMap: GoogleMap?) {
         googleMap?.let {
@@ -135,21 +119,18 @@ class MainMapFragment() : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraIdle
             mMap = it
             mMapClickListenerRegister()
             initLocation()
+            if(lmMarkerManager==null){
+                lmMarkerManager = LMMarkerManager(requireContext(),mMap)
+            }
         }
     }
 
     /* 마커, 맵 클릭리스너 시작 */
     private fun initMarkerAdapter(){ // 마커 초기화, 데이터 설정
-        localMasterAdapter =
-            LMMarkerAdapter(
-                requireContext()
-            )
+        localMasterAdapter = LMMarkerAdapter(requireContext())
         addLocalMasterMarkerModel()
 
-        searchResultPageAdapter =
-            SearchResultPageAdapter(
-                requireContext()
-            )
+        searchResultPageAdapter = SearchResultPageAdapter(requireContext())
         addSearchResultMarkerModel()
     }
 
@@ -172,11 +153,11 @@ class MainMapFragment() : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraIdle
             /* cameraCheck is true 이면 현재위치로 카메라로 이동 false 이면 내위치로 camera 가 이동될 필요가 없음 */
             when (idleCameraCheck) {
                 true -> {
-                    mCurrentCameraLocation = myLocation
+                    cameraPosition = myLocation
                     idleCameraCheck = false
                 }
             }
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(mCurrentCameraLocation))
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(cameraPosition))
             mMap.animateCamera(CameraUpdateFactory.zoomTo(17.0f))
             idleCameraCheck = false
         }
@@ -201,14 +182,15 @@ class MainMapFragment() : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraIdle
     }
 
     override fun onCameraIdle() {
-        mCurrentCameraLocation = mMap.cameraPosition.target
+        cameraPosition = mMap.cameraPosition.target
     }
 
     override fun onBackPressed() {
-        childFragmentManager.popBackStack()
+        //childFragmentManager.popBackStack()
     }
 
     override fun onMarkerClick(marker: Marker?): Boolean { // true 동네마스터 마커 false 검색결과 마커 ( 같은마커 안찍는다고 가정)
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(marker?.position)) // 카메라 선택된 마커로 이동
         when(markerFlag){
             true -> {
                 Log.d("hakjin", "동네마스터 마커 클릭")
@@ -221,91 +203,40 @@ class MainMapFragment() : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraIdle
                 manageSearchResultCardView(true) // 카드뷰 가시성 관리
             }
         }
-        //markerShapeChange(marker)
+        lmMarkerManager?.changedSelectedMarker(marker) // 선택한 마커 표시
+
         return true
     }
 
-    private fun markerShapeChange(marker: Marker?){ // 클릭시 마커 확대
-        val position = marker?.position
-        MarkerOptions().position(position!!).icon
-        (BitmapDescriptorFactory.fromBitmap(resources.getDrawable(R.drawable.restaurant).toBitmap(70, 70)))
-    }
-
-    override fun onMapClick(p0: LatLng?) { // 찍힌 LatLng 넘어옴
-        Log.d("hakjin", "맵클릭")
+    override fun onMapClick(p0: LatLng?) {
+        lmMarkerManager?.changedSelectedMarker(null)
         if(markerFlag) manageLocalMasterCardView(false)
         else manageSearchResultCardView(false)
     }
 
     fun markerUpdate(flag: Boolean){
         when(flag){
-            true -> initMarkerList()
-            false -> for(i in markerList) i .remove()
-        }
-    }
-
-    private fun initMarkerList(){
-        val list = ArrayList<LatLng>() //  마커의 위치 리스트
-        for (i in 1..20) list.add(LatLng(35.113 + (i * 0.001), 129.113))
-        markerLocationList = list
-        markerAdd()
-    }
-
-    private fun markerAdd(){
-        // 동네마스터 마커: -> 5개의 종류 검색결과 마커: -> 12개의 카테고리 (case 분류)
-        for(pos in markerLocationList){
-            markerList.add(
-                mMap.addMarker(
-                    MarkerOptions().position(pos).title("----가게이름---").snippet("테스트 데이터입니다.").icon(
-                        BitmapDescriptorFactory.fromBitmap(
-                            resources.getDrawable(R.drawable.restaurant).toBitmap(50, 50)
-                        )
-                    )
-                )
-            )
+            true -> lmMarkerManager?.getMarkerItem() // 마커추가
+            false -> lmMarkerManager?.deleteMarker() // 마커삭제
         }
     }
 
     private fun addSearchResultMarkerModel(){ // 마커에 담길 카드뷰 데이터 추가
-        Log.d("hakjin","addSearchResultMarkerModel 호출")
         searchResultPageAdapter.addItem(
-            SearchResultMarkerModel(
-                R.drawable.image03,
-                "잭슨바",
-                "바",
-                "051-611-4608",
-                "부산광역시 남구 대연동 52-18 대영빌딩"
-            )
+            SearchResultMarkerModel(R.drawable.image03, "잭슨바", "바", "051-611-4608", "부산광역시 남구 대연동 52-18 대영빌딩")
         )
         searchResultPageAdapter.addItem(
-            SearchResultMarkerModel(
-                R.drawable.image03,
-                "학진바",
-                "바",
-                "051-611-4608",
-                "부산광역시 남구 대연동 52-18 대영빌딩"
-            )
+            SearchResultMarkerModel(R.drawable.image03, "학진바", "바", "051-611-4608", "부산광역시 남구 대연동 52-18 대영빌딩")
         )
         searchResultPageAdapter.notifyDataSetChanged()
     }
 
     private fun addLocalMasterMarkerModel() { // 동네마스터 마커데이터 초기화
-        Log.d("hakjin","addLocalMasterMarkerModel 호출")
         localMasterAdapter.addItem(
-            LocalMasterMarkerModel(
-                R.drawable.image03,
-                R.drawable.image03,
-                "하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하",
-                "아관파천"
-            )
+            LocalMasterMarkerModel(R.drawable.image03, R.drawable.image03, "하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하", "아관파천")
         )
         localMasterAdapter.addItem(
-            LocalMasterMarkerModel(
-                R.drawable.image03,
-                R.drawable.image02,
-                "하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하",
-                "동서남북"
-            )
+            LocalMasterMarkerModel(R.drawable.image03, R.drawable.image02, "하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하", "동서남북")
         )
         localMasterAdapter.notifyDataSetChanged()
     }
@@ -334,38 +265,15 @@ class MainMapFragment() : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraIdle
     }
 
     private fun manageSearchResultCardViewData(marker: Marker?){ // 검색결과 마커 카드뷰 데이터 관리
-        Log.d("hakjin","manageSearchResultCardViewData 호출")
         searchResultPageAdapter.removeItem() // 현재 어댑터에 있는 아이템 제거
         addSearchResultMarkerModel()        // 마커에 달릴 카드뷰에 데이터 추가
     }
 
     private fun manageLocalCardViewData(marker: Marker?) { // 동네마스터 마커 카드뷰 데이터 관리
-        Log.d("hakjin","manageLocalCardViewData 호출")
-        localMasterAdapter.removeItem() // 이전데이터 삭제 -> 이비분 문제인듯 localMasterMarkerModel은  빈놈
+        localMasterAdapter.removeItem() // 이전데이터 삭제
         addLocalMasterMarkerModel()
-        //test()
     }
-
-    /* Custom Marker 작업중 미완성 */
-//    private fun getMarkerItem(){
-//        val list = ArrayList<LatLng>() //  마커의 위치 리스트
-//        for (i in 1..20) list.add(LatLng(35.113 + (i * 0.001), 129.113))
-//
-//        for(i in list) addMarker(i, false)
-//    }
-//
-//    private fun setCustomMarkerView(){
-//        markerRootView = LayoutInflater.from(requireContext()).inflate(R.layout.localmaster_marker,null)
-//        btnMarker = markerRootView.findViewById(R.id.btn_lm_marker)
-//    }
-//
-//    private fun addMarker(markerItem: LMMarkerItem, isSelectedMarker: Boolean): Marker{
-//
-//
-//        return marker
-//    }
 }
-
 
 
 

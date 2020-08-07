@@ -5,10 +5,9 @@
 
     <Button
         android:id="@+id/btn_lm_marker"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
         android:background="@drawable/all_circle_imageview"
-        android:gravity="center"
-        android:drawableTop="@drawable/ic_restaurant_white_24dp" />
+        android:drawableBottom="@drawable/ic_restaurant_white_24dp" />
 
 </FrameLayout>

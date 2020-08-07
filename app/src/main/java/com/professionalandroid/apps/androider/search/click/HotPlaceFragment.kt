@@ -9,14 +9,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.Toast
-import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.professionalandroid.apps.androider.*
+import com.professionalandroid.apps.androider.navigation.SearchFragment.Companion.cfm
 import com.professionalandroid.apps.androider.navigation.SearchFragment.Companion.mapFragment
 import com.professionalandroid.apps.androider.navigation.SearchFragment.Companion.searchOnQueryFlag
-import com.professionalandroid.apps.androider.newsfeed.Category
 import kotlinx.android.synthetic.main.fragment_hot_place.*
 import kotlinx.android.synthetic.main.fragment_search.*
 
@@ -31,56 +30,29 @@ class HotPlaceFragment : Fragment(),
     private lateinit var localMasterBtnList: ArrayList<ImageButton>
 
     private lateinit var mainAct: MainActivity
-    private lateinit var cfm: FragmentManager
 
     override fun onAttach(context: Context) {
         Log.d("hakjin", "HotPlaceFragment onAttach")
         super.onAttach(context)
         mainAct = context as MainActivity
-        cfm = requireActivity().supportFragmentManager
-
         mainAct.setOnBackPressedListener(this)
     }
 
-    /* onCreate는 onCreateView이전에 호출된다.*/
+    /* onCreate 는 onCreateView 이전에 호출된다.*/
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        Log.d("hakjin", "HotPlaceFragment onCreateView")
         val view : View = inflater.inflate(R.layout.fragment_hot_place,container,false)
         initDataList()
-        categoryAdapter =
-            CategoryAdapter(
-                categoryList
-            )
-        nearHotPlaceAdapter =
-            NearHotPlaceAdapter(
-                nearHotplaceList
-            )
+        categoryAdapter = CategoryAdapter(categoryList)
         nearHotPlaceAdapter = NearHotPlaceAdapter(nearHotplaceList)
         return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        Log.d("hakjin", "HotPlaceFragment onViewCreated")
         super.onViewCreated(view, savedInstanceState)
 
         initLocalBtnList() // onCreateView 에서 하면 오류발생
         recyclerViewApply()
         clickListenerManage()
-    }
-
-    override fun onResume() {
-        Log.d("hakjin", "HotPlaceFragment OnResume")
-        super.onResume()
-    }
-
-    override fun onPause() {
-        Log.d("hakjin", "HotPlaceFragment onPause()")
-        super.onPause()
-    }
-
-    override fun onDestroy() {
-        Log.d("hakjin", "HotPlaceFragment onDestroy()")
-        super.onDestroy()
     }
 
     private fun clickListenerManage(){
@@ -260,17 +232,13 @@ class HotPlaceFragment : Fragment(),
             }
             mapFragment.markerUpdate(true)
             mainAct.sv_searchview.clearFocus()
-
-            requireActivity().supportFragmentManager.beginTransaction()
-                .setCustomAnimations(
-                    R.anim.enter_from_right,
-                    R.anim.exit_to_left,
-                    R.anim.enter_from_left,
-                    R.anim.exit_to_right
-                )
-                .replace(R.id.fragment_container, mapFragment) // 카메라의 위치를
+            cfm.beginTransaction().setCustomAnimations(
+                R.anim.enter_from_right,
+                R.anim.exit_to_left,
+                R.anim.enter_from_left,
+                R.anim.exit_to_right
+            ).replace(R.id.fragment_container, mapFragment) // 카메라의 위치를
                 .addToBackStack(null).commit()
-
             changeStateMap(true) // 맵이동후 textView, btn 보이게함
         }
     }
@@ -290,18 +258,30 @@ class HotPlaceFragment : Fragment(),
                 mainAct.sv_searchview.visibility = View.VISIBLE
                 mainAct.btn_search_cancle.visibility = View.VISIBLE
 
-                //mapFragment.localMasterMarkerUpdate(false) // 마커 없애기
                 mapFragment.markerUpdate(false)
-                Log.d("hakjin","changeStateMap 호출")
             }
         }
     }
 
     override fun onBackPressed() {
-        changeStateMap(false)
-        cfm.popBackStack()
+        when(cfm.backStackEntryCount){
+            0 -> {
+                mainAct.setOnBackPressedListener(null)
+                mainAct.onBackPressed()
+            }
+            1 -> { // 맵 X 인상태에서 뒤로가기
+                mainAct.sv_searchview.clearFocus()
+                cfm.popBackStack()
+                changeStateMap(false)
+                mainAct.btn_search_cancle.visibility = View.GONE
+            }
+            else -> { // 동네마스터 맵에서 뒤로가기
+                mainAct.sv_searchview.clearFocus()
+                cfm.popBackStack()
+                changeStateMap(false)
+            }
+        }
     }
-
     override fun onNHPItemClicked(view: View, position: Int) { //주변 인기 장소
         Log.d("hakjin"," HotPlaceFragment 주변 인기장소 클릭 $position")
     }

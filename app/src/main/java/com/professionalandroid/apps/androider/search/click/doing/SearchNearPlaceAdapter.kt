@@ -6,10 +6,9 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.professionalandroid.apps.androider.R
-import com.professionalandroid.apps.androider.search.click.NearPlace
 
 // 검색어 입력중에 뜨는 근처 장소 어댑터
-class SearchNearPlaceAdapter(private val nearPlaceList: ArrayList<NearPlace>): RecyclerView.Adapter<SearchNearPlaceAdapter.NearPlaceViewHolder>(){
+class SearchNearPlaceAdapter(private val nearPlaceList: ArrayList<SearchNearPlace>): RecyclerView.Adapter<SearchNearPlaceAdapter.NearPlaceViewHolder>(){
 
     interface OnSNHItemClickListener {
         fun onSNHItemClicked(view: View, position: Int)

@@ -2,6 +2,8 @@ package com.professionalandroid.apps.androider.navigation.addpost.insertdata
 
 import android.app.Activity
 import android.content.Intent
+import android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP
+import android.content.Intent.FLAG_ACTIVITY_SINGLE_TOP
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -12,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.professionalandroid.apps.androider.R
 import com.professionalandroid.apps.androider.model.StoreDTO
+import com.professionalandroid.apps.androider.navigation.addpost.AddPostActivity
 import com.professionalandroid.apps.androider.navigation.addpost.addressing.ChangeAddressActivity
 import com.professionalandroid.apps.androider.util.AWSRetrofit
 import kotlinx.android.synthetic.main.activity_addstore.*
@@ -75,6 +78,15 @@ class AddStoreActivity : AppCompatActivity() {
                     Log.d("AddStore::onResponse", "retrofit response")
                     if (response.isSuccessful) {
                         Log.d("AddStore::onResponse", "retrofit successful")
+
+                        val insertedData = response.body()
+                        Log.d("AddStore inserted data", insertedData.toString())
+
+                        val intent = Intent(this@AddStoreActivity, AddPostActivity::class.java)
+                        intent.addFlags(FLAG_ACTIVITY_CLEAR_TOP)
+                        intent.addFlags(FLAG_ACTIVITY_SINGLE_TOP)
+                        intent.putExtra("storeDTO", insertedData)
+                        startActivity(intent)
                     } else {
                         Log.d("AddStore::onResponse", "${response.errorBody()?.string()}")
                     }

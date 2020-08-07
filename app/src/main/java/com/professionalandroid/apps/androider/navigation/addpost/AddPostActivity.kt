@@ -1,6 +1,10 @@
 package com.professionalandroid.apps.androider.navigation.addpost
 
 import android.app.Activity
+import android.app.AlertDialog
+import android.app.Dialog
+import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,17 +13,22 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import com.professionalandroid.apps.androider.R
+import com.professionalandroid.apps.androider.model.StoreDTO
+import com.professionalandroid.apps.androider.navigation.addpost.addressing.CancelItemDialogFragment
 import kotlinx.android.synthetic.main.activity_addpost.*
+import kotlinx.android.synthetic.main.item_selected.view.*
 import kotlinx.android.synthetic.main.item_selectphoto_image.view.*
 
-class AddPostActivity : AppCompatActivity() {
+class AddPostActivity : AppCompatActivity(), CancelItemDialogFragment.NoticeDialogListener {
     val ADD_PHOTO_REQUEST = 5
     var contentWidth: Int = -1
+
+    var store: StoreDTO? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -118,5 +127,27 @@ class AddPostActivity : AppCompatActivity() {
             recyclerview_addpost_postimage.layoutManager =
                 GridLayoutManager(this, spanCount)
         }
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+
+        store = intent?.getParcelableExtra<StoreDTO>("storeDTO")
+            ?: throw IllegalStateException("storeDTO must not be null")
+
+        val view = LayoutInflater.from(this)
+            .inflate(R.layout.item_selected, imageview_addpost_selecteditem, false)
+        view.textview_itemselected_name.text = store?.name
+        view.btn_itemselected_cancel.setOnClickListener {
+            val dialog = CancelItemDialogFragment()
+            dialog.show(supportFragmentManager, "cancel")
+        }
+
+        imageview_addpost_selecteditem.addView(view)
+    }
+
+    override fun onDialogCompleteClick() {
+        store = null
+        imageview_addpost_selecteditem.removeAllViews()
     }
 }

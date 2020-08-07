@@ -11,7 +11,8 @@ object AWSRetrofit {
             .create()
 
     private val retrofit = Retrofit.Builder()
-        .baseUrl("http://3.129.184.111/") // aws ip address
+        .baseUrl("http://wktpgl70.cafe24.com/") // aws ip address
+//        .baseUrl("http://3.129.184.111/") // aws ip address
         .addConverterFactory(GsonConverterFactory.create(gson))
         .build()
 
