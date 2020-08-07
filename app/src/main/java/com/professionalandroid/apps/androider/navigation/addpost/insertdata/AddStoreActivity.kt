@@ -2,6 +2,8 @@ package com.professionalandroid.apps.androider.navigation.addpost.insertdata
 
 import android.app.Activity
 import android.content.Intent
+import android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP
+import android.content.Intent.FLAG_ACTIVITY_SINGLE_TOP
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -11,8 +13,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.professionalandroid.apps.androider.R
-import com.professionalandroid.apps.androider.model.ErrMsg
 import com.professionalandroid.apps.androider.model.StoreDTO
+import com.professionalandroid.apps.androider.navigation.addpost.AddPostActivity
 import com.professionalandroid.apps.androider.navigation.addpost.addressing.ChangeAddressActivity
 import com.professionalandroid.apps.androider.util.AWSRetrofit
 import kotlinx.android.synthetic.main.activity_addstore.*
@@ -66,18 +68,25 @@ class AddStoreActivity : AppCompatActivity() {
                 "insert name: $name, category: $category, address: $address, number: $number"
             )
             val call = retrofitAPI.insertStore(name, category, address, number)
-            call.enqueue(object : Callback<ErrMsg> {
-                override fun onFailure(call: Call<ErrMsg>, t: Throwable) {
+            call.enqueue(object : Callback<StoreDTO> {
+                override fun onFailure(call: Call<StoreDTO>, t: Throwable) {
                     Log.d("AddStore::onFailure", "retrofit false")
                     Log.d("AddStore::onResponse", "${t.message}")
                 }
 
-                override fun onResponse(call: Call<ErrMsg>, response: Response<ErrMsg>) {
+                override fun onResponse(call: Call<StoreDTO>, response: Response<StoreDTO>) {
                     Log.d("AddStore::onResponse", "retrofit response")
                     if (response.isSuccessful) {
                         Log.d("AddStore::onResponse", "retrofit successful")
-                        val msg = response.body()
-                        Log.d("Err", msg?.msg)
+
+                        val insertedData = response.body()
+                        Log.d("AddStore inserted data", insertedData.toString())
+
+                        val intent = Intent(this@AddStoreActivity, AddPostActivity::class.java)
+                        intent.addFlags(FLAG_ACTIVITY_CLEAR_TOP)
+                        intent.addFlags(FLAG_ACTIVITY_SINGLE_TOP)
+                        intent.putExtra("storeDTO", insertedData)
+                        startActivity(intent)
                     } else {
                         Log.d("AddStore::onResponse", "${response.errorBody()?.string()}")
                     }

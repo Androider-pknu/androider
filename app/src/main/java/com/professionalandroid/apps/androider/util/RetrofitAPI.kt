@@ -22,5 +22,5 @@ interface RetrofitAPI {
         @Field("category") category: String,
         @Field("address") address: String,
         @Field("number") number: String?
-    ): Call<ErrMsg>
+    ): Call<StoreDTO>
 }

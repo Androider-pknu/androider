@@ -540,5 +540,8 @@
         <item>기타</item>
     </string-array>
 
+    <string-array name="cancel_item">
+        <item>장소 해제</item>
+    </string-array>
 
 </resources>
