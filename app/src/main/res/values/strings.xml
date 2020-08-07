@@ -42,6 +42,9 @@
     <string name="cafe">카페</string>
     <string name="alchol">술집</string>
 
+    <string name="insert_number"><u>번호등록</u></string>
+    <string name="naver_review">네이버 리뷰</string>
+
     <!-- TODO: Remove or change this placeholder text -->
 
 </resources>

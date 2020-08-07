@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="8dp">
+
+    <ImageView
+        android:id="@+id/iv_profile"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginLeft="8dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/image9"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_profile_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:text="프로필이름"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/iv_profile"
+        app:layout_constraintTop_toTopOf="@+id/iv_profile" />
+
+    <TextView
+        android:id="@+id/tv_profile_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="4dp"
+        android:text="\@exampleID"
+        android:textStyle="italic"
+        app:layout_constraintStart_toEndOf="@+id/tv_profile_name"
+        app:layout_constraintTop_toTopOf="@+id/tv_profile_name" />
+
+    <TextView
+        android:id="@+id/tv_store_post_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:ellipsize="end"
+        android:maxLines="4"
+        android:text="서면역 석화연\n\n여기는 테스트 포스팅입니다. 맛있습니다.. 테스트입니다. 4줄넘어가면 ... 표시가 되야하는 테스트입니다."
+        app:layout_constraintEnd_toStartOf="@+id/iv_store_post"
+        app:layout_constraintStart_toEndOf="@+id/iv_profile"
+        app:layout_constraintTop_toBottomOf="@+id/tv_profile_name" />
+
+    <ImageView
+        android:id="@+id/iv_store_post"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:layout_marginRight="8dp"
+        android:src="@drawable/image2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tv_store_post_text" />
+
+    <TextView
+        android:id="@+id/tv_store_post_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="4시간"
+        android:textSize="11sp"
+        app:layout_constraintBottom_toTopOf="@+id/iv_store_post"
+        app:layout_constraintEnd_toEndOf="@id/iv_store_post" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

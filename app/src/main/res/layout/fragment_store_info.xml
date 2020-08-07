@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- hint->https://m.blog.naver.com/PostView.nhn?blogId=pistolcaffe&logNo=221017061017&categoryNo=15&proxyReferer=https:%2F%2Fwww.google.com%2F -->
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".common.StoreInfoFragment">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:layout_width="match_parent"
+            android:layout_height="320dp"
+            android:background="@color/transparent"
+            app:collapsedTitleGravity="center"
+            app:collapsedTitleTextAppearance="@style/CollapsingTitleStyle"
+            app:expandedTitleGravity="bottom|center"
+            app:expandedTitleTextAppearance="@style/ExpandedTitleStyle"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="match_parent"
+                android:layout_height="240dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/image1"
+                app:layout_collapseMode="parallax" />
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar_store"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:layout_marginTop="16dp"
+                app:layout_collapseMode="pin"
+                app:menu="@menu/menu_toolbar_store"
+                app:popupTheme="@style/Theme.AppCompat.Light"
+                app:title="반야월 막창" />
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="8dp"
+        android:background="@color/white"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/iv_store_category"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_marginLeft="8dp"
+                android:src="@drawable/food"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_store_category"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:text="한식"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_store_category"
+                app:layout_constraintStart_toEndOf="@+id/iv_store_category"
+                app:layout_constraintTop_toTopOf="@+id/iv_store_category" />
+
+            <ImageView
+                android:id="@+id/iv_store_number"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_marginTop="8dp"
+                android:src="@drawable/food"
+                app:layout_constraintStart_toStartOf="@+id/iv_store_category"
+                app:layout_constraintTop_toBottomOf="@+id/iv_store_category" />
+
+            <TextView
+                android:id="@+id/tv_store_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:text="@string/insert_number"
+                android:textColor="@color/orange"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_store_number"
+                app:layout_constraintStart_toEndOf="@+id/iv_store_number"
+                app:layout_constraintTop_toTopOf="@+id/iv_store_number" />
+
+            <ImageView
+                android:id="@+id/iv_store_address"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_marginTop="8dp"
+                android:src="@drawable/food"
+                app:layout_constraintStart_toStartOf="@+id/iv_store_number"
+                app:layout_constraintTop_toBottomOf="@+id/iv_store_number" />
+
+            <TextView
+                android:id="@+id/tv_store_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:text="부산 남구 대연5동 1281-18"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_store_address"
+                app:layout_constraintStart_toEndOf="@+id/iv_store_address"
+                app:layout_constraintTop_toTopOf="@+id/iv_store_address" />
+
+            <View
+                android:id="@+id/view"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginTop="8dp"
+                android:background="@color/material_grey200"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_store_address" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:text="검색 태그"
+                app:layout_constraintBottom_toBottomOf="@+id/view"
+                app:layout_constraintStart_toStartOf="@+id/view" />
+
+            <!-- 검색 태그 -->
+
+
+            <View
+                android:id="@+id/view2"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginTop="8dp"
+                android:background="@color/material_grey200"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:text="상세정보"
+                app:layout_constraintBottom_toBottomOf="@+id/view2"
+                app:layout_constraintStart_toStartOf="@+id/view2" />
+
+            <Button
+                android:id="@+id/btn_store_add_tip"
+                style="@style/Widget.AppCompat.Light.ActionButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawablePadding="16dp"
+                android:text="⎗ 장소 팁 추가"
+                app:layout_constraintTop_toBottomOf="@+id/view2" />
+
+            <View
+                android:id="@+id/view3"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:background="@color/material_grey200"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btn_store_add_tip" />
+
+            <TextView
+                android:id="@+id/tv_store_post_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:text="포스트 4개"
+                app:layout_constraintBottom_toBottomOf="@+id/view3"
+                app:layout_constraintStart_toStartOf="@+id/view3" />
+
+            <TextView
+                android:id="@+id/btn_write_post"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:drawableLeft="@drawable/ic_baseline_create_16"
+                android:text=" 글쓰기"
+                app:layout_constraintBottom_toBottomOf="@+id/view3"
+                app:layout_constraintEnd_toEndOf="@+id/view3"
+                app:layout_constraintTop_toTopOf="@+id/tv_store_post_count" />
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/inner_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/view3">
+
+                <Button
+                    android:id="@+id/btn_noting_post"
+                    style="@style/Widget.AppCompat.Light.ActionButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:text="아직 방문 리뷰가 없습니다.\n🖊글쓰기"
+                    android:visibility="gone"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_store_post"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:itemCount="2"
+                    tools:listitem="@layout/item_store_post" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <View
+                android:id="@+id/view4"
+                android:layout_width="wrap_content"
+                android:layout_height="56dp"
+                android:background="@color/material_grey200"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/inner_layout" />
+
+            <Button
+                android:id="@+id/btn_naver_review"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:background="@drawable/btn_shape_round"
+                android:text="@string/naver_review"
+                app:layout_constraintBottom_toBottomOf="@+id/view4"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/view4" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
