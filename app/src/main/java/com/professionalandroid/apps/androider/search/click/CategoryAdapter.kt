@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.professionalandroid.apps.androider.R
-import com.professionalandroid.apps.androider.newsfeed.Category
 
 class CategoryAdapter(val categoryList: ArrayList<Category>) : RecyclerView.Adapter<CategoryAdapter.CustomViewHolder>(){
 
