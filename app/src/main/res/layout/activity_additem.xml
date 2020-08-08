@@ -83,6 +83,7 @@
             android:textSize="@dimen/textsize_item" />
 
         <EditText
+            android:id="@+id/textinput_additem_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"

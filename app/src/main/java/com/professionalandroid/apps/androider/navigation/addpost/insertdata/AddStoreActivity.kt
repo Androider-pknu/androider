@@ -13,12 +13,12 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.professionalandroid.apps.androider.R
+import com.professionalandroid.apps.androider.model.PostDTO
 import com.professionalandroid.apps.androider.model.StoreDTO
 import com.professionalandroid.apps.androider.navigation.addpost.AddPostActivity
 import com.professionalandroid.apps.androider.navigation.addpost.addressing.ChangeAddressActivity
 import com.professionalandroid.apps.androider.util.AWSRetrofit
 import kotlinx.android.synthetic.main.activity_addstore.*
-import kotlinx.android.synthetic.main.activity_searchaddress.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -54,10 +54,6 @@ class AddStoreActivity : AppCompatActivity() {
         }
 
         btn_addstore_complete.setOnClickListener {
-            // TODO
-            // make store data model
-            // insert data model to database
-            // return data model to add post activity
             val retrofitAPI = AWSRetrofit.getAPI()
             val name = textinput_addstore_name.text.toString()
             val category = textview_addstore_category.text.toString()
@@ -67,7 +63,7 @@ class AddStoreActivity : AppCompatActivity() {
                 this::class.java.simpleName,
                 "insert name: $name, category: $category, address: $address, number: $number"
             )
-            val call = retrofitAPI.insertStore(name, category, address, number)
+            val call = retrofitAPI.addStore(name, category, address, number)
             call.enqueue(object : Callback<StoreDTO> {
                 override fun onFailure(call: Call<StoreDTO>, t: Throwable) {
                     Log.d("AddStore::onFailure", "retrofit false")
@@ -85,7 +81,8 @@ class AddStoreActivity : AppCompatActivity() {
                         val intent = Intent(this@AddStoreActivity, AddPostActivity::class.java)
                         intent.addFlags(FLAG_ACTIVITY_CLEAR_TOP)
                         intent.addFlags(FLAG_ACTIVITY_SINGLE_TOP)
-                        intent.putExtra("storeDTO", insertedData)
+                        intent.putExtra("resultDTO", insertedData)
+                        intent.putExtra("type", PostDTO.STORE)
                         startActivity(intent)
                     } else {
                         Log.d("AddStore::onResponse", "${response.errorBody()?.string()}")
