@@ -6,15 +6,16 @@ import java.sql.Timestamp
 
 @Parcelize
 data class PostDTO(
-    val id: Int,
-    val author: Int,
+    val post_id: Int,
+    val author_id: Int,
     val content: String,
+    val id: Int,
     val like: Int,
     val type: Int,
     val timestamp: Timestamp
 ) : Parcelable {
     companion object {
-        const val STORE = 0
-        const val ITEM = 1
+        const val STORE = 1
+        const val ITEM = 2
     }
 }

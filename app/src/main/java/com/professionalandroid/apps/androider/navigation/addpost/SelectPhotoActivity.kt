@@ -44,6 +44,9 @@ class SelectPhotoActivity : AppCompatActivity() {
 
         btn_selectphoto_complete.setOnClickListener {
             val intent = Intent()
+            for (s in checkedList) {
+                Log.d(this::class.java.simpleName, "URI: $s")
+            }
             intent.putStringArrayListExtra("imageURIs", checkedList)
             setResult(Activity.RESULT_OK, intent)
             finish()

@@ -4,10 +4,9 @@ import com.professionalandroid.apps.androider.model.AddressModel
 import com.professionalandroid.apps.androider.model.ItemDTO
 import com.professionalandroid.apps.androider.model.PostDTO
 import com.professionalandroid.apps.androider.model.StoreDTO
+import okhttp3.MultipartBody
 import retrofit2.Call
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
-import retrofit2.http.POST
+import retrofit2.http.*
 import java.sql.Timestamp
 
 interface RetrofitAPI {
@@ -33,13 +32,13 @@ interface RetrofitAPI {
         @Field("category") category: String
     ): Call<ItemDTO>
 
-    @FormUrlEncoded
+    @Multipart
     @POST("/shtest/addPost.php")
     fun addPost(
-        @Field("author") author: Int,
-        @Field("content") content: String,
-        @Field("like") like: Int,
-        @Field("type") type: Int,
-        @Field("timestamp") timestamp: Timestamp
-    ): Call<PostDTO>
+        @Part("author_id") author_id: Int,
+        @Part("content") content: String,
+        @Part("id") id: Int,
+        @Part("type") type: Int,
+        @Part imageFiles : ArrayList<MultipartBody.Part>
+    ): Call<String>
 }

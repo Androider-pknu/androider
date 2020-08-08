@@ -3,12 +3,16 @@ package com.professionalandroid.apps.androider.navigation.addpost
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -17,16 +21,27 @@ import com.professionalandroid.apps.androider.model.ItemDTO
 import com.professionalandroid.apps.androider.model.PostDTO
 import com.professionalandroid.apps.androider.model.StoreDTO
 import com.professionalandroid.apps.androider.navigation.addpost.addressing.CancelItemDialogFragment
+import com.professionalandroid.apps.androider.util.AWSRetrofit
 import kotlinx.android.synthetic.main.activity_addpost.*
 import kotlinx.android.synthetic.main.item_selected.view.*
 import kotlinx.android.synthetic.main.item_selectphoto_image.view.*
+import okhttp3.MediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import java.io.File
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class AddPostActivity : AppCompatActivity(), CancelItemDialogFragment.NoticeDialogListener {
     val ADD_PHOTO_REQUEST = 5
     var contentWidth: Int = -1
 
     var itemDTO: ItemDTO? = null
-    var storeDTO: StoreDTO? =null
+    var storeDTO: StoreDTO? = null
     lateinit var uriResult: ArrayList<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,12 +66,54 @@ class AddPostActivity : AppCompatActivity(), CancelItemDialogFragment.NoticeDial
         }
 
         btn_addpost_complete.setOnClickListener {
-            // Upload post, Update Database
+            val retrofitAPI = AWSRetrofit.getAPI()
+/*
+            TODO(get author id from current login user info)
+            val author_id = intent.getIntExtra("author_id", -1)
+*/
+            val content = textfield_addpost_postdescription.text.toString()
+            val id = storeDTO?.id ?: itemDTO?.id ?: 0
+            val type =
+                if (storeDTO != null) PostDTO.STORE else if (itemDTO != null) PostDTO.ITEM else 0
+            val imageList = arrayListOf<MultipartBody.Part>()
+            for (uri in uriResult) {
+                val file = File(uri)
+                val fileName =
+                    "post-image-${SimpleDateFormat(
+                        "yyyy-MM-dd HH:mm:ss",
+                        Locale.getDefault()
+                    ).format(Date())}-${file.name}"
+                val requestBody = RequestBody.create(MediaType.parse("image/*"), file)
+                val part = MultipartBody.Part.createFormData("uploaded_file[]", fileName, requestBody)
+                imageList.add(part)
+            }
+
+            val call = retrofitAPI.addPost(1, content, id, type, imageList) // TODO(author_id 1 is temp value)
+            Log.d("요청 메시지: ", call.request().toString())
+            call.enqueue(object : Callback<String> {
+                override fun onFailure(call: Call<String>, t: Throwable) {
+                    Log.d(this::class.java.simpleName, "Add Post Fail")
+                    Log.d(this::class.java.simpleName, t.message)
+                }
+
+                override fun onResponse(call: Call<String>, response: Response<String>) {
+                    if (response.isSuccessful) {
+                        Log.d(this::class.java.simpleName, "Add Post Success")
+                        val result = response.body()
+                        Toast.makeText(this@AddPostActivity, result, Toast.LENGTH_SHORT).show()
+                        finish()
+                    } else {
+                        Log.d(this::class.java.simpleName, "Add Post Not Success")
+                    }
+                }
+            })
         }
 
         recyclerview_addpost_postimage.post {
             contentWidth = recyclerview_addpost_postimage.width
         }
+
+        textfield_addpost_postdescription.addTextChangedListener(CompleteBtnChecker())
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -65,7 +122,6 @@ class AddPostActivity : AppCompatActivity(), CancelItemDialogFragment.NoticeDial
         if (requestCode == ADD_PHOTO_REQUEST) {
             when (resultCode) {
                 Activity.RESULT_OK -> {
-
                     uriResult = data?.getStringArrayListExtra("imageURIs") ?: arrayListOf("")
                     recyclerview_addpost_postimage.adapter = PostImageRecyclerViewAdapter(uriResult)
                     val spanCount = if (uriResult.size == 4) 2 else uriResult.size
@@ -135,7 +191,7 @@ class AddPostActivity : AppCompatActivity(), CancelItemDialogFragment.NoticeDial
         storeDTO = null
         imageview_addpost_selecteditem.removeAllViews()
 
-        when(intent?.getIntExtra("type", -1)) {
+        when (intent?.getIntExtra("type", -1)) {
             PostDTO.ITEM -> itemDTO = intent.getParcelableExtra("resultDTO")
                 ?: throw IllegalStateException("resultDTO must not be null")
             PostDTO.STORE -> storeDTO = intent.getParcelableExtra("resultDTO")
@@ -159,5 +215,25 @@ class AddPostActivity : AppCompatActivity(), CancelItemDialogFragment.NoticeDial
         itemDTO = null
         storeDTO = null
         imageview_addpost_selecteditem.removeAllViews()
+    }
+
+    open inner class CompleteBtnChecker() : TextWatcher {
+        override fun afterTextChanged(s: Editable?) {
+        }
+
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+        }
+
+        override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+            if (s.isEmpty()) {
+                val color = ContextCompat.getColor(applicationContext, R.color.gray)
+                btn_addpost_complete.setTextColor(color)
+                btn_addpost_complete.isEnabled = false
+            } else {
+                val color = ContextCompat.getColor(applicationContext, R.color.blue_default)
+                btn_addpost_complete.setTextColor(color)
+                btn_addpost_complete.isEnabled = true
+            }
+        }
     }
 }
