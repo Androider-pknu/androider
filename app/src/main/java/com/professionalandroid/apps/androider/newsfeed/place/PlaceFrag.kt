@@ -7,19 +7,29 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.professionalandroid.apps.androider.R
 import com.professionalandroid.apps.androider.navigation.NewsFeedFragment
 import com.professionalandroid.apps.androider.newsfeed.realtime.ItemImageButton
 import com.professionalandroid.apps.androider.newsfeed.realtime.ItemImageButtonAdapter
 import com.professionalandroid.apps.androider.newsfeed.todaypost.PostFragment
 import com.professionalandroid.apps.androider.newsfeed.StorePage
+import com.professionalandroid.apps.androider.newsfeed.TestPost
+import com.professionalandroid.apps.androider.newsfeed.TestPostAdapter
 import com.professionalandroid.apps.androider.newsfeed.place.partranking.PartRank
 import com.professionalandroid.apps.androider.newsfeed.place.partranking.PartRankAdapter
 import com.professionalandroid.apps.androider.newsfeed.place.partranking.PartRankView
 import com.professionalandroid.apps.androider.newsfeed.place.search.PlaceSearch
+import com.professionalandroid.apps.androider.util.AWSRetrofit
+import com.professionalandroid.apps.androider.util.RetrofitAPI
 import kotlinx.android.synthetic.main.fragment1.view.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
 
 class PlaceFrag():Fragment(){
     //var placeFragment=PlaceSearchFrag(newsFeedView)
@@ -29,6 +39,12 @@ class PlaceFrag():Fragment(){
     var storeAdapter= ItemImageButtonAdapter(makeList1())
     var partRank= PartRankAdapter(makeList2())
     var todayPost= PostFragment()
+    lateinit var postList:ArrayList<TestPost>
+    lateinit var postAdapter:TestPostAdapter
+    var notLoading=true
+    lateinit var postLayoutManager: LinearLayoutManager
+    lateinit var postApi:RetrofitAPI
+    lateinit var retrofit:Retrofit
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?{
         val view=inflater.inflate(R.layout.fragment1,container,false)
         local_btn =view.local_search_btn
@@ -36,6 +52,7 @@ class PlaceFrag():Fragment(){
         setRecyclerView1(view)
         setRecyclerView2(view)
         setTodayPost(view)
+        setAllPostsOfPlace(view)
         //setSearchButton(view)
         return view
     }
@@ -69,16 +86,8 @@ class PlaceFrag():Fragment(){
     }
     private fun makeList1():ArrayList<ItemImageButton>{
         val list= arrayListOf<ItemImageButton>()
-        list.add(
-            ItemImageButton(R.drawable.bread, "1. 미친 막창", "육류")
-        )
-        list.add(
-            ItemImageButton(
-                R.drawable.bread,
-                "2. 갬성 카페",
-                "카페"
-            )
-        )
+        list.add(ItemImageButton(R.drawable.bread, "1. 미친 막창", "육류"))
+        list.add(ItemImageButton(R.drawable.bread, "2. 갬성 카페", "카페"))
         list.add(
             ItemImageButton(
                 R.drawable.bread,
@@ -201,6 +210,88 @@ class PlaceFrag():Fragment(){
                 moveToFragment(todayPost)
         }
     }
+    private fun setAllPostsOfPlace(view:View){
+//        val sign = AWSRetrofit.getAPI().takePlacePost()
+//        sign.enqueue(object: Callback<List<TestPost>> {
+//            override fun onFailure(call: Call<List<TestPost>>, t: Throwable) {
+//                Log.d("Test",t.message)
+//            }
+//
+//            override fun onResponse(call: Call<List<TestPost>>, response: Response<List<TestPost>>) {
+//                if(response.isSuccessful){
+//                    Log.d("Test","성공")
+//                    val list=response.body()!!
+//                    postList=ArrayList()
+//                    postAdapter=TestPostAdapter(postList)
+//                    postLayoutManager= LinearLayoutManager(requireContext())
+//                    //view.all_post.layoutManager=LinearLayoutManager(requireContext())
+//                    //view.all_post.setHasFixedSize(true)
+//                    //val dataAdapter=TestPostAdapter(makeDataList(list))
+//                    //view.all_post.adapter=dataAdapter
+//                }
+//            }
+//        })
+        postList=ArrayList()
+        postAdapter=TestPostAdapter(postList)
+        postLayoutManager= LinearLayoutManager(requireContext())
+        view.all_post.adapter=postAdapter
+        view.all_post.layoutManager=postLayoutManager
+        postApi=AWSRetrofit.getAPI()
+        load(0)
+        addScrollListener(view)
+    }
+    private fun addScrollListener(view:View){
+        view.all_post.addOnScrollListener(object: RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                if(notLoading && postLayoutManager.findLastCompletelyVisibleItemPosition()==postList.size-1){
+                    postList.add(TestPost(0,"progess",0,1,"11"))
+                    postAdapter.notifyItemInserted(postList.size-1)
+                    notLoading=false
+                    val call=AWSRetrofit.getAPI().takePlacePost(postList.size-1)
+                    call.enqueue(object : Callback<List<TestPost>>{
+                        override fun onFailure(call: Call<List<TestPost>>, t: Throwable) {
+                            Log.d("Test","실패!")
+                        }
+
+                        override fun onResponse(call: Call<List<TestPost>>, response: Response<List<TestPost>> ) {
+                            postList.removeAt(postList.size-1)
+                            postAdapter.notifyItemRemoved(postList.size)
+                            if(response.body()!!.isNotEmpty()){
+                                postList.addAll(response.body()!!)
+                                postAdapter.notifyDataSetChanged()
+                                notLoading=true
+                            }
+                            else{
+                                Toast.makeText(requireContext(),"End of data reached",Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                    })
+                }
+            }
+        })
+    }
+    private fun load(i:Int){
+        val call=postApi.takePlacePost(i)
+        call.enqueue(object : Callback<List<TestPost>>{
+            override fun onFailure(call: Call<List<TestPost>>, t: Throwable) {
+                Log.d("Test","연결 실패!!!")
+            }
+
+            override fun onResponse(call: Call<List<TestPost>>, response: Response<List<TestPost>>) {
+                if(response.isSuccessful){
+                    postList.addAll(response.body()!!)
+                    postAdapter.notifyDataSetChanged()
+                }
+            }
+        })
+    }
+    fun makeDataList(dataList:List<TestPost>):ArrayList<TestPost>{
+        var list= arrayListOf<TestPost>()
+        for(i in dataList.indices){
+            list.add(TestPost(i,dataList[i].content,dataList[i].likeCount,dataList[i].type,dataList[i].timestamp))
+        }
+        return list
+    }
 //    private fun setSearchButton(view: View){
 //        view.place_search_button.setOnClickListener {
 //            //requireActivity().supportFragmentManager.beginTransaction().add(R.id.main_frame,fragment).hide(this).commit()
@@ -233,3 +324,4 @@ class PlaceFrag():Fragment(){
 //        super.onDetach()
 //    }
 }
+
