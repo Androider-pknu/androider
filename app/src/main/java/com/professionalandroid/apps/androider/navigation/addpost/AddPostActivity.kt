@@ -79,17 +79,14 @@ class AddPostActivity : AppCompatActivity(), CancelItemDialogFragment.NoticeDial
             for (uri in uriResult) {
                 val file = File(uri)
                 val fileName =
-                    "post-image-${SimpleDateFormat(
-                        "yyyy-MM-dd HH:mm:ss",
-                        Locale.getDefault()
-                    ).format(Date())}-${file.name}"
+                    "post-image-[${SimpleDateFormat("yyyy-MM-dd-HH:mm:ss", Locale.getDefault()).format(Date())}]-${file.name}"
+                Log.d(this::class.java.simpleName, fileName)
                 val requestBody = RequestBody.create(MediaType.parse("image/*"), file)
                 val part = MultipartBody.Part.createFormData("uploaded_file[]", fileName, requestBody)
                 imageList.add(part)
             }
 
             val call = retrofitAPI.addPost(1, content, id, type, imageList) // TODO(author_id 1 is temp value)
-            Log.d("요청 메시지: ", call.request().toString())
             call.enqueue(object : Callback<String> {
                 override fun onFailure(call: Call<String>, t: Throwable) {
                     Log.d(this::class.java.simpleName, "Add Post Fail")
