@@ -22,6 +22,7 @@ import com.professionalandroid.apps.androider.model.PostDTO
 import com.professionalandroid.apps.androider.model.StoreDTO
 import com.professionalandroid.apps.androider.navigation.addpost.addressing.CancelItemDialogFragment
 import com.professionalandroid.apps.androider.util.AWSRetrofit
+import com.professionalandroid.apps.androider.util.SELECT_PHOTO_REQUEST
 import kotlinx.android.synthetic.main.activity_addpost.*
 import kotlinx.android.synthetic.main.item_selected.view.*
 import kotlinx.android.synthetic.main.item_selectphoto_image.view.*
@@ -34,19 +35,22 @@ import retrofit2.Response
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 class AddPostActivity : AppCompatActivity(), CancelItemDialogFragment.NoticeDialogListener {
-    val ADD_PHOTO_REQUEST = 5
-    var contentWidth: Int = -1
-
-    var itemDTO: ItemDTO? = null
-    var storeDTO: StoreDTO? = null
-    lateinit var uriResult: ArrayList<String>
+    var contentWidth = -1
+    private var itemDTO: ItemDTO? = null
+    private var storeDTO: StoreDTO? = null
+    private lateinit var uriResult: ArrayList<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_addpost)
+
+        // match_parent 형식의 단위는 바로 가져올 수 없다
+        // 이미지가 들어갈 리사이클러 뷰의 너비를 초기화한다.
+        recyclerview_addpost_postimage.post {
+            contentWidth = recyclerview_addpost_postimage.width
+        }
 
         btn_addpost_addstore.setOnClickListener {
             startActivity(Intent(this, SelectStoreActivity::class.java))
@@ -58,7 +62,7 @@ class AddPostActivity : AppCompatActivity(), CancelItemDialogFragment.NoticeDial
 
         btn_addpost_addphoto.setOnClickListener {
             val intent = Intent(this, SelectPhotoActivity::class.java)
-            startActivityForResult(intent, ADD_PHOTO_REQUEST)
+            startActivityForResult(intent, SELECT_PHOTO_REQUEST)
         }
 
         btn_addpost_cancle.setOnClickListener {
@@ -66,68 +70,126 @@ class AddPostActivity : AppCompatActivity(), CancelItemDialogFragment.NoticeDial
         }
 
         btn_addpost_complete.setOnClickListener {
-            val retrofitAPI = AWSRetrofit.getAPI()
-/*
-            TODO(get author id from current login user info)
-            val author_id = intent.getIntExtra("author_id", -1)
-*/
-            val content = textfield_addpost_postdescription.text.toString()
-            val id = storeDTO?.id ?: itemDTO?.id ?: 0
-            val type =
-                if (storeDTO != null) PostDTO.STORE else if (itemDTO != null) PostDTO.ITEM else 0
-            val imageList = arrayListOf<MultipartBody.Part>()
-            for (uri in uriResult) {
-                val file = File(uri)
-                val fileName =
-                    "post-image-[${SimpleDateFormat("yyyy-MM-dd-HH:mm:ss", Locale.getDefault()).format(Date())}]-${file.name}"
-                Log.d(this::class.java.simpleName, fileName)
-                val requestBody = RequestBody.create(MediaType.parse("image/*"), file)
-                val part = MultipartBody.Part.createFormData("uploaded_file[]", fileName, requestBody)
-                imageList.add(part)
-            }
-
-            val call = retrofitAPI.addPost(1, content, id, type, imageList) // TODO(author_id 1 is temp value)
-            call.enqueue(object : Callback<String> {
-                override fun onFailure(call: Call<String>, t: Throwable) {
-                    Log.d(this::class.java.simpleName, "Add Post Fail")
-                    Log.d(this::class.java.simpleName, t.message)
-                }
-
-                override fun onResponse(call: Call<String>, response: Response<String>) {
-                    if (response.isSuccessful) {
-                        Log.d(this::class.java.simpleName, "Add Post Success")
-                        val result = response.body()
-                        Toast.makeText(this@AddPostActivity, result, Toast.LENGTH_SHORT).show()
-                        finish()
-                    } else {
-                        Log.d(this::class.java.simpleName, "Add Post Not Success")
-                    }
-                }
-            })
+            sendAddPostRequest()
         }
 
-        recyclerview_addpost_postimage.post {
-            contentWidth = recyclerview_addpost_postimage.width
-        }
-
+        // 작성하는 내용이 비어있지 않은 경우에만 완료 버튼을 활성화한다.
         textfield_addpost_postdescription.addTextChangedListener(CompleteBtnChecker())
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
-        if (requestCode == ADD_PHOTO_REQUEST) {
+        if (requestCode == SELECT_PHOTO_REQUEST) {
             when (resultCode) {
                 Activity.RESULT_OK -> {
-                    uriResult = data?.getStringArrayListExtra("imageURIs") ?: arrayListOf("")
-                    recyclerview_addpost_postimage.adapter = PostImageRecyclerViewAdapter(uriResult)
-                    val spanCount = if (uriResult.size == 4) 2 else uriResult.size
-                    recyclerview_addpost_postimage.layoutManager =
-                        GridLayoutManager(this, spanCount)
+                    uriResult = getSelectedImageUri(data)
+                    attachRecyclerview()
                 }
                 else ->
                     Toast.makeText(this, "fail", Toast.LENGTH_LONG).show()
             }
+        }
+    }
+
+    private fun attachRecyclerview() {
+        recyclerview_addpost_postimage.adapter = PostImageRecyclerViewAdapter(uriResult)
+        val spanCount = if (uriResult.size == 4) 2 else uriResult.size
+        recyclerview_addpost_postimage.layoutManager = GridLayoutManager(this, spanCount)
+    }
+
+    private fun getSelectedImageUri(data: Intent?) =
+        data?.getStringArrayListExtra("imageURIs") ?: arrayListOf("")
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+
+        initDTO()
+
+        when (intent?.getIntExtra("type", -1)) {
+            PostDTO.ITEM -> itemDTO = intent.getParcelableExtra("resultDTO")
+                ?: throw IllegalStateException("resultDTO must not be null")
+            PostDTO.STORE -> storeDTO = intent.getParcelableExtra("resultDTO")
+                ?: throw IllegalStateException("resultDTO must not be null")
+        }
+
+        val name = storeDTO?.name ?: itemDTO?.name ?: ""
+
+        val view = LayoutInflater.from(this)
+            .inflate(R.layout.item_selected, imageview_addpost_selecteditem, false)
+        view.textview_itemselected_name.text = name
+        view.btn_itemselected_cancel.setOnClickListener {
+            val dialog = CancelItemDialogFragment()
+            dialog.show(supportFragmentManager, "cancel")
+        }
+
+        imageview_addpost_selecteditem.addView(view)
+    }
+
+    override fun onDialogCompleteClick() {
+        initDTO()
+    }
+
+    private fun initDTO() {
+        itemDTO = null
+        storeDTO = null
+        imageview_addpost_selecteditem.removeAllViews()
+    }
+
+    private fun sendAddPostRequest() {
+        val call = createAddPostCall()
+
+        call.enqueue(object : Callback<String> {
+            override fun onFailure(call: Call<String>, t: Throwable) {
+                Log.d(this::class.java.simpleName, "Add Post Fail")
+                Log.d(this::class.java.simpleName, t.message)
+            }
+
+            override fun onResponse(call: Call<String>, response: Response<String>) {
+                if (response.isSuccessful) {
+                    Log.d(this::class.java.simpleName, "Add Post Success")
+                    val result = response.body()
+                    Toast.makeText(this@AddPostActivity, result, Toast.LENGTH_SHORT).show()
+                    finish()
+                } else {
+                    Log.d(this::class.java.simpleName, "Add Post Not Success")
+                }
+            }
+        })
+    }
+
+    private fun createAddPostCall(): Call<String> {
+//        TODO(get author id from current login user info)
+//            val author_id = intent.getIntExtra("author_id", -1)
+        val retrofitAPI = AWSRetrofit.getAPI()
+        val content = textfield_addpost_postdescription.text.toString()
+        val id = storeDTO?.id ?: itemDTO?.id ?: 0
+        val type = if (storeDTO != null) PostDTO.STORE else if (itemDTO != null) PostDTO.ITEM else 0
+        val imageList = arrayListOf<MultipartBody.Part>()
+
+        addImagePart(imageList)
+
+//        TODO(author_id(1) is temp value)
+        return retrofitAPI.addPost(
+            1,
+            content,
+            id,
+            type,
+            imageList
+        )
+    }
+
+    private fun addImagePart(imageList: ArrayList<MultipartBody.Part>) {
+        for (uri in uriResult) {
+            val file = File(uri)
+            val timestampFormat =
+                SimpleDateFormat("yyyy-MM-dd-HH:mm:ss", Locale.getDefault()).format(Date())
+            val fileName = "post-image-[$timestampFormat]-${file.name}"
+            Log.d(this::class.java.simpleName, fileName)
+
+            val requestBody = RequestBody.create(MediaType.parse("image/*"), file)
+            val part = MultipartBody.Part.createFormData("uploaded_file[]", fileName, requestBody)
+
+            imageList.add(part)
         }
     }
 
@@ -160,61 +222,28 @@ class AddPostActivity : AppCompatActivity(), CancelItemDialogFragment.NoticeDial
             val viewHolder = (holder as CustomViewHolder).itemView
             viewHolder.imageview_selectphoto_uncheck.visibility = ImageView.VISIBLE
 
-            Glide.with(holder.itemView.context).load(uriList[position])
+            Glide.with(holder.itemView.context)
+                .load(uriList[position])
                 .into(viewHolder.imageview_selectphotoitem)
 
             viewHolder.imageview_selectphoto_uncheck.setOnClickListener {
-                imageUnchecked(uriList, position)
+                resizeRecyclerView(uriList, position)
             }
         }
     }
 
-    private fun imageUnchecked(uriList: ArrayList<String>, position: Int) {
+    private fun resizeRecyclerView(uriList: ArrayList<String>, position: Int) {
         uriList.removeAt(position)
         if (uriList.size == 0)
             recyclerview_addpost_postimage.removeAllViews()
         else {
             recyclerview_addpost_postimage.adapter = PostImageRecyclerViewAdapter(uriList)
             val spanCount = if (uriList.size == 4) 2 else uriList.size
-            recyclerview_addpost_postimage.layoutManager =
-                GridLayoutManager(this, spanCount)
+            recyclerview_addpost_postimage.layoutManager = GridLayoutManager(this, spanCount)
         }
     }
 
-    override fun onNewIntent(intent: Intent?) {
-        super.onNewIntent(intent)
-
-        itemDTO = null
-        storeDTO = null
-        imageview_addpost_selecteditem.removeAllViews()
-
-        when (intent?.getIntExtra("type", -1)) {
-            PostDTO.ITEM -> itemDTO = intent.getParcelableExtra("resultDTO")
-                ?: throw IllegalStateException("resultDTO must not be null")
-            PostDTO.STORE -> storeDTO = intent.getParcelableExtra("resultDTO")
-                ?: throw IllegalStateException("resultDTO must not be null")
-        }
-
-        val name = storeDTO?.name ?: itemDTO?.name ?: ""
-
-        val view = LayoutInflater.from(this)
-            .inflate(R.layout.item_selected, imageview_addpost_selecteditem, false)
-        view.textview_itemselected_name.text = name
-        view.btn_itemselected_cancel.setOnClickListener {
-            val dialog = CancelItemDialogFragment()
-            dialog.show(supportFragmentManager, "cancel")
-        }
-
-        imageview_addpost_selecteditem.addView(view)
-    }
-
-    override fun onDialogCompleteClick() {
-        itemDTO = null
-        storeDTO = null
-        imageview_addpost_selecteditem.removeAllViews()
-    }
-
-    open inner class CompleteBtnChecker() : TextWatcher {
+    open inner class CompleteBtnChecker : TextWatcher {
         override fun afterTextChanged(s: Editable?) {
         }
 
