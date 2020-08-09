@@ -3,6 +3,7 @@ package com.professionalandroid.apps.androider.search.map
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
+import android.location.Geocoder
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -28,7 +29,7 @@ import kotlinx.android.synthetic.main.fragment_main_map.vp_local_master_viewPage
 /* 서치결과 맵 마커클릭시 가게정보 뜸 동네마스터 마커 클릭시 해당사람이 쓴 포스트 뜸*/
 
 class MainMapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraIdleListener,
-    OnBackPressedListener,
+    OnBackPressedListener,GoogleMap.OnCameraMoveListener,
     GoogleMap.OnMarkerClickListener, GoogleMap.OnMapClickListener {
 
     lateinit var mMap: GoogleMap
@@ -38,10 +39,11 @@ class MainMapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraIdleLi
     private lateinit var cameraPosition: LatLng // 현재 카메라 위치
 
     private var lmMarkerManager : LMMarkerManager? = null
+    private lateinit var geocoder: Geocoder
+    private var cameraZoom = 0.0f // 카메라줌
 
     private lateinit var btnList: Array<Button>
     private var btnFlag = false
-
 
     /* posting 을 표시할 list */
     private var restaurantList =  ArrayList<LatLng>()
@@ -125,6 +127,14 @@ class MainMapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraIdleLi
         }
     }
 
+    fun getCameraZoom(): Float{ // 현재 카메라 줌을 반환
+        return cameraZoom
+    }
+
+    fun getCameraPosition(): LatLng{
+        return cameraPosition
+    }
+
     /* 마커, 맵 클릭리스너 시작 */
     private fun initMarkerAdapter(){ // 마커 초기화, 데이터 설정
         localMasterAdapter = LMMarkerAdapter(requireContext())
@@ -136,6 +146,7 @@ class MainMapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraIdleLi
 
     private fun mMapClickListenerRegister() { // 맵클릭 리스너 등록
         mMap.setOnCameraIdleListener(this)
+        mMap.setOnCameraMoveListener(this)
         mMap.setOnMarkerClickListener(this)
         mMap.setOnMapClickListener(this)
     }
@@ -181,8 +192,14 @@ class MainMapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraIdleLi
         }
     }
 
+    override fun onCameraMove() {
+        cameraPosition = mMap.cameraPosition.target
+        cameraZoom = mMap.cameraPosition.zoom
+    }
+
     override fun onCameraIdle() {
         cameraPosition = mMap.cameraPosition.target
+        cameraZoom = mMap.cameraPosition.zoom
     }
 
     override fun onBackPressed() {

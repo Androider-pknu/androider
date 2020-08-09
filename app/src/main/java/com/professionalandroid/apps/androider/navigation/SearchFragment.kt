@@ -12,8 +12,6 @@ import android.widget.SearchView
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.LatLng
 import com.professionalandroid.apps.androider.*
 import com.professionalandroid.apps.androider.search.click.HotPlaceFragment
 import com.professionalandroid.apps.androider.search.map.MainMapFragment
@@ -42,7 +40,7 @@ class SearchFragment: Fragment(), OnBackPressedListener{
         mainAct = context as MainActivity
         mainAct.setOnBackPressedListener(this)
         locationPermissionCheck()
-        createFragment()
+        initFragment()
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         Log.d("hakjin","SearchFragment onCreate")
@@ -62,12 +60,33 @@ class SearchFragment: Fragment(), OnBackPressedListener{
         buttonClickManage()
     }
 
-    private fun createFragment(){
+    private fun initFragment(){
         mapFragment = MainMapFragment()
         hotPlaceFragment = HotPlaceFragment()
         searchLocationMenuFragment = SearchLocationMenuFragment()
         searchResultFragment = SearchResultFragment()
         cfm = childFragmentManager
+    }
+
+    private fun replaceFragment(op: Int, result: String?){
+        when(op){
+            1 -> {
+                childFragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container, hotPlaceFragment, "HP").addToBackStack(null)
+                    .commit()
+            }
+            2 -> {
+                childFragmentManager.beginTransaction().
+                replace(R.id.fragment_container,searchLocationMenuFragment,"SLM").addToBackStack(null).commit()
+            }
+            3 -> {
+                val transaction = childFragmentManager.beginTransaction()
+                val bundle = Bundle()
+                bundle.putString("searchresult","$result")
+                searchResultFragment.arguments = bundle
+                transaction.replace(R.id.fragment_container,searchResultFragment,"SRF").addToBackStack(null).commit()
+            }
+        }
     }
 
     private fun searchViewManage(){
@@ -112,9 +131,7 @@ class SearchFragment: Fragment(), OnBackPressedListener{
     private fun searchViewFocusChange(){
         sv_searchview.setOnQueryTextFocusChangeListener{ view: View, b: Boolean ->
             if(childFragmentManager.findFragmentByTag("HP")==null) {
-                childFragmentManager.beginTransaction()
-                    .replace(R.id.fragment_container, hotPlaceFragment, "HP").addToBackStack(null)
-                    .commit()
+                replaceFragment(1,null)
                 searchOnQueryFlag = true
             }
             changeStateCloseButton(true)
@@ -123,10 +140,10 @@ class SearchFragment: Fragment(), OnBackPressedListener{
 
     private fun setOnQueryTextChange(){
         sv_searchview.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
-            override fun onQueryTextSubmit(p0: String?): Boolean {
+            override fun onQueryTextSubmit(result: String?): Boolean {
                 sv_searchview.clearFocus()
                 if (childFragmentManager.findFragmentByTag("SRF") == null) {
-                    childFragmentManager.beginTransaction().replace(R.id.fragment_container, searchResultFragment, "SRF").addToBackStack(null).commit()
+                    replaceFragment(3,result)
                     btn_search_result_map.visibility = View.VISIBLE
                 }
                 return true
@@ -138,15 +155,11 @@ class SearchFragment: Fragment(), OnBackPressedListener{
                     onBackPressed()
                     //childFragmentManager.popBackStack()
                     //sv_searchview.clearFocus()
-                    // searchlocationmenufragment 가 null 이아니면 삭제코드 추가
-//                    if(childFragmentManager.findFragmentByTag("SLM")!=null)
-//                        cfm.popBackStack()
                 }
                 else{
                     if(searchOnQueryFlag)
                         if(childFragmentManager.findFragmentByTag("SLM")==null)
-                            childFragmentManager.beginTransaction().
-                            replace(R.id.fragment_container,searchLocationMenuFragment,"SLM").addToBackStack(null).commit()
+                            replaceFragment(2,null)
 
                 }
                 return false

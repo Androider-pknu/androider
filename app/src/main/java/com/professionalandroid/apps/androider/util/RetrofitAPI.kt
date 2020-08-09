@@ -4,9 +4,7 @@ import com.professionalandroid.apps.androider.model.AddressModel
 import com.professionalandroid.apps.androider.model.ErrMsg
 import com.professionalandroid.apps.androider.model.StoreDTO
 import retrofit2.Call
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
-import retrofit2.http.POST
+import retrofit2.http.*
 
 interface RetrofitAPI {
     @FormUrlEncoded
@@ -23,4 +21,13 @@ interface RetrofitAPI {
         @Field("address") address: String,
         @Field("number") number: String?
     ): Call<StoreDTO>
+
+    // 학진이가 추가한 부분
+    @GET("hakjin/store.php")
+    fun getStore(
+        @Query("category")category: String,
+        @Query("radius")radius:Double,
+        @Query("latitude")latitude:Double,
+        @Query("longitude")longitude:Double
+    ): Call<List<StoreDTO>>
 }

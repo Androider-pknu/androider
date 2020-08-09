@@ -9,5 +9,8 @@ data class StoreDTO(
     val name: String,
     val category: String,
     val address: String,
-    val number: String?
+    val number: String?,
+    val distance: Double,
+    val latitude: Double,
+    val longitude: Double
 ) : Parcelable
