@@ -22,5 +22,8 @@
     <color name="selected_item">#50535C</color>
 
     <color name="material_grey200">#EEEEEE</color>
+    <color name="material_grey300">#E0E0E0</color>
+
+    <color name="material_amber500">#FFC107</color>
 
 </resources>

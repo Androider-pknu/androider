@@ -16,7 +16,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".navigation.addpost.SelectPhotoActivity"></activity>
+        <activity
+            android:name="com.professionalandroid.apps.test.StoreInfoTestActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".navigation.addpost.SelectPhotoActivity" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -39,13 +47,7 @@
             android:name=".navigation.addpost.AddPostActivity"
             android:screenOrientation="fullSensor"
             android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".LoginActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".LoginActivity"></activity>
         <activity android:name=".MainActivity" />
     </application>
 

@@ -3,10 +3,9 @@ package com.professionalandroid.apps.androider.util
 import com.professionalandroid.apps.androider.model.AddressModel
 import com.professionalandroid.apps.androider.model.ErrMsg
 import com.professionalandroid.apps.androider.model.StoreDTO
+import com.professionalandroid.apps.androider.model.TagDTO
 import retrofit2.Call
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
-import retrofit2.http.POST
+import retrofit2.http.*
 
 interface RetrofitAPI {
     @FormUrlEncoded
@@ -23,4 +22,9 @@ interface RetrofitAPI {
         @Field("address") address: String,
         @Field("number") number: String?
     ): Call<StoreDTO>
+
+    @GET("/ostest/getTags.php")
+    fun getTags(
+        @Query("id") storeID: Int
+    ): Call<List<TagDTO>>
 }
