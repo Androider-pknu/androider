@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="postDTO"
+            type="com.professionalandroid.apps.androider.model.TestPostDTO" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/iv_post_image"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/image2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_post_nickname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:maxLength="5"
+            android:text="@{postDTO.memberDTO.nickname}"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/iv_post_image"
+            app:layout_constraintTop_toTopOf="@+id/iv_post_image" />
+
+        <TextView
+            android:id="@+id/tv_post_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:text="@{postDTO.memberDTO.userID}"
+            app:layout_constraintStart_toEndOf="@+id/tv_post_nickname"
+            app:layout_constraintTop_toTopOf="@+id/tv_post_nickname" />
+
+        <TextView
+            android:id="@+id/tv_post_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{postDTO.timestamp}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tv_post_id" />
+
+        <TextView
+            android:id="@+id/tv_post_content"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:ellipsize="end"
+            android:maxLines="9"
+            android:text="@{postDTO.content}"
+            app:layout_constraintEnd_toStartOf="@+id/tv_post_time"
+            app:layout_constraintStart_toEndOf="@+id/iv_post_image"
+            app:layout_constraintTop_toBottomOf="@+id/tv_post_nickname" />
+
+        <GridLayout
+            android:id="@+id/gl_post_image"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="@+id/tv_post_content"
+            app:layout_constraintStart_toStartOf="@+id/tv_post_content"
+            app:layout_constraintTop_toBottomOf="@+id/tv_post_content">
+
+        </GridLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/post_address_container"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="@+id/gl_post_image"
+            app:layout_constraintStart_toStartOf="@+id/gl_post_image"
+            app:layout_constraintTop_toBottomOf="@+id/gl_post_image">
+
+            <ImageView
+                android:id="@+id/iv_category_image"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/ic_baseline_store_24"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_item_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:ellipsize="end"
+                android:maxLength="10"
+                android:text="@{postDTO.storeDTO.name}"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@+id/iv_category_image"
+                app:layout_constraintTop_toTopOf="@+id/iv_category_image" />
+
+            <TextView
+                android:id="@+id/tv_item_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{postDTO.storeDTO.address}"
+                android:textSize="11sp"
+                android:textColor="@color/material_grey400"
+                app:layout_constraintStart_toStartOf="@+id/tv_item_name"
+                app:layout_constraintTop_toBottomOf="@+id/tv_item_name" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/background_view"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_item_address" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <ImageView
+            android:id="@+id/iv_post_like"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_marginTop="16dp"
+            android:src="@drawable/ic_baseline_favorite_16"
+            app:layout_constraintStart_toStartOf="@+id/post_address_container"
+            app:layout_constraintTop_toBottomOf="@+id/post_address_container" />
+
+        <TextView
+            android:id="@+id/tv_post_like"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:text="@{String.valueOf(postDTO.likeCount)}"
+            android:textColor="@color/material_grey400"
+            android:textSize="11sp"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_post_like"
+            app:layout_constraintStart_toEndOf="@+id/iv_post_like"
+            app:layout_constraintTop_toTopOf="@+id/iv_post_like" />
+
+        <ImageView
+            android:id="@+id/iv_post_comment"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_marginLeft="24dp"
+            android:src="@drawable/ic_baseline_comment_16"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_post_like"
+            app:layout_constraintStart_toEndOf="@+id/tv_post_like"
+            app:layout_constraintTop_toTopOf="@+id/tv_post_like" />
+
+        <TextView
+            android:id="@+id/tv_post_comment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:text="@{String.valueOf(postDTO.commentCount)}"
+            android:textColor="@color/material_grey400"
+            android:textSize="11sp"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_post_comment"
+            app:layout_constraintStart_toEndOf="@+id/iv_post_comment"
+            app:layout_constraintTop_toTopOf="@+id/iv_post_comment" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/background_view"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iv_post_like" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

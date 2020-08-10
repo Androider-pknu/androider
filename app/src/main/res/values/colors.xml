@@ -23,6 +23,8 @@
 
     <color name="material_grey200">#EEEEEE</color>
     <color name="material_grey300">#E0E0E0</color>
+    <color name="material_grey400">#BDBDBD</color>
+    <color name="material_grey500">#9E9E9E</color>
 
     <color name="material_amber500">#FFC107</color>
 
