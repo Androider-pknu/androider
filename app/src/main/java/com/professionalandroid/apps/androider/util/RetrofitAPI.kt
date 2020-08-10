@@ -25,4 +25,6 @@ interface RetrofitAPI {
 
     @GET("jongyoon/post_test.php")
     fun takePlacePost(@Query("index")index:Int):Call<List<TestPost>>
+//    @GET("jongyoon/post_test.php")
+//    fun takePlacePost(@Query("page")page:Int,@Query("limit")limit:Int):Call<List<TestPost>>
 }

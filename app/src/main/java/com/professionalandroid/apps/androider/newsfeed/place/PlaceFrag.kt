@@ -58,12 +58,7 @@ class PlaceFrag():Fragment(){
     }
     private fun moveToFragment(newFragment:Fragment){
         requireActivity().supportFragmentManager.beginTransaction()
-            .setCustomAnimations(
-                R.anim.start_more_view,
-                R.anim.left_view,
-                R.anim.right_view,
-                R.anim.end_more_view
-            )
+            .setCustomAnimations(R.anim.start_more_view, R.anim.left_view, R.anim.right_view, R.anim.end_more_view)
             .addToBackStack(null).add(R.id.layout_main_content,newFragment).hide(NewsFeedFragment.thisFragment).commit()
     }
     private fun setLocationButton(view:View){
@@ -211,26 +206,6 @@ class PlaceFrag():Fragment(){
         }
     }
     private fun setAllPostsOfPlace(view:View){
-//        val sign = AWSRetrofit.getAPI().takePlacePost()
-//        sign.enqueue(object: Callback<List<TestPost>> {
-//            override fun onFailure(call: Call<List<TestPost>>, t: Throwable) {
-//                Log.d("Test",t.message)
-//            }
-//
-//            override fun onResponse(call: Call<List<TestPost>>, response: Response<List<TestPost>>) {
-//                if(response.isSuccessful){
-//                    Log.d("Test","성공")
-//                    val list=response.body()!!
-//                    postList=ArrayList()
-//                    postAdapter=TestPostAdapter(postList)
-//                    postLayoutManager= LinearLayoutManager(requireContext())
-//                    //view.all_post.layoutManager=LinearLayoutManager(requireContext())
-//                    //view.all_post.setHasFixedSize(true)
-//                    //val dataAdapter=TestPostAdapter(makeDataList(list))
-//                    //view.all_post.adapter=dataAdapter
-//                }
-//            }
-//        })
         postList=ArrayList()
         postAdapter=TestPostAdapter(postList)
         postLayoutManager= LinearLayoutManager(requireContext())
@@ -243,6 +218,8 @@ class PlaceFrag():Fragment(){
     private fun addScrollListener(view:View){
         view.all_post.addOnScrollListener(object: RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                Log.d("Test2",postLayoutManager.findLastCompletelyVisibleItemPosition().toString())
+                Log.d("Test2",(postList.size-1).toString())
                 if(notLoading && postLayoutManager.findLastCompletelyVisibleItemPosition()==postList.size-1){
                     postList.add(TestPost(0,"progess",0,1,"11"))
                     postAdapter.notifyItemInserted(postList.size-1)
@@ -257,11 +234,14 @@ class PlaceFrag():Fragment(){
                             postList.removeAt(postList.size-1)
                             postAdapter.notifyItemRemoved(postList.size)
                             if(response.body()!!.isNotEmpty()){
+                                postList.clear()
                                 postList.addAll(response.body()!!)
+                                Log.d("Test1",postList.size.toString())
                                 postAdapter.notifyDataSetChanged()
                                 notLoading=true
                             }
                             else{
+                                Log.d("Test3","last")
                                 Toast.makeText(requireContext(),"End of data reached",Toast.LENGTH_SHORT).show()
                             }
                         }
@@ -280,6 +260,7 @@ class PlaceFrag():Fragment(){
             override fun onResponse(call: Call<List<TestPost>>, response: Response<List<TestPost>>) {
                 if(response.isSuccessful){
                     postList.addAll(response.body()!!)
+                    Log.d("Test",postList.size.toString())
                     postAdapter.notifyDataSetChanged()
                 }
             }
