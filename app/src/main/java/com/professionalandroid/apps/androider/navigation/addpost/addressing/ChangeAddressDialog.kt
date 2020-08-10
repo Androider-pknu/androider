@@ -6,9 +6,10 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.DialogFragment
 import com.professionalandroid.apps.androider.R
+import com.professionalandroid.apps.androider.util.SEARCH_ADDRESS_REQUEST
 
 class ChangeAddressDialog : DialogFragment() {
-    private val SEARCH_ADDRESS_REQUEST = 9001
+
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return activity?.let {

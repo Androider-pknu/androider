@@ -7,11 +7,11 @@ import android.view.LayoutInflater
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.professionalandroid.apps.androider.R
+import com.professionalandroid.apps.androider.util.INPUT_CATEGORY_REQUEST
 import kotlinx.android.synthetic.main.activity_choosesubcategory.*
 import kotlinx.android.synthetic.main.item_category.view.*
 
 class ChooseSubCategoryActivity : AppCompatActivity() {
-    val INPUT_CATEGORY_REQUEST = 7001
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

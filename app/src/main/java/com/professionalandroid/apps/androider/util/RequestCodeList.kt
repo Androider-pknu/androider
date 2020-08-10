@@ -1,3 +1,10 @@
 package com.professionalandroid.apps.androider.util
 
 const val SELECT_PHOTO_REQUEST = 5
+const val READ_EXTERNAL_STORAGE_REQUEST = 31
+const val ITEM_CATEGORY_REQUEST = 5002
+const val STORE_CATEGORY_REQUEST = 5001
+const val CHANGE_ADDRESS_REQUEST = 8001
+const val SUB_CATEGORY_REQUEST = 6001
+const val INPUT_CATEGORY_REQUEST = 7001
+const val SEARCH_ADDRESS_REQUEST = 9001

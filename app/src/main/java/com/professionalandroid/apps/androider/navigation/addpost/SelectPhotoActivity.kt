@@ -21,12 +21,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.professionalandroid.apps.androider.R
+import com.professionalandroid.apps.androider.util.READ_EXTERNAL_STORAGE_REQUEST
 import kotlinx.android.synthetic.main.activity_selectphotoactivity.*
 import kotlinx.android.synthetic.main.item_selectphoto_image.view.*
 
 
 class SelectPhotoActivity : AppCompatActivity() {
-    private val READ_EXTERNAL_STORAGE_REQUEST = 31
     private val checkedList = arrayListOf<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {

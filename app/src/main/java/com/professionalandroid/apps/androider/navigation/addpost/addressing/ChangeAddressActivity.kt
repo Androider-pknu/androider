@@ -12,11 +12,12 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.professionalandroid.apps.androider.R
+import com.professionalandroid.apps.androider.util.SEARCH_ADDRESS_REQUEST
 import kotlinx.android.synthetic.main.activity_changeaddress.*
 import java.util.*
 
 class ChangeAddressActivity : AppCompatActivity(), OnMapReadyCallback {
-    private val SEARCH_ADDRESS_REQUEST = 9001
+
     companion object {
         lateinit var latLng: LatLng
     }

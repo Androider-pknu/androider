@@ -15,14 +15,13 @@ import com.professionalandroid.apps.androider.model.ItemDTO
 import com.professionalandroid.apps.androider.model.PostDTO
 import com.professionalandroid.apps.androider.navigation.addpost.AddPostActivity
 import com.professionalandroid.apps.androider.util.AWSRetrofit
+import com.professionalandroid.apps.androider.util.ITEM_CATEGORY_REQUEST
 import kotlinx.android.synthetic.main.activity_additem.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class AddItemActivity : AppCompatActivity() {
-    val ITEM_CATEGORY_REQUEST = 5002
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_additem)
@@ -38,37 +37,7 @@ class AddItemActivity : AppCompatActivity() {
         }
 
         btn_additem_complete.setOnClickListener {
-            val retrofitAPI = AWSRetrofit.getAPI()
-            val name = textinput_additem_name.text.toString()
-            val category = textview_additem_selecteditem.text.toString()
-            Log.d(this::class.java.simpleName, "insert name: $name, category: $category")
-
-            val call = retrofitAPI.addItem(name, category)
-            call.enqueue(object : Callback<ItemDTO> {
-                override fun onFailure(call: Call<ItemDTO>, t: Throwable) {
-                    Log.d("AddItem::onFailure", "retrofit false")
-                    Log.d("AddItem::onResponse", "${t.message}")
-                }
-
-                override fun onResponse(call: Call<ItemDTO>, response: Response<ItemDTO>) {
-                    Log.d("AddItem::onResponse", "retrofit response")
-                    if (response.isSuccessful) {
-                        Log.d("AddItem::onResponse", "retrofit successful")
-
-                        val insertedData = response.body()
-                        Log.d("AddItem inserted data", insertedData.toString())
-
-                        val intent = Intent(this@AddItemActivity, AddPostActivity::class.java)
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
-                        intent.putExtra("resultDTO", insertedData)
-                        intent.putExtra("type", PostDTO.ITEM)
-                        startActivity(intent)
-                    } else {
-                        Log.d("AddStore::onResponse", "${response.errorBody()?.string()}")
-                    }
-                }
-            })
+            sendAddItemRequest()
         }
 
         initCompleteCheck()
@@ -97,6 +66,46 @@ class AddItemActivity : AppCompatActivity() {
             CompleteBtnChecker(essentialList) {})
         textview_additem_selecteditem.addTextChangedListener(object :
             CompleteBtnChecker(essentialList) {})
+    }
+
+    private fun sendAddItemRequest() {
+        val call = createAddItemCall()
+
+        call.enqueue(object : Callback<ItemDTO> {
+            override fun onFailure(call: Call<ItemDTO>, t: Throwable) {
+                Log.d("AddItem::onFailure", "retrofit false")
+                Log.d("AddItem::onResponse", "${t.message}")
+            }
+
+            override fun onResponse(call: Call<ItemDTO>, response: Response<ItemDTO>) {
+                Log.d("AddItem::onResponse", "retrofit response")
+                if (response.isSuccessful) {
+                    Log.d("AddItem::onResponse", "retrofit successful")
+
+                    val insertedData = response.body()
+                    Log.d("AddItem inserted data", insertedData.toString())
+
+                    val intent = Intent(this@AddItemActivity, AddPostActivity::class.java)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+                    intent.putExtra("resultDTO", insertedData)
+                    intent.putExtra("type", PostDTO.ITEM)
+                    startActivity(intent)
+                } else {
+                    Log.d("AddStore::onResponse", "${response.errorBody()?.string()}")
+                }
+            }
+        })
+    }
+
+    private fun createAddItemCall(): Call<ItemDTO> {
+        val retrofitAPI = AWSRetrofit.getAPI()
+        val name = textinput_additem_name.text.toString()
+        val category = textview_additem_selecteditem.text.toString()
+        Log.d(this::class.java.simpleName, "insert name: $name, category: $category")
+
+        val call = retrofitAPI.addItem(name, category)
+        return call
     }
 
     open inner class CompleteBtnChecker(val essentialList: List<TextView>) : TextWatcher {

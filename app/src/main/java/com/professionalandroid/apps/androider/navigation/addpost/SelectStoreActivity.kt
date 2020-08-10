@@ -11,9 +11,12 @@ class SelectStoreActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_selectstore)
+
+        // TODO(장소 검색 로직 구현)
+        // TODO(현재 장소와 가까운 장소 리스트를 리사이클러 뷰로 표현)
+
         btn_selectstore_addstore.setOnClickListener {
-            val dialog =
-                ChooseAddressingDialog()
+            val dialog = ChooseAddressingDialog()
             dialog.show(supportFragmentManager, "missiles")
         }
         btn_selectstore_back.setOnClickListener {

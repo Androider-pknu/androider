@@ -7,14 +7,13 @@ import android.view.LayoutInflater
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.professionalandroid.apps.androider.R
+import com.professionalandroid.apps.androider.util.SUB_CATEGORY_REQUEST
 import kotlinx.android.synthetic.main.activity_choosecategory.*
 import kotlinx.android.synthetic.main.item_category.view.*
 import kotlinx.android.synthetic.main.layout_category.view.*
 
 class
 ChooseCategoryActivity : AppCompatActivity() {
-    val SUB_CATEGORY_REQUEST = 6001
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_choosecategory)
@@ -24,6 +23,21 @@ ChooseCategoryActivity : AppCompatActivity() {
         }
 
         inflateContent(intent.getStringArrayExtra("type"))
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == SUB_CATEGORY_REQUEST) {
+            when (resultCode) {
+                Activity.RESULT_OK -> {
+                    setResult(Activity.RESULT_OK, data)
+                    finish()
+                }
+                else ->
+                    Toast.makeText(this, "fail", Toast.LENGTH_LONG).show()
+            }
+        }
     }
 
     private fun inflateContent(type: Array<String>) {
@@ -68,18 +82,4 @@ ChooseCategoryActivity : AppCompatActivity() {
         startActivityForResult(intent, SUB_CATEGORY_REQUEST)
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if (requestCode == SUB_CATEGORY_REQUEST) {
-            when (resultCode) {
-                Activity.RESULT_OK -> {
-                    setResult(Activity.RESULT_OK, data)
-                    finish()
-                }
-                else ->
-                    Toast.makeText(this, "fail", Toast.LENGTH_LONG).show()
-            }
-        }
-    }
 }
