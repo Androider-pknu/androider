@@ -44,6 +44,7 @@ class PlaceFrag():Fragment(){
     var notLoading=true
     lateinit var postLayoutManager: LinearLayoutManager
     lateinit var postApi:RetrofitAPI
+    var startPoint=0
     lateinit var retrofit:Retrofit
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?{
         val view=inflater.inflate(R.layout.fragment1,container,false)
@@ -212,46 +213,42 @@ class PlaceFrag():Fragment(){
         view.all_post.adapter=postAdapter
         view.all_post.layoutManager=postLayoutManager
         postApi=AWSRetrofit.getAPI()
-        load(0)
+        load(startPoint)
         addScrollListener(view)
     }
     private fun addScrollListener(view:View){
         view.all_post.addOnScrollListener(object: RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                Log.d("Test2",postLayoutManager.findLastCompletelyVisibleItemPosition().toString())
-                Log.d("Test2",(postList.size-1).toString())
                 if(notLoading && postLayoutManager.findLastCompletelyVisibleItemPosition()==postList.size-1){
-                    postList.add(TestPost(0,"progess",0,1,"11"))
-                    postAdapter.notifyItemInserted(postList.size-1)
+//                    postList.add(TestPost(0,"nothing",0,1,"11"))
+//                    postAdapter.notifyItemInserted(postList.size-1) -> 이렇게 하면 자꾸 스크롤이 튕기던데 이유를 잘 모르겠음. 그래서 일단 주석처리 해놓음.
                     notLoading=false
-                    val call=AWSRetrofit.getAPI().takePlacePost(postList.size-1)
+                    startPoint+=20
+                    val handler = android.os.Handler()//너무 빨리 데이터가 로드되면 스크롤 되는 Ui 를 확인하기 어려우므로
+                    handler.postDelayed({//Handler 를 사용하여 1초간 postDelayed 시킴.
+                    val call=AWSRetrofit.getAPI().takePlacePost(startPoint)
                     call.enqueue(object : Callback<List<TestPost>>{
                         override fun onFailure(call: Call<List<TestPost>>, t: Throwable) {
                             Log.d("Test","실패!")
                         }
 
                         override fun onResponse(call: Call<List<TestPost>>, response: Response<List<TestPost>> ) {
-                            postList.removeAt(postList.size-1)
-                            postAdapter.notifyItemRemoved(postList.size)
+//                            postList.removeAt(postList.size-1)
+//                            postAdapter.notifyItemRemoved(postList.size)
                             if(response.body()!!.isNotEmpty()){
-                                postList.clear()
                                 postList.addAll(response.body()!!)
-                                Log.d("Test1",postList.size.toString())
                                 postAdapter.notifyDataSetChanged()
                                 notLoading=true
                             }
-                            else{
-                                Log.d("Test3","last")
-                                Toast.makeText(requireContext(),"End of data reached",Toast.LENGTH_SHORT).show()
-                            }
+                            else Toast.makeText(requireContext(),"더이상 로드할 포스트가 없습니다!",Toast.LENGTH_SHORT).show()
                         }
-                    })
+                    })},1000)
                 }
             }
         })
     }
-    private fun load(i:Int){
-        val call=postApi.takePlacePost(i)
+    private fun load(start:Int){
+        val call=postApi.takePlacePost(start)
         call.enqueue(object : Callback<List<TestPost>>{
             override fun onFailure(call: Call<List<TestPost>>, t: Throwable) {
                 Log.d("Test","연결 실패!!!")
@@ -260,18 +257,10 @@ class PlaceFrag():Fragment(){
             override fun onResponse(call: Call<List<TestPost>>, response: Response<List<TestPost>>) {
                 if(response.isSuccessful){
                     postList.addAll(response.body()!!)
-                    Log.d("Test",postList.size.toString())
                     postAdapter.notifyDataSetChanged()
                 }
             }
         })
-    }
-    fun makeDataList(dataList:List<TestPost>):ArrayList<TestPost>{
-        var list= arrayListOf<TestPost>()
-        for(i in dataList.indices){
-            list.add(TestPost(i,dataList[i].content,dataList[i].likeCount,dataList[i].type,dataList[i].timestamp))
-        }
-        return list
     }
 //    private fun setSearchButton(view: View){
 //        view.place_search_button.setOnClickListener {
