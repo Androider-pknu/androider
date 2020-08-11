@@ -1,5 +1,7 @@
 package com.professionalandroid.apps.androider.newsfeed
 
+import android.icu.text.SimpleDateFormat
+import android.os.Build
 import android.text.Layout
 import android.util.Log
 import android.view.LayoutInflater
@@ -7,10 +9,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.professionalandroid.apps.androider.R
 import com.professionalandroid.apps.androider.newsfeed.place.partranking.PartRank
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.util.*
+import kotlin.collections.ArrayList
 
 //class TestPostAdapter(var list:ArrayList<TestPost>): RecyclerView.Adapter<RecyclerView.ViewHolder>(){
 //    companion object{
@@ -64,23 +71,44 @@ import com.professionalandroid.apps.androider.newsfeed.place.partranking.PartRan
 class TestPostAdapter(val list: ArrayList<TestPost>) : RecyclerView.Adapter<TestPostAdapter.CustomViewHolder>(){
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomViewHolder {
         val view= LayoutInflater.from(parent.context).inflate(R.layout.place_all_posts,parent,false)
-        return CustomViewHolder(
-            view
-        )
+        return CustomViewHolder(view)
     }
     override fun getItemCount()=list.size
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
         holder.num.text=list[position].author.toString()
         holder.mainContent.text=list[position].content
-        holder.time.text=list[position].timestamp
+        holder.time.text=calculateTime(list[position].timestamp)
         holder.likeCount.text=list[position].likeCount.toString()
     }
     class CustomViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
-        val num=itemView.findViewById<TextView>(R.id.author)
-        val time=itemView.findViewById<TextView>(R.id.time)
+        val num = itemView.findViewById<TextView>(R.id.user_name)
+        val time=itemView.findViewById<TextView>(R.id.when_post)
         val mainContent=itemView.findViewById<TextView>(R.id.content)
-        val heartImage=itemView.findViewById<ImageView>(R.id.like)
-        val likeCount=itemView.findViewById<TextView>(R.id.like_count)
+        val heartImage=itemView.findViewById<ImageView>(R.id.post_heart)
+        val likeCount=itemView.findViewById<TextView>(R.id.post_heart_number)
+    }
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun calculateTime(time:String) : String{
+        val now=LocalDateTime.now()
+        val formatter=DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+        val formatted=now.format(formatter)
+        val format=SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+        val nowDate=format.parse(formatted.toString())
+        val localDate=format.parse(time)
+        val diff=nowDate.time-localDate.time
+        val diffStr=(diff/(24*60*60*1000)).toString()
+        if(diffStr!="0") {
+            val num=diffStr.toInt()
+            return if(num<=29) num.toString()+"일 전"
+            else if(num in 30..364) (num/30) .toString()+"달 전"
+            else (num/365).toString() + "년 전"
+        }
+        else {
+            return if(diff/1000 < 60) "방금"
+            else if(diff/60000 in 1..59) (diff/60000).toString()+"분 전"
+            else (diff/3600000).toString()+ "시간 전"
+        }
     }
 }

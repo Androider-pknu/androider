@@ -24,7 +24,7 @@ interface RetrofitAPI {
     ): Call<StoreDTO>
 
     @GET("jongyoon/post_test.php")
-    fun takePlacePost(@Query("index1")start:Int):Call<List<TestPost>>
+    fun takePlacePost(@Query("index1")start:Int,@Query("type")type:Int):Call<List<TestPost>>
 //    @GET("jongyoon/post_test.php")
 //    fun takePlacePost(@Query("page")page:Int,@Query("limit")limit:Int):Call<List<TestPost>>
 }

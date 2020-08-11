@@ -251,7 +251,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="250dp"
+                android:layout_height="wrap_content"
                 android:background="@drawable/only_bottom"
                 android:orientation="vertical">
 
@@ -278,7 +278,7 @@
                 android:layout_height="wrap_content">
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/all_post"
+                    android:id="@+id/all_place_post"
                     android:overScrollMode="never"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
