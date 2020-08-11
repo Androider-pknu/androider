@@ -17,6 +17,7 @@ import com.professionalandroid.apps.androider.R
 import com.professionalandroid.apps.androider.model.StoreDTO
 import com.professionalandroid.apps.androider.navigation.SearchFragment.Companion.cfm
 import com.professionalandroid.apps.androider.navigation.SearchFragment.Companion.mapFragment
+import com.professionalandroid.apps.androider.search.map.marker.LMMarkerItem
 import com.professionalandroid.apps.androider.util.AWSRetrofit
 import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.android.synthetic.main.fragment_search_result.*
@@ -27,17 +28,21 @@ import retrofit2.Response
 class SearchResultFragment : Fragment(),
     OnBackPressedListener, SearchResultAdapter.OnSRItemClickListener {
 
+    private var tabSelect = 1
     private lateinit var resultAdapter: SearchResultAdapter
     private lateinit var mainAct: MainActivity
 
+    private var rootView: View? = null
+
+    private val locationList = ArrayList<LMMarkerItem>() // Marker Location List
     private var recommendList = ArrayList<StoreDTO>()
     private var nearPlaceList = ArrayList<StoreDTO>()
-    private var cameraZoom = 0.0f // Current Camera Zoom
-    private var mapRadius: Double = 0.0 // mapRadius EX) 14.0F -> 3KM
+
+    private var mapRadius: Double = 0.0 // mapRadius
     private lateinit var cameraPosition: LatLng
 
     override fun onAttach(context: Context) {
-        Log.d("hakjin","SearchResultFragment OnAttach")
+        Log.d("SearchResult","SearchResultFragment OnAttach")
         super.onAttach(context)
         resultAdapter = SearchResultAdapter()
         configureRadius()
@@ -47,7 +52,9 @@ class SearchResultFragment : Fragment(),
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_search_result, container, false)
+        if(rootView==null)
+            rootView = inflater.inflate(R.layout.fragment_search_result, container, false)
+        return rootView
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -55,6 +62,31 @@ class SearchResultFragment : Fragment(),
         setResultAdapter()
         manageTabLayout()
         clickListenerMange()
+
+        mainAct.btn_search_result_map.setOnClickListener {
+            when(mainAct.btn_search_result_map.text){
+                "지도" -> changeResultMapState(false)
+                "목록"-> changeResultMapState(true)
+            }
+        }
+    }
+
+    fun changeResultMapState(flag: Boolean){
+        mapFragment.markerFlag = false // Marker Used From Search Result
+        when(flag){
+            false -> { // 마커 O
+                mainAct.btn_search_result_map.text ="목록"
+                cfm.beginTransaction().replace(R.id.fragment_container,mapFragment).addToBackStack(null).commit()
+                initMarkerLocation()
+                mapFragment.markerAdd(locationList,false,-1)
+            }
+            true -> { // 마커 X
+                mainAct.sv_searchview.clearFocus()
+                mainAct.btn_search_result_map.text ="지도"
+                mapFragment.markerDelete()
+                cfm.popBackStack()
+            }
+        }
     }
 
     private fun clickListenerMange(){
@@ -65,58 +97,55 @@ class SearchResultFragment : Fragment(),
         search_tab_layout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener{
             override fun onTabReselected(tab: TabLayout.Tab?) { /* adapter 에 넣을 리스트를 초기화 0 -> 주변장소 1 -> 추천장소 */
                 when (tab?.position){
-                    0 -> resultAdapter.setList(nearPlaceList)
-                    1 -> resultAdapter.setList(recommendList)
+                    0 -> {
+                        resultAdapter.setList(nearPlaceList)
+                        tabSelect = 1
+                    }
+                    1 -> {
+                        resultAdapter.setList(recommendList)
+                        tabSelect = 2
+                    }
                 }
             }
             override fun onTabUnselected(tab: TabLayout.Tab?) {
             }
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 when (tab?.position){
-                    0 -> resultAdapter.setList(nearPlaceList)
-                    1 -> resultAdapter.setList(recommendList)
+                    0 -> {
+                        resultAdapter.setList(nearPlaceList)
+                        tabSelect = 1
+                    }
+                    1 -> {
+                        resultAdapter.setList(recommendList)
+                        tabSelect = 2
+                    }
                 }
             }
         })
     }
 
-    private fun setResultAdapter() { // Adapter Set
+    private fun setResultAdapter() { // Set Adapter
         rv_search_result.apply {
             layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
             setHasFixedSize(true)
             rv_search_result.adapter = resultAdapter
         }
     }
-    override fun onBackPressed() {
-        mainAct.btn_search_cancle.visibility = View.GONE
-        mapFragment.markerUpdate(false)
-        when(cfm.backStackEntryCount){
-            0 -> {
-                mainAct.setOnBackPressedListener(null)
-                mainAct.onBackPressed()
-            }
-            else -> {
-                mainAct.sv_searchview.clearFocus()
-                mainAct.sv_searchview.setQuery("",false)
-                cfm.popBackStack()
-                cfm.popBackStack()
-            }
-        }
-    }
 
-    private fun getStoreData(){ // Store Information Get
+    private fun getStoreData(){ // Get Store Information
         val string = arguments?.getString("searchresult").toString()
         val retrofitAPI = AWSRetrofit.getAPI()
         val call = retrofitAPI.getStore(string,mapRadius,cameraPosition.latitude,cameraPosition.longitude)
             call.enqueue(object : Callback<List<StoreDTO>> {
             override fun onFailure(call: retrofit2.Call<List<StoreDTO>>, t: Throwable) {
-                Log.d("retrofit",t.message)
+                Log.d("search result retrofit",t.message)
             }
 
             override fun onResponse(call: retrofit2.Call<List<StoreDTO>>, response: Response<List<StoreDTO>>) {
                 if(response.isSuccessful){
-                    Log.d("retrofit","${response.body()!!}\n")
+                    Log.d("search result retrofit","${response.body()!!}\n")
                     dataInfo(response.body()!! as ArrayList<StoreDTO>)
+                    initMarkerLocation()
                 }
             }
         })
@@ -137,10 +166,53 @@ class SearchResultFragment : Fragment(),
         resultAdapter.setList(nearPlaceList)
     }
 
-    private fun configureRadius(){ // Rendering Range decide from cameraZoom
-        cameraZoom = mapFragment.getCameraZoom()
+    private fun initMarkerLocation(){ // 받아온 데이터 들의 위치를 MarkerManager 에 넘김
+        when(tabSelect){
+            1 ->
+                for(item in nearPlaceList)
+                    locationList.add(LMMarkerItem(item.latitude,item.longitude))
+            2 ->
+                for(item in recommendList)
+                    locationList.add(LMMarkerItem(item.latitude,item.longitude))
+        }
+    }
+
+    override fun onSRItemClicked(view: View, position: Int) {
+        initMarkerLocation()
+        Log.d("hakjin", "검색결과 클릭$position")
+
+        mainAct.btn_search_result_map.text ="목록"
+        cfm.beginTransaction().replace(R.id.fragment_container,mapFragment).addToBackStack(null).commit()
+        mapFragment.markerAdd(locationList,true,position)
+        mapFragment.setCamera(17.0f,LatLng(locationList[position].lat,locationList[position].lon))
+    }
+
+    override fun onBackPressed() {
+        mainAct.btn_search_cancle.visibility = View.GONE
+        mapFragment.markerDelete()
+        when(cfm.backStackEntryCount){
+            0 -> {
+                mainAct.setOnBackPressedListener(null)
+                mainAct.onBackPressed()
+            }
+            2 -> { // Map 이 아닌상태에서 뒤로가기
+                mainAct.sv_searchview.clearFocus()
+                mainAct.sv_searchview.setQuery("",false)
+                cfm.popBackStack()
+                cfm.popBackStack()
+            }
+            else -> { // Map 에서 뒤로가기
+                changeResultMapState(true)
+                mainAct.sv_searchview.setQuery("", false)
+                cfm.popBackStack()
+                cfm.popBackStack()
+            }
+        }
+    }
+
+    private fun configureRadius(){ // Decide Rendering Range From CameraZoom
+        val cameraZoom = mapFragment.getCameraZoom()
         cameraPosition = mapFragment.getCameraPosition()
-        Log.d("map22","$mapRadius")
         when(cameraZoom){
             in 20.0f .. 21.0f -> { // 23m
                 mapRadius = 0.023
@@ -170,10 +242,5 @@ class SearchResultFragment : Fragment(),
                 mapRadius = 5.000
             }
         }
-    }
-
-    override fun onSRItemClicked(view: View, position: Int) {
-        Log.d("hakjin", "검색결과 클릭$position")
-        cfm.beginTransaction().replace(R.id.fragment_container, mapFragment).addToBackStack(null).commit()
     }
 }

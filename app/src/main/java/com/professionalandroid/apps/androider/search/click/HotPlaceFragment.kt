@@ -8,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
-import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -16,6 +15,7 @@ import com.professionalandroid.apps.androider.*
 import com.professionalandroid.apps.androider.navigation.SearchFragment.Companion.cfm
 import com.professionalandroid.apps.androider.navigation.SearchFragment.Companion.mapFragment
 import com.professionalandroid.apps.androider.navigation.SearchFragment.Companion.searchOnQueryFlag
+import com.professionalandroid.apps.androider.search.map.marker.LMMarkerItem
 import kotlinx.android.synthetic.main.fragment_hot_place.*
 import kotlinx.android.synthetic.main.fragment_search.*
 
@@ -104,66 +104,18 @@ class HotPlaceFragment : Fragment(),
         initNearHotPlaceList()
     }
     private fun initCategoryList(){
-        categoryList.add(
-            Category(
-                "음식점"
-            )
-        )
-        categoryList.add(
-            Category(
-                "카페"
-            )
-        )
-        categoryList.add(
-            Category(
-                "술집"
-            )
-        )
-        categoryList.add(
-            Category(
-                "한식"
-            )
-        )
-        categoryList.add(
-            Category(
-                "일식"
-            )
-        )
-        categoryList.add(
-            Category(
-                "중식"
-            )
-        )
-        categoryList.add(
-            Category(
-                "양식"
-            )
-        )
-        categoryList.add(
-            Category(
-                "분식"
-            )
-        )
-        categoryList.add(
-            Category(
-                "고깃집"
-            )
-        )
-        categoryList.add(
-            Category(
-                "해산물"
-            )
-        )
-        categoryList.add(
-            Category(
-                "디저트"
-            )
-        )
-        categoryList.add(
-            Category(
-                "베이커리"
-            )
-        )
+        categoryList.add(Category("음식점"))
+        categoryList.add(Category("카페"))
+        categoryList.add(Category("술집"))
+        categoryList.add(Category("한식"))
+        categoryList.add(Category("일식"))
+        categoryList.add(Category("중식"))
+        categoryList.add(Category("양식"))
+        categoryList.add(Category("분식"))
+        categoryList.add(Category("고깃집"))
+        categoryList.add(Category("해산물"))
+        categoryList.add(Category("디저트"))
+        categoryList.add(Category("베이커리"))
     }
     private fun initNearHotPlaceList(){
         for (i in 1..20) nearHotplaceList.add(
@@ -210,27 +162,26 @@ class HotPlaceFragment : Fragment(),
         override fun onClick(view: View?) {
             when(view?.id){
                 R.id.imgbtn_local_master1 -> {
-                    Toast.makeText(requireContext(), "1등클릭", Toast.LENGTH_LONG).show()
 
                 }
                 R.id.imgbtn_local_master2 -> {
-                    Toast.makeText(requireContext(), "2등클릭", Toast.LENGTH_LONG).show()
 
                 }
                 R.id.imgbtn_local_master3 -> {
-                    Toast.makeText(requireContext(), "3등클릭", Toast.LENGTH_LONG).show()
 
                 }
                 R.id.imgbtn_local_master4 -> {
-                    Toast.makeText(requireContext(), "4등클릭", Toast.LENGTH_LONG).show()
 
                 }
                 R.id.imgbtn_local_master5 -> {
-                    Toast.makeText(requireContext(), "5등클릭", Toast.LENGTH_LONG).show()
 
                 }
             }
-            mapFragment.markerUpdate(true)
+            val list = ArrayList<LMMarkerItem>() // 수정예정
+            mapFragment.markerAdd(list,false,-1)
+
+            //mapFragment.markerUpdate(true) -> Real
+
             mainAct.sv_searchview.clearFocus()
             cfm.beginTransaction().setCustomAnimations(
                 R.anim.enter_from_right,
@@ -258,7 +209,8 @@ class HotPlaceFragment : Fragment(),
                 mainAct.sv_searchview.visibility = View.VISIBLE
                 mainAct.btn_search_cancle.visibility = View.VISIBLE
 
-                mapFragment.markerUpdate(false)
+                //mapFragment.markerUpdate(false)
+                mapFragment.markerDelete()
             }
         }
     }

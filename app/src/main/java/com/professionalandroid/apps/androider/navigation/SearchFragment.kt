@@ -27,8 +27,6 @@ class SearchFragment: Fragment(), OnBackPressedListener{
     private lateinit var searchLocationMenuFragment: SearchLocationMenuFragment
     private lateinit var searchResultFragment: SearchResultFragment
 
-    private var flag = false // 검색결과 맵 마커표시 false -> 맵 X, true -> 맵 O
-
     companion object{
         lateinit var cfm: FragmentManager
         lateinit var mapFragment: MainMapFragment
@@ -43,7 +41,7 @@ class SearchFragment: Fragment(), OnBackPressedListener{
         initFragment()
     }
     override fun onCreate(savedInstanceState: Bundle?) {
-        Log.d("hakjin","SearchFragment onCreate")
+        Log.d("SearchFragment","SearchFragment onCreate")
         super.onCreate(savedInstanceState)
     }
 
@@ -98,33 +96,12 @@ class SearchFragment: Fragment(), OnBackPressedListener{
         btn_search_cancle.setOnClickListener {
             sv_searchview.clearFocus()
             btn_search_result_map.visibility = View.GONE
-            mapFragment.markerUpdate(false)
+            if(childFragmentManager.findFragmentByTag("SRF")!=null)
+                searchResultFragment.changeResultMapState(true)
             onBackPressed()
             cfm.popBackStack()
             sv_searchview.setQuery("",false)
             btn_search_cancle.visibility = View.GONE
-        }
-        btn_search_result_map.setOnClickListener {
-            changeResultMapState()
-        }
-    }
-
-    private fun changeResultMapState(){
-        mapFragment.markerFlag = false // 현재 "검색결과맵 마커"가 사용중이다
-        when(flag){
-            false -> { // 마커 O
-                btn_search_result_map.text ="목록"
-                cfm.beginTransaction().replace(R.id.fragment_container,mapFragment).addToBackStack(null).commit()
-                mapFragment.markerUpdate(true)
-                flag = true
-            }
-            true -> { // 마커 X
-                btn_search_result_map.text ="지도"
-                mapFragment.markerUpdate(false)
-                onBackPressed()
-                //cfm.popBackStack()
-                flag = false
-            }
         }
     }
 
@@ -154,7 +131,7 @@ class SearchFragment: Fragment(), OnBackPressedListener{
                 if(sv_searchview.query.isEmpty()) {
                     onBackPressed()
                     //childFragmentManager.popBackStack()
-                    //sv_searchview.clearFocus()
+                    sv_searchview.clearFocus()
                 }
                 else{
                     if(searchOnQueryFlag)
