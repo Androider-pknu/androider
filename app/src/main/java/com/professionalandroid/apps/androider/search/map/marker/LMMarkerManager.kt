@@ -73,6 +73,10 @@ class LMMarkerManager(context: Context, mMap: GoogleMap) {
             marker.remove()
         }
     }
+    
+    fun getSelectedMarker(): Marker? {
+        return selectedMarker
+    }
 
     private fun addMarker(marker: Marker?, isSelectedMarker: Boolean): Marker? { // 마커 추가
         val position = marker?.position
@@ -101,5 +105,6 @@ class LMMarkerManager(context: Context, mMap: GoogleMap) {
         val canvas = Canvas(bitmap)
         view.draw(canvas)
         return bitmap
+
     }
 }

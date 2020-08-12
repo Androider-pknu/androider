@@ -9,11 +9,11 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.viewpager.widget.PagerAdapter
 import com.professionalandroid.apps.androider.R
-import com.professionalandroid.apps.androider.search.map.marker.SearchResultMarkerModel
+import com.professionalandroid.apps.androider.model.StoreDTO
 
 class SearchResultPageAdapter (private var context: Context) : PagerAdapter(){
+    private var markerModelList = ArrayList<StoreDTO>()
 
-    var markerModelList = ArrayList<SearchResultMarkerModel>()
     lateinit var layoutInflater: LayoutInflater
     lateinit var postImg: ImageView
     lateinit var storeName: TextView
@@ -29,10 +29,11 @@ class SearchResultPageAdapter (private var context: Context) : PagerAdapter(){
         return markerModelList.size
     }
 
-    fun addItem(item: SearchResultMarkerModel){ //아이템을 넣기
+    fun addItem(item: StoreDTO){
         markerModelList.add(item)
     }
-    fun removeItem(){   // 리스트를 초기화
+
+    fun removeItem(){
         markerModelList.clear()
     }
 
@@ -47,11 +48,12 @@ class SearchResultPageAdapter (private var context: Context) : PagerAdapter(){
         storeNumber = rootView.findViewById(R.id.tv_searchresult_marker_phoneNumber)
         storeLocation = rootView.findViewById(R.id.tv_searchresult_marker_address)
 
-        postImg.setImageResource(markerModelList[position].postImg)
-        storeName.text = markerModelList[position].storeName
-        storeCategory.text = markerModelList[position].storeCategory
-        storeNumber.text = markerModelList[position].stroePhoneNumber
-        storeLocation.text = markerModelList[position].stroeLocation
+        //postImg.setImageResource(markerModelList[position].id)
+        postImg.setImageResource(R.drawable.image03)
+        storeName.text = markerModelList[position].name
+        storeCategory.text = markerModelList[position].category
+        storeNumber.text = markerModelList[position].number
+        storeLocation.text = markerModelList[position].address
 
         rootView.setOnClickListener { // 뷰페이저 클릭 리스너
             if(position == 0)
@@ -68,7 +70,6 @@ class SearchResultPageAdapter (private var context: Context) : PagerAdapter(){
     override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
         container.removeView(`object` as View)
     }
-
 }
 
 

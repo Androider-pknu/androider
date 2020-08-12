@@ -13,6 +13,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.material.tabs.TabLayout
 import com.professionalandroid.apps.androider.MainActivity
 import com.professionalandroid.apps.androider.OnBackPressedListener
+import com.professionalandroid.apps.androider.OnMapCreatedViewListener
 import com.professionalandroid.apps.androider.R
 import com.professionalandroid.apps.androider.model.StoreDTO
 import com.professionalandroid.apps.androider.navigation.SearchFragment.Companion.cfm
@@ -26,13 +27,14 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class SearchResultFragment : Fragment(),
-    OnBackPressedListener, SearchResultAdapter.OnSRItemClickListener {
+    OnBackPressedListener, SearchResultAdapter.OnSRItemClickListener,
+    OnMapCreatedViewListener {
 
     private var tabSelect = 1
     private lateinit var resultAdapter: SearchResultAdapter
     private lateinit var mainAct: MainActivity
 
-    private var rootView: View? = null
+    var rootView: View? = null
 
     private val locationList = ArrayList<LMMarkerItem>() // Marker Location List
     private var recommendList = ArrayList<StoreDTO>()
@@ -40,15 +42,18 @@ class SearchResultFragment : Fragment(),
 
     private var mapRadius: Double = 0.0 // mapRadius
     private lateinit var cameraPosition: LatLng
+    var loc: LatLng? = null// clicked marker position
 
     override fun onAttach(context: Context) {
         Log.d("SearchResult","SearchResultFragment OnAttach")
         super.onAttach(context)
+        tabSelect = 1
         resultAdapter = SearchResultAdapter()
         configureRadius()
         getStoreData()
         mainAct = context as MainActivity
         mainAct.setOnBackPressedListener(this)
+        mapFragment.setOnMapCreatedViewFinish(this)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -62,7 +67,6 @@ class SearchResultFragment : Fragment(),
         setResultAdapter()
         manageTabLayout()
         clickListenerMange()
-
         mainAct.btn_search_result_map.setOnClickListener {
             when(mainAct.btn_search_result_map.text){
                 "지도" -> changeResultMapState(false)
@@ -151,10 +155,14 @@ class SearchResultFragment : Fragment(),
         })
     }
 
+    fun deletedSRCardView(){
+        loc = null
+    }
+
     /* 수정해야할 부분:  1.주변모두 추천장소 데이터 구분(어떤 방식으로 데이터를 결정지은것인가) */
     private fun dataInfo(list: ArrayList<StoreDTO>) { // DataList Set
         when (list.size) { // 수정예정
-            in 0..2 -> {
+            in 0..1 -> {
                 nearPlaceList = list
                 recommendList = list
             }
@@ -164,9 +172,15 @@ class SearchResultFragment : Fragment(),
             }
         }
         resultAdapter.setList(nearPlaceList)
+
+        when(tabSelect){
+            1 -> mapFragment.getSearchRequestStoreData(nearPlaceList)
+            2 -> mapFragment.getSearchRequestStoreData(recommendList)
+        }
     }
 
     private fun initMarkerLocation(){ // 받아온 데이터 들의 위치를 MarkerManager 에 넘김
+        locationList.clear()
         when(tabSelect){
             1 ->
                 for(item in nearPlaceList)
@@ -178,13 +192,17 @@ class SearchResultFragment : Fragment(),
     }
 
     override fun onSRItemClicked(view: View, position: Int) {
+        mapFragment.markerFlag = false
         initMarkerLocation()
+        loc = LatLng(locationList[position].lat,locationList[position].lon)
         Log.d("hakjin", "검색결과 클릭$position")
 
         mainAct.btn_search_result_map.text ="목록"
         cfm.beginTransaction().replace(R.id.fragment_container,mapFragment).addToBackStack(null).commit()
         mapFragment.markerAdd(locationList,true,position)
-        mapFragment.setCamera(17.0f,LatLng(locationList[position].lat,locationList[position].lon))
+
+        mapFragment.setSRSelectedMarker(loc!!)  // 내가추가한것
+        mapFragment.setCamera(17.0f,loc!!)
     }
 
     override fun onBackPressed() {
@@ -200,12 +218,18 @@ class SearchResultFragment : Fragment(),
                 mainAct.sv_searchview.setQuery("",false)
                 cfm.popBackStack()
                 cfm.popBackStack()
+                rootView = null
             }
             else -> { // Map 에서 뒤로가기
                 changeResultMapState(true)
                 mainAct.sv_searchview.setQuery("", false)
                 cfm.popBackStack()
                 cfm.popBackStack()
+
+                rootView = null
+                mapFragment.manageSearchResultCardView(false)
+                mapFragment.deleteSRSelectedMarker()
+                deletedSRCardView()
             }
         }
     }
@@ -242,5 +266,10 @@ class SearchResultFragment : Fragment(),
                 mapRadius = 5.000
             }
         }
+    }
+
+    override fun onCreatedViewFinish() {
+        if(loc!=null)
+            mapFragment.manageSearchResultCardViewData()
     }
 }

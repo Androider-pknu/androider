@@ -19,6 +19,8 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import com.professionalandroid.apps.androider.*
+import com.professionalandroid.apps.androider.model.StoreDTO
+import com.professionalandroid.apps.androider.OnMapCreatedViewListener
 import com.professionalandroid.apps.androider.search.click.result.SearchResultPageAdapter
 import com.professionalandroid.apps.androider.search.map.marker.*
 import kotlinx.android.synthetic.main.fragment_main_map.*
@@ -28,7 +30,8 @@ import kotlinx.android.synthetic.main.fragment_main_map.vp_local_master_viewPage
 /* 서치결과 맵 마커클릭시 가게정보 뜸 동네마스터 마커 클릭시 해당사람이 쓴 포스트 뜸*/
 
 class MainMapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraIdleListener,
-    GoogleMap.OnCameraMoveListener, GoogleMap.OnMarkerClickListener, GoogleMap.OnMapClickListener {
+    GoogleMap.OnCameraMoveListener, GoogleMap.OnMarkerClickListener, GoogleMap.OnMapClickListener,
+    OnMapCreatedViewListener {
 
     private lateinit var mMap: GoogleMap
     private lateinit var mFusedLocationClient: FusedLocationProviderClient
@@ -43,9 +46,14 @@ class MainMapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraIdleLi
     private lateinit var localMasterAdapter: LMMarkerAdapter
     private lateinit var searchResultPageAdapter: SearchResultPageAdapter
 
+    private var storeList = ArrayList<StoreDTO>() // MapSearchRequest Data
+    private var mListener: OnMapCreatedViewListener? = null
+
     var markerFlag = true // true: 동네마스터 마커 false: 검색결과
     private var idleCameraCheck = true // MyLocation Update
     private var btnFlag = false // Button Flag
+
+    private var srSelectedMarker: LatLng? = null // SelectedMarker Position
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -58,7 +66,7 @@ class MainMapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraIdleLi
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         val rootView = inflater.inflate(R.layout.fragment_main_map, container, false)
-        Log.d("Map", "Map onCreateView")
+        Log.d("cardView", "Map onCreateView")
 
         setLocalMasterMarkerAdapter(rootView) // 뷰페이저에 마커어댑터 설정
         initBtnList(rootView)
@@ -68,10 +76,13 @@ class MainMapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraIdleLi
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        Log.d("finish","map onViewCreated 호출")
 
         val mapFragment: SupportMapFragment? =
             childFragmentManager.findFragmentById(R.id.Main_map_Fragment) as SupportMapFragment
         mapFragment?.getMapAsync(this)
+
+        onCreatedViewFinish()
 
         btn_my_location.setOnClickListener {
             idleCameraCheck = true // 내위치 업데이트를 위해 true
@@ -129,9 +140,7 @@ class MainMapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraIdleLi
     private fun initMarkerAdapter(){ // 마커 초기화, 데이터 설정
         localMasterAdapter = LMMarkerAdapter(requireContext())
         addLocalMasterMarkerModel()
-
         searchResultPageAdapter = SearchResultPageAdapter(requireContext())
-        addSearchResultMarkerModel()
     }
 
     private fun mMapClickListenerRegister() { // 맵클릭 리스너 등록
@@ -164,24 +173,6 @@ class MainMapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraIdleLi
         }
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == REQUEST_CODE_PERMISSIONS) {
-            if (ActivityCompat.checkSelfPermission(
-                    requireContext(),
-                    Manifest.permission.ACCESS_FINE_LOCATION
-                ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                    requireContext(),
-                    Manifest.permission.ACCESS_COARSE_LOCATION
-                ) != PackageManager.PERMISSION_GRANTED
-            ) {
-                Toast.makeText(requireContext(), "위치권한 체크 거부 됨", Toast.LENGTH_SHORT).show()
-            } else {
-                // success# do something...
-            }
-        }
-    }
-
     override fun onCameraMove() {
         cameraPosition = mMap.cameraPosition.target
     }
@@ -192,8 +183,6 @@ class MainMapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraIdleLi
     }
 
     override fun onMarkerClick(marker: Marker?): Boolean { // true 동네마스터 마커 false 검색결과 마커
-        Log.d("map22","onMarkerClick")
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(marker?.position))
         when(markerFlag){
             true -> {
                 Log.d("marker", "동네마스터 마커 클릭")
@@ -202,8 +191,10 @@ class MainMapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraIdleLi
             }
             false -> {
                 Log.d("marker","검색 결과 마커 클릭")
-                manageSearchResultCardViewData(marker)
-                manageSearchResultCardView(true)
+                val loc = marker?.position?.latitude?.let { marker.position?.longitude?.let { it1 ->
+                    LatLng(it, it1) } }
+                srSelectedMarker = loc // Selected Marker Location
+                manageSearchResultCardViewData()
             }
         }
         lmMarkerManager?.changedSelectedMarker(marker) // 선택한 마커 표시
@@ -212,30 +203,53 @@ class MainMapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraIdleLi
 
     override fun onMapClick(p0: LatLng?) {
         Log.d("map22","onMapClick")
+        srSelectedMarker = null
         lmMarkerManager?.changedSelectedMarker(null)
         if(markerFlag) manageLocalMasterCardView(false)
         else manageSearchResultCardView(false)
     }
 
+    fun setSRSelectedMarker(location: LatLng){ // Set SR Selected Marker
+        srSelectedMarker = location
+    }
+
+    fun deleteSRSelectedMarker(){
+        srSelectedMarker = null
+    }
+
     fun markerAdd(markerList: ArrayList<LMMarkerItem>, flag: Boolean, position: Int){ // flag: true -> Selected Marker O
-        if(flag)
-            lmMarkerManager?.getMarkerItem(markerList,position)
-        else
-            lmMarkerManager?.getMarkerItem(markerList)
+        if(flag) {
+            lmMarkerManager?.getMarkerItem(markerList, position)
+            srSelectedMarker = LatLng(markerList[position].lat,markerList[position].lon) // Selected Marker Location
+        }
+        else {
+            var loc = 0
+            if(srSelectedMarker!=null){
+                for (index in markerList.indices)
+                    if(markerList[index].lat == srSelectedMarker?.latitude && markerList[index].lon == srSelectedMarker?.longitude)
+                        loc = index
+                lmMarkerManager?.getMarkerItem(markerList,loc) // Selected Marker O 인데 지도(목록) 버튼 눌렀을경우
+            }
+            else
+                lmMarkerManager?.getMarkerItem(markerList)
+        }
     }
 
     fun markerDelete(){
         lmMarkerManager?.deleteMarker()
     }
 
-    private fun addSearchResultMarkerModel(){ // 마커에 담길 카드뷰 데이터 추가
-        searchResultPageAdapter.addItem(
-            SearchResultMarkerModel(R.drawable.image03, "잭슨바", "바", "051-611-4608", "부산광역시 남구 대연동 52-18 대영빌딩")
-        )
-        searchResultPageAdapter.addItem(
-            SearchResultMarkerModel(R.drawable.image03, "학진바", "바", "051-611-4608", "부산광역시 남구 대연동 52-18 대영빌딩")
-        )
-        searchResultPageAdapter.notifyDataSetChanged()
+    fun getSearchRequestStoreData(list: ArrayList<StoreDTO>){ // Get SearchResultStoreData
+        storeList = list
+    }
+
+    private fun addSearchResultMarkerModel(){ // Add StoreData On CardView From Marker
+        for(item in storeList){
+            if(item.latitude == srSelectedMarker?.latitude && item.longitude == srSelectedMarker?.longitude)
+                searchResultPageAdapter.addItem(item)
+        }
+        view?.vp_searchresult_viewPager?.adapter = searchResultPageAdapter
+        manageSearchResultCardView(true)
     }
 
     private fun addLocalMasterMarkerModel() { // 동네마스터 마커데이터 초기화
@@ -257,21 +271,21 @@ class MainMapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraIdleLi
         view.vp_searchresult_viewPager.setPadding(50, 0, 50, 50)
     }
 
-    private fun manageLocalMasterCardView(flag: Boolean) { // true -> 보임 false -> 안보임
+    private fun manageLocalMasterCardView(flag: Boolean) {
         when (flag) {
             true -> vp_local_master_viewPager.visibility = View.VISIBLE
             false -> vp_local_master_viewPager.visibility = View.GONE
         }
     }
 
-    private fun manageSearchResultCardView(flag: Boolean) { // true -> 보임 false -> 안보임
+    fun manageSearchResultCardView(flag: Boolean) { // Manage Visible CardView
         when (flag) {
             true -> vp_searchresult_viewPager.visibility = View.VISIBLE
             false -> vp_searchresult_viewPager.visibility = View.GONE
         }
     }
 
-    private fun manageSearchResultCardViewData(marker: Marker?){ // 검색결과 마커 카드뷰 데이터 관리
+    fun manageSearchResultCardViewData(){
         searchResultPageAdapter.removeItem()
         addSearchResultMarkerModel()
     }
@@ -280,23 +294,35 @@ class MainMapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraIdleLi
         localMasterAdapter.removeItem()
         addLocalMasterMarkerModel()
     }
+
+    fun setOnMapCreatedViewFinish(listener: OnMapCreatedViewListener?){
+        mListener = listener
+    }
+
+    override fun onCreatedViewFinish() {
+        mListener?.let{
+            it.onCreatedViewFinish()
+            return
+        }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == REQUEST_CODE_PERMISSIONS) {
+            if (ActivityCompat.checkSelfPermission(
+                    requireContext(),
+                    Manifest.permission.ACCESS_FINE_LOCATION
+                ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                    requireContext(),
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                Toast.makeText(requireContext(), "위치권한 체크 거부 됨", Toast.LENGTH_SHORT).show()
+            } else {
+                // success# do something...
+            }
+        }
+    }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 

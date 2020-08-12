@@ -96,8 +96,11 @@ class SearchFragment: Fragment(), OnBackPressedListener{
         btn_search_cancle.setOnClickListener {
             sv_searchview.clearFocus()
             btn_search_result_map.visibility = View.GONE
-            if(childFragmentManager.findFragmentByTag("SRF")!=null)
+            if(childFragmentManager.findFragmentByTag("SRF")!=null) {
                 searchResultFragment.changeResultMapState(true)
+                searchResultFragment.rootView = null
+                searchResultFragment.deletedSRCardView()
+            }
             onBackPressed()
             cfm.popBackStack()
             sv_searchview.setQuery("",false)
