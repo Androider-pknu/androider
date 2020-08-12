@@ -1,16 +1,20 @@
 package com.professionalandroid.apps.androider.newsfeed
 
+import android.content.Context
 import android.icu.text.SimpleDateFormat
 import android.os.Build
 import android.text.Layout
 import android.util.Log
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.professionalandroid.apps.androider.R
 import com.professionalandroid.apps.androider.newsfeed.place.partranking.PartRank
@@ -68,7 +72,7 @@ import kotlin.collections.ArrayList
 //        }
 //    }
 //}
-class TestPostAdapter(val list: ArrayList<TestPost>) : RecyclerView.Adapter<TestPostAdapter.CustomViewHolder>(){
+class TestPostAdapter(val list: ArrayList<TestPost>,val context: Context) : RecyclerView.Adapter<TestPostAdapter.CustomViewHolder>(){
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomViewHolder {
         val view= LayoutInflater.from(parent.context).inflate(R.layout.place_all_posts,parent,false)
         return CustomViewHolder(view)
@@ -81,6 +85,12 @@ class TestPostAdapter(val list: ArrayList<TestPost>) : RecyclerView.Adapter<Test
         holder.mainContent.text=list[position].content
         holder.time.text=calculateTime(list[position].timestamp)
         holder.likeCount.text=list[position].likeCount.toString()
+        val layoutParams=LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.WRAP_CONTENT)
+        val picture=ImageView(context)
+        picture.setImageResource(R.drawable.selected_heart)
+        layoutParams.gravity=Gravity.CENTER
+        picture.layoutParams=layoutParams
+        holder.imageLayout.addView(picture)
     }
     class CustomViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         val num = itemView.findViewById<TextView>(R.id.user_name)
@@ -88,6 +98,7 @@ class TestPostAdapter(val list: ArrayList<TestPost>) : RecyclerView.Adapter<Test
         val mainContent=itemView.findViewById<TextView>(R.id.content)
         val heartImage=itemView.findViewById<ImageView>(R.id.post_heart)
         val likeCount=itemView.findViewById<TextView>(R.id.post_heart_number)
+        val imageLayout=itemView.findViewById<LinearLayout>(R.id.for_image_layout)
     }
     @RequiresApi(Build.VERSION_CODES.O)
     fun calculateTime(time:String) : String{

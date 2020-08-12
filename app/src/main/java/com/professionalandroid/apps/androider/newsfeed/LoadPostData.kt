@@ -15,11 +15,12 @@ import retrofit2.Response
 
 class LoadPostData(private val recyclerView: RecyclerView, val context:Context,val type:Int){
     private var postList:ArrayList<TestPost> = ArrayList()
-    private var postAdapter: TestPostAdapter = TestPostAdapter(postList)
+    private var postAdapter: TestPostAdapter = TestPostAdapter(postList,context)
     private var notLoading=true
     private var postLayoutManager: LinearLayoutManager = LinearLayoutManager(context)
     private var postApi:RetrofitAPI = AWSRetrofit.getAPI()
-    private var startPoint=0
+    private var endPoint=20
+    private var startPoint=0;
 
     fun loadPlacePost(start:Int){
         val call=postApi.takePlacePost(start,type)
@@ -31,7 +32,7 @@ class LoadPostData(private val recyclerView: RecyclerView, val context:Context,v
             override fun onResponse(call: Call<List<TestPost>>, response: Response<List<TestPost>>) {
                 if(response.isSuccessful){
                     postList.addAll(response.body()!!)
-                    postAdapter.notifyDataSetChanged()
+                    postAdapter.notifyItemRangeChanged(0,endPoint)
                 }
             }
         })
@@ -44,7 +45,8 @@ class LoadPostData(private val recyclerView: RecyclerView, val context:Context,v
 //                    postList.add(TestPost(0,"nothing",0,1,"11"))
 //                    postAdapter.notifyItemInserted(postList.size-1) -> 이렇게 하면 자꾸 스크롤이 튕기던데 이유를 잘 모르겠음. 그래서 일단 주석처리 해놓음.
                     notLoading=false
-                    startPoint+=20
+                    startPoint=endPoint
+                    endPoint+=20
                     val handler = android.os.Handler()//너무 빨리 데이터가 로드되면 스크롤 되는 Ui 를 확인하기 어려우므로
                     handler.postDelayed({//Handler 를 사용하여 1초간 postDelayed 시킴.
                         val call= AWSRetrofit.getAPI().takePlacePost(startPoint,type)
@@ -58,7 +60,7 @@ class LoadPostData(private val recyclerView: RecyclerView, val context:Context,v
 //                            postAdapter.notifyItemRemoved(postList.size)
                                 if(response.body()!!.isNotEmpty()){
                                     postList.addAll(response.body()!!)
-                                    postAdapter.notifyDataSetChanged()
+                                    postAdapter.notifyItemRangeChanged(startPoint,20)
                                     notLoading=true
                                 }
                             }
