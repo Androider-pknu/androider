@@ -115,11 +115,7 @@ class SelectPhotoActivity : AppCompatActivity() {
             }
         }
 
-        private fun onClick(
-            view: View,
-            textView: TextView,
-            position: Int
-        ) {
+        private fun onClick(view: View, textView: TextView, position: Int) {
             if (uriList[position] !in checkedList && checkedList.size < 4) {
                 checkedList.add(uriList[position])
                 textViewList.add(textView)

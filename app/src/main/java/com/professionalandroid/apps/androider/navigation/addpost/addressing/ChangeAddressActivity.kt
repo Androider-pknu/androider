@@ -28,15 +28,7 @@ class ChangeAddressActivity : AppCompatActivity(), OnMapReadyCallback {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_changeaddress)
 
-        val address = intent.getStringExtra("address")
-        textview_changeaddress_address.text = address
-
-        val building = intent.getStringExtra("building")
-        textinput_changeaddress_buildingname.setText(building)
-
-        geocoder = Geocoder(this, Locale.getDefault())
-        val addressList = geocoder.getFromLocationName(intent.getStringExtra("address"), 10)
-        Companion.latLng = LatLng(addressList[0].latitude, addressList[0].longitude)
+        initVariables()
 
         val mapFragment = SupportMapFragment()
         mapFragment.getMapAsync(this)
@@ -62,14 +54,26 @@ class ChangeAddressActivity : AppCompatActivity(), OnMapReadyCallback {
 
     }
 
+    private fun initVariables() {
+        val address = intent.getStringExtra("address")
+        textview_changeaddress_address.text = address
+
+        val building = intent.getStringExtra("building")
+        textinput_changeaddress_buildingname.setText(building)
+
+        geocoder = Geocoder(this, Locale.getDefault())
+        val addressList = geocoder.getFromLocationName(intent.getStringExtra("address"), 10)
+        latLng = LatLng(addressList[0].latitude, addressList[0].longitude)
+    }
+
     override fun onMapReady(googleMap: GoogleMap) {
         with(googleMap) {
-            val camera = CameraUpdateFactory.newLatLngZoom(Companion.latLng, 18F)
+            val camera = CameraUpdateFactory.newLatLngZoom(latLng, 18F)
             moveCamera(camera)
 
             addMarker(
                 MarkerOptions()
-                    .position(Companion.latLng)
+                    .position(latLng)
             )
             uiSettings.isScrollGesturesEnabled = false
         }
@@ -86,14 +90,14 @@ class ChangeAddressActivity : AppCompatActivity(), OnMapReadyCallback {
                     textview_changeaddress_address.text = address
 
                     val location = geocoder.getFromLocationName(address, 1)[0]
-                    Companion.latLng = LatLng(location.latitude, location.longitude)
+                    latLng = LatLng(location.latitude, location.longitude)
 
-                    val camera = CameraUpdateFactory.newLatLngZoom(Companion.latLng, 18F)
+                    val camera = CameraUpdateFactory.newLatLngZoom(latLng, 18F)
                     map?.moveCamera(camera)
 
                     map?.addMarker(
                         MarkerOptions()
-                            .position(Companion.latLng)
+                            .position(latLng)
                     )
                 }
             }

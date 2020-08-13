@@ -20,16 +20,20 @@ class InputCategoryActivity : AppCompatActivity() {
         }
 
         btn_inputcategory_complete.setOnClickListener {
-            val result = Intent()
-            result.putExtra("category", intent.getStringExtra("category"))
-            result.putExtra("subCategory", textinput_inputcategory_detail.text.toString())
-            setResult(Activity.RESULT_OK, result)
-            finish()
+            responseCategoryInput()
         }
 
-        textinput_inputcategory_detail.addTextChangedListener(object : TextInputWatcher(){})
+        textinput_inputcategory_detail.addTextChangedListener(object : TextInputWatcher() {})
 
         textview_inputcategory_title.text = intent.getStringExtra("category")
+    }
+
+    private fun responseCategoryInput() {
+        val result = Intent()
+        result.putExtra("category", intent.getStringExtra("category"))
+        result.putExtra("subCategory", textinput_inputcategory_detail.text.toString())
+        setResult(Activity.RESULT_OK, result)
+        finish()
     }
 
     open inner class TextInputWatcher : TextWatcher {

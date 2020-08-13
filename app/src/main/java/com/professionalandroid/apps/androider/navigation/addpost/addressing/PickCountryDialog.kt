@@ -10,7 +10,7 @@ import com.professionalandroid.apps.androider.R
 import kotlinx.android.synthetic.main.dialog_searchaddress_countrypicker.*
 
 class PickCountryDialog : BottomSheetDialogFragment() {
-    internal lateinit var listener: NoticeDialogListener
+    private lateinit var listener: NoticeDialogListener
 
     interface NoticeDialogListener {
         fun onDialogCompleteClick(value: String)
@@ -20,7 +20,7 @@ class PickCountryDialog : BottomSheetDialogFragment() {
         super.onAttach(requireContext())
 
         listener = context as? NoticeDialogListener
-            ?: throw ClassCastException((context.toString() + " must implement NoticeDialogListener")) as Throwable
+            ?: throw ClassCastException("$context must implement NoticeDialogListener")
     }
 
     override fun onCreateView(

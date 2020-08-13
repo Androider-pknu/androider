@@ -14,9 +14,7 @@ class ChangeAddressDialog : DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return activity?.let {
             val builder = AlertDialog.Builder(it)
-            builder.setItems(
-                R.array.change_address_method
-            ) { _, which ->
+            builder.setItems(R.array.change_address_method) { _, which ->
                 when (which) {
                     0 -> {
                         val intent = Intent(context, SearchAddressActivity::class.java)

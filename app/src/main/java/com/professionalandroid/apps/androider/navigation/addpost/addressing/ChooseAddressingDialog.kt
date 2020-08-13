@@ -19,10 +19,9 @@ class ChooseAddressingDialog : DialogFragment() {
     lateinit var location: Location
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        flc = LocationServices.getFusedLocationProviderClient(context!!)
+        flc = LocationServices.getFusedLocationProviderClient(requireContext())
         val permission = ActivityCompat.checkSelfPermission(
-            context!!,
-            Manifest.permission.ACCESS_FINE_LOCATION
+            requireContext(), Manifest.permission.ACCESS_FINE_LOCATION
         )
         if (permission == PERMISSION_GRANTED) {
             flc.lastLocation.addOnSuccessListener {

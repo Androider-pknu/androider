@@ -8,19 +8,15 @@ import android.view.LayoutInflater
 import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.google.gson.GsonBuilder
 import com.professionalandroid.apps.androider.R
 import com.professionalandroid.apps.androider.model.AddressModel
 import com.professionalandroid.apps.androider.util.AWSRetrofit
-import com.professionalandroid.apps.androider.util.RetrofitAPI
 import com.professionalandroid.apps.androider.util.SEARCH_ADDRESS_REQUEST
 import kotlinx.android.synthetic.main.activity_searchaddress.*
 import kotlinx.android.synthetic.main.item_category.view.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 class SearchAddressActivity : AppCompatActivity(), PickCountryDialog.NoticeDialogListener {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,8 +24,7 @@ class SearchAddressActivity : AppCompatActivity(), PickCountryDialog.NoticeDialo
         setContentView(R.layout.activity_searchaddress)
 
         btn_searchaddress_choosecountry.setOnClickListener {
-            val countryPicker =
-                PickCountryDialog()
+            val countryPicker = PickCountryDialog()
             countryPicker.show(supportFragmentManager, "country_picker")
         }
 
