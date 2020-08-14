@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.professionalandroid.apps.androider.R
 import com.professionalandroid.apps.androider.navigation.NewsFeedFragment
-import com.professionalandroid.apps.androider.newsfeed.LoadPostData
+import com.professionalandroid.apps.androider.newsfeed.loaddata.LoadPostData
 import com.professionalandroid.apps.androider.newsfeed.realtime.ItemImageButton
 import com.professionalandroid.apps.androider.newsfeed.realtime.ItemImageButtonAdapter
 import com.professionalandroid.apps.androider.newsfeed.todaypost.PostFragment
@@ -21,7 +21,7 @@ import com.professionalandroid.apps.androider.newsfeed.place.partranking.PartRan
 import com.professionalandroid.apps.androider.newsfeed.place.search.PlaceSearch
 import kotlinx.android.synthetic.main.fragment1.view.*
 
-class PlaceFrag():Fragment(){
+class PlaceFrag(val newsFragment:View):Fragment(){
     //var placeFragment=PlaceSearchFrag(newsFeedView)
     companion object{ lateinit var local_btn:Button }
     var storePage= StorePage("가게 정보")
@@ -141,7 +141,12 @@ class PlaceFrag():Fragment(){
         }
     }
     private fun setAllPostsOfPlace(view:View){
-        val load = LoadPostData(view.all_place_post,requireContext(),1)
+        val load =
+            LoadPostData(
+                view.all_place_post,
+                requireContext(),
+                1
+            )
         view.all_place_post.adapter=load.getAdapter()
         view.all_place_post.layoutManager=load.getLayoutManager()
         load.loadPlacePost(0)

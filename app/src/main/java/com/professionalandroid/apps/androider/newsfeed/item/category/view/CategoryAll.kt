@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.professionalandroid.apps.androider.*
 import com.professionalandroid.apps.androider.navigation.NewsFeedFragment
+import com.professionalandroid.apps.androider.newsfeed.loaddata.LoadPostData
 import com.professionalandroid.apps.androider.newsfeed.realtime.ItemImageButton
 import com.professionalandroid.apps.androider.newsfeed.realtime.ItemImageButtonAdapter
 import com.professionalandroid.apps.androider.newsfeed.todaypost.PostFragment
@@ -100,7 +101,12 @@ class CategoryAll(): Fragment(){
         }
     }
     private fun setCategoryAllPost(view:View){
-        val load=LoadPostData(view.all_item_post,requireContext(),0)
+        val load=
+            LoadPostData(
+                view.all_item_post,
+                requireContext(),
+                0
+            )
         view.all_item_post.adapter=load.getAdapter()
         view.all_item_post.layoutManager=load.getLayoutManager()
         load.loadPlacePost(0)

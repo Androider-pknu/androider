@@ -1,9 +1,8 @@
-package com.professionalandroid.apps.androider.newsfeed
+package com.professionalandroid.apps.androider.newsfeed.loaddata
 
 import android.content.Context
 import android.icu.text.SimpleDateFormat
 import android.os.Build
-import android.text.Layout
 import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -13,14 +12,11 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.annotation.RequiresApi
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.professionalandroid.apps.androider.R
-import com.professionalandroid.apps.androider.newsfeed.place.partranking.PartRank
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-import java.util.*
 import kotlin.collections.ArrayList
 
 //class TestPostAdapter(var list:ArrayList<TestPost>): RecyclerView.Adapter<RecyclerView.ViewHolder>(){
@@ -72,10 +68,12 @@ import kotlin.collections.ArrayList
 //        }
 //    }
 //}
-class TestPostAdapter(val list: ArrayList<TestPost>,val context: Context) : RecyclerView.Adapter<TestPostAdapter.CustomViewHolder>(){
+class TestPostAdapter(val list: ArrayList<TestPost>, val context: Context) : RecyclerView.Adapter<TestPostAdapter.CustomViewHolder>(){
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomViewHolder {
         val view= LayoutInflater.from(parent.context).inflate(R.layout.place_all_posts,parent,false)
-        return CustomViewHolder(view)
+        return CustomViewHolder(
+            view
+        )
     }
     override fun getItemCount()=list.size
 
@@ -85,12 +83,14 @@ class TestPostAdapter(val list: ArrayList<TestPost>,val context: Context) : Recy
         holder.mainContent.text=list[position].content
         holder.time.text=calculateTime(list[position].timestamp)
         holder.likeCount.text=list[position].likeCount.toString()
-        val layoutParams=LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.WRAP_CONTENT)
-        val picture=ImageView(context)
-        picture.setImageResource(R.drawable.selected_heart)
-        layoutParams.gravity=Gravity.CENTER
-        picture.layoutParams=layoutParams
-        holder.imageLayout.addView(picture)
+        if(list[position].image!=null){
+            val layoutParams=LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,400)
+            val picture=ImageView(context)
+            Glide.with(context).load(list[position].image).into(picture)
+            layoutParams.gravity=Gravity.CENTER
+            picture.layoutParams=layoutParams
+            holder.imageLayout.addView(picture)
+        }
     }
     class CustomViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         val num = itemView.findViewById<TextView>(R.id.user_name)

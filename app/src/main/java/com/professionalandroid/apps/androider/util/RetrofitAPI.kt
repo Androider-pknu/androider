@@ -1,9 +1,8 @@
 package com.professionalandroid.apps.androider.util
 
 import com.professionalandroid.apps.androider.model.AddressModel
-import com.professionalandroid.apps.androider.model.ErrMsg
 import com.professionalandroid.apps.androider.model.StoreDTO
-import com.professionalandroid.apps.androider.newsfeed.TestPost
+import com.professionalandroid.apps.androider.newsfeed.loaddata.TestPost
 import retrofit2.Call
 import retrofit2.http.*
 

@@ -1,4 +1,4 @@
-package com.professionalandroid.apps.androider.newsfeed
+package com.professionalandroid.apps.androider.newsfeed.loaddata
 
 import com.google.gson.annotations.SerializedName
 
@@ -12,5 +12,7 @@ data class TestPost(
     @SerializedName("type")
     val type:Int,
     @SerializedName("timestamp")
-    val timestamp:String
+    val timestamp:String,
+    @SerializedName("image_url")
+    val image:String?
 )

@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.professionalandroid.apps.androider.R
 import com.professionalandroid.apps.androider.navigation.NewsFeedFragment
+import com.professionalandroid.apps.androider.newsfeed.loaddata.LoadPostData
 import com.professionalandroid.apps.androider.newsfeed.realtime.ItemImageButton
 import com.professionalandroid.apps.androider.newsfeed.realtime.ItemImageButtonAdapter
 import kotlinx.android.synthetic.main.fragment_category_other.view.*
@@ -52,7 +53,12 @@ class CategoryOther(val categoryNumber:Int):Fragment(){
         return list
     }
     private fun setOtherCategoryPost(view:View){
-        val load=LoadPostData(view.other_item_post,requireContext(),categoryNumber)
+        val load=
+            LoadPostData(
+                view.other_item_post,
+                requireContext(),
+                categoryNumber
+            )
         view.other_item_post.adapter=load.getAdapter()
         view.other_item_post.layoutManager=load.getLayoutManager()
         load.loadPlacePost(0)

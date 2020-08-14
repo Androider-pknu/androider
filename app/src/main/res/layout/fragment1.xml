@@ -12,7 +12,6 @@
         android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
         android:layout_height="44dp"
-        android:layout_marginTop="65dp"
         android:layout_marginEnd="50dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -46,10 +45,9 @@
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="0dp"
-        android:layout_height="628dp"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:descendantFocusability="blocksDescendants"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
 
@@ -102,7 +100,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="570dp"
+                android:layout_height="wrap_content"
                 android:background="@drawable/only_bottom"
                 android:orientation="vertical">
 
@@ -118,9 +116,10 @@
                     android:textStyle="bold" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="350dp"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="30dp"
+                    android:layout_marginRight="30dp"
                     android:layout_marginBottom="30dp"
                     android:background="@drawable/all_side">
 
@@ -162,10 +161,15 @@
 
                     <TextView
                         android:id="@+id/today_post_contents"
-                        android:layout_width="304dp"
-                        android:layout_height="130dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:maxLines="11"
+                        android:layout_marginStart="20dp"
                         android:layout_marginTop="20dp"
+                        android:layout_marginEnd="20dp"
                         android:background="@drawable/only_bottom"
+                        android:paddingBottom="20dp"
                         android:text="싸발적이다"
                         android:textSize="16sp"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -174,11 +178,13 @@
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/today_post_store"
-                        android:layout_width="348dp"
-                        android:layout_height="92dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent">
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/today_post_contents">
 
                         <TextView
                             android:id="@+id/today_post_store_name"
@@ -244,9 +250,20 @@
                             android:textColor="#D3D2D2"
                             app:layout_constraintStart_toEndOf="@id/comment"
                             app:layout_constraintTop_toTopOf="@id/comment" />
+
+                        <FrameLayout
+                            android:id="@+id/place_frag"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            tools:layout_editor_absoluteY="-303dp">
+
+                        </FrameLayout>
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
             </LinearLayout>
 
             <LinearLayout
@@ -291,17 +308,6 @@
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
-
-    <FrameLayout
-        android:id="@+id/place_frag"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/linearLayout2">
-
-    </FrameLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
