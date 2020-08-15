@@ -19,9 +19,8 @@
             <ImageView
                 android:id="@+id/img_searchresult_marker_postImg"
                 android:layout_width="match_parent"
-                android:scaleType="centerCrop"
-                android:background="@drawable/image03"
-                android:layout_height="110dp" />
+                android:layout_height="110dp"
+                android:scaleType="centerCrop" />
 
             <ImageView
                 android:layout_width="50dp"

@@ -12,5 +12,7 @@ data class StoreDTO(
     val number: String?,
     val distance: Double,
     val latitude: Double,
-    val longitude: Double
+    val longitude: Double,
+    var postCount: Int,
+    var image_url: String?
 ) : Parcelable

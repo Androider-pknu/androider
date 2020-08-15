@@ -25,6 +25,9 @@ import kotlinx.android.synthetic.main.fragment_search_result.*
 import kotlinx.android.synthetic.main.fragment_search_result.view.rv_search_result
 import retrofit2.Callback
 import retrofit2.Response
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 class SearchResultFragment : Fragment(),
     OnBackPressedListener, SearchResultAdapter.OnSRItemClickListener,
@@ -42,23 +45,28 @@ class SearchResultFragment : Fragment(),
 
     private var mapRadius: Double = 0.0 // mapRadius
     private lateinit var cameraPosition: LatLng
-    var loc: LatLng? = null// clicked marker position
+    var loc: LatLng? = null // clicked marker position
+    var pos: Int = 0 // clicked cardView position
+    private var hashMap =  HashMap<String,Int>() // Same Name Store -> Because of PostCount
+    private var imgHashMap = HashMap<String,String>()
 
     override fun onAttach(context: Context) {
         Log.d("SearchResult","SearchResultFragment OnAttach")
         super.onAttach(context)
         tabSelect = 1
-        resultAdapter = SearchResultAdapter()
+        resultAdapter = SearchResultAdapter(context)
         configureRadius()
-        getStoreData()
+        getStoreData() // GetStoreData
         mainAct = context as MainActivity
         mainAct.setOnBackPressedListener(this)
         mapFragment.setOnMapCreatedViewFinish(this)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        if(rootView==null)
+        if(rootView==null){
             rootView = inflater.inflate(R.layout.fragment_search_result, container, false)
+            mapFragment.setCamera(15.0f,mapFragment.getCameraPosition())
+        }
         return rootView
     }
 
@@ -75,6 +83,11 @@ class SearchResultFragment : Fragment(),
         }
     }
 
+    override fun onDetach() {
+        loc = null
+        super.onDetach()
+    }
+
     fun changeResultMapState(flag: Boolean){
         mapFragment.markerFlag = false // Marker Used From Search Result
         when(flag){
@@ -85,6 +98,7 @@ class SearchResultFragment : Fragment(),
                 mapFragment.markerAdd(locationList,false,-1)
             }
             true -> { // 마커 X
+                mapFragment.manageSearchResultCardView(false)
                 mainAct.sv_searchview.clearFocus()
                 mainAct.btn_search_result_map.text ="지도"
                 mapFragment.markerDelete()
@@ -136,19 +150,66 @@ class SearchResultFragment : Fragment(),
         }
     }
 
-    private fun getStoreData(){ // Get Store Information
+    private fun overlapRemove(list: ArrayList<StoreDTO>){ // 중복제거
+        if(list.isNotEmpty()) {
+            for (index in list.indices) { // Map 에서 키가 중복되면 기존값 덮어씌워짐
+                val count = list.count { it.name == list[index].name }
+                hashMap[list[index].name] = count
+                if(list[index].image_url!=null)
+                    imgHashMap[list[index].name] = list[index].image_url!!
+            }
+        }
+        getStoreDataList()
+    }
+
+    private fun getStoreImg(list: ArrayList<StoreDTO>){ // Store Img Get
+        for(index in list.indices){
+            if(imgHashMap[list[index].name]!=null)
+                list[index].image_url = imgHashMap[list[index].name]
+        }
+    }
+
+    private fun countPost(list: ArrayList<StoreDTO>): ArrayList<StoreDTO> { // Store Post Count
+        for(item in list){
+            if(hashMap[item.name]!=null)
+                item.postCount = hashMap[item.name]!!
+            else
+                item.postCount = 0
+        }
+        return list
+    }
+
+    private fun getStoreData(){ // Get PostCount Information
         val string = arguments?.getString("searchresult").toString()
         val retrofitAPI = AWSRetrofit.getAPI()
         val call = retrofitAPI.getStore(string,mapRadius,cameraPosition.latitude,cameraPosition.longitude)
+        call.enqueue(object : Callback<List<StoreDTO>> {
+            override fun onFailure(call: retrofit2.Call<List<StoreDTO>>, t: Throwable) {
+                Log.d("search result retrofit1",t.message)
+            }
+            override fun onResponse(call: retrofit2.Call<List<StoreDTO>>, response: Response<List<StoreDTO>>) {
+                if(response.isSuccessful){
+                    Log.d("search result retrofit1","${response.body()}")
+                    overlapRemove(response.body()!! as ArrayList<StoreDTO>)
+                }
+            }
+        })
+    }
+
+    private fun getStoreDataList(){ // Get Store Information 거리가 기준
+        val string = arguments?.getString("searchresult").toString()
+        val retrofitAPI = AWSRetrofit.getAPI()
+        val call = retrofitAPI.getStoreList(string,mapRadius,cameraPosition.latitude,cameraPosition.longitude)
             call.enqueue(object : Callback<List<StoreDTO>> {
             override fun onFailure(call: retrofit2.Call<List<StoreDTO>>, t: Throwable) {
-                Log.d("search result retrofit",t.message)
+                Log.d("search result retrofit2",t.message)
             }
 
             override fun onResponse(call: retrofit2.Call<List<StoreDTO>>, response: Response<List<StoreDTO>>) {
                 if(response.isSuccessful){
-                    Log.d("search result retrofit","${response.body()!!}\n")
-                    dataInfo(response.body()!! as ArrayList<StoreDTO>)
+                    val dataList = countPost(response.body()!! as ArrayList<StoreDTO>)
+                    getStoreImg(dataList)
+                    dataInfo(dataList)
                     initMarkerLocation()
                 }
             }
@@ -159,7 +220,6 @@ class SearchResultFragment : Fragment(),
         loc = null
     }
 
-    /* 수정해야할 부분:  1.주변모두 추천장소 데이터 구분(어떤 방식으로 데이터를 결정지은것인가) */
     private fun dataInfo(list: ArrayList<StoreDTO>) { // DataList Set
         when (list.size) { // 수정예정
             in 0..1 -> {
@@ -167,8 +227,10 @@ class SearchResultFragment : Fragment(),
                 recommendList = list
             }
             else -> {
+                val list2 = list.clone() as ArrayList<StoreDTO>
                 nearPlaceList = list
-                recommendList = list.reversed() as ArrayList<StoreDTO>
+                recommendList = list2
+                recommendList.sortWith(Comparator { p0, p1 -> p1.postCount-p0.postCount }) // PostCount Sorted
             }
         }
         resultAdapter.setList(nearPlaceList)
@@ -181,19 +243,22 @@ class SearchResultFragment : Fragment(),
 
     private fun initMarkerLocation(){ // 받아온 데이터 들의 위치를 MarkerManager 에 넘김
         locationList.clear()
-        when(tabSelect){
+        when (tabSelect) {
             1 ->
-                for(item in nearPlaceList)
-                    locationList.add(LMMarkerItem(item.latitude,item.longitude))
+                for (item in nearPlaceList) {
+                    locationList.add(LMMarkerItem(item.latitude, item.longitude))
+                }
             2 ->
-                for(item in recommendList)
-                    locationList.add(LMMarkerItem(item.latitude,item.longitude))
+                for (item in recommendList) {
+                    locationList.add(LMMarkerItem(item.latitude, item.longitude))
+                }
         }
     }
 
     override fun onSRItemClicked(view: View, position: Int) {
         mapFragment.markerFlag = false
         initMarkerLocation()
+        circulateCardViewPosition(position)
         loc = LatLng(locationList[position].lat,locationList[position].lon)
         Log.d("hakjin", "검색결과 클릭$position")
 
@@ -205,6 +270,16 @@ class SearchResultFragment : Fragment(),
         mapFragment.setCamera(17.0f,loc!!)
     }
 
+    private fun circulateCardViewPosition(position: Int){ // Decision CardView Position
+        var count = 0
+        for (index in position-1 downTo(0)){
+            if(locationList[position].lat == locationList[index].lat && locationList[position].lon == locationList[index].lon){
+                count++
+            }
+        }
+        pos = count
+    }
+
     override fun onBackPressed() {
         mainAct.btn_search_cancle.visibility = View.GONE
         mapFragment.markerDelete()
@@ -213,6 +288,7 @@ class SearchResultFragment : Fragment(),
                 mainAct.setOnBackPressedListener(null)
                 mainAct.onBackPressed()
             }
+
             2 -> { // Map 이 아닌상태에서 뒤로가기
                 mainAct.sv_searchview.clearFocus()
                 mainAct.sv_searchview.setQuery("",false)
@@ -221,13 +297,13 @@ class SearchResultFragment : Fragment(),
                 rootView = null
             }
             else -> { // Map 에서 뒤로가기
+                Log.d("test2222","${cfm.backStackEntryCount}")
                 changeResultMapState(true)
                 mainAct.sv_searchview.setQuery("", false)
                 cfm.popBackStack()
                 cfm.popBackStack()
 
                 rootView = null
-                mapFragment.manageSearchResultCardView(false)
                 mapFragment.deleteSRSelectedMarker()
                 deletedSRCardView()
             }
@@ -270,6 +346,6 @@ class SearchResultFragment : Fragment(),
 
     override fun onCreatedViewFinish() {
         if(loc!=null)
-            mapFragment.manageSearchResultCardViewData()
+            mapFragment.manageSearchResultCardViewData(pos)
     }
 }

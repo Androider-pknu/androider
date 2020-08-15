@@ -22,12 +22,22 @@ interface RetrofitAPI {
         @Field("number") number: String?
     ): Call<StoreDTO>
 
-    // 학진이가 추가한 부분
-    @GET("hakjin/store.php")
+    /* 학진이가 추가한 부분 */
+    //@GET("hakjin/store.php")
+    @GET("hakjin/recommendStore.php")
     fun getStore(
         @Query("category")category: String,
         @Query("radius")radius:Double,
         @Query("latitude")latitude:Double,
         @Query("longitude")longitude:Double
     ): Call<List<StoreDTO>>
+
+    @GET("hakjin/store.php")
+    fun getStoreList(
+        @Query("category")category: String,
+        @Query("radius")radius:Double,
+        @Query("latitude")latitude:Double,
+        @Query("longitude")longitude:Double
+    ): Call<List<StoreDTO>>
+    /* 학진이가 추가한 부분 */
 }

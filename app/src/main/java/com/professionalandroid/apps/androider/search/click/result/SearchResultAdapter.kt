@@ -1,16 +1,20 @@
 package com.professionalandroid.apps.androider.search.click.result
 
+import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.professionalandroid.apps.androider.R
 import com.professionalandroid.apps.androider.model.StoreDTO
 import kotlin.math.round
 import kotlin.math.roundToInt
 
-class SearchResultAdapter: RecyclerView.Adapter<SearchResultAdapter.SearchResultViewHolder>(){
+class SearchResultAdapter(private val con: Context): RecyclerView.Adapter<SearchResultAdapter.SearchResultViewHolder>(){
     private var list = ArrayList<StoreDTO>()
 
     interface OnSRItemClickListener{
@@ -36,10 +40,18 @@ class SearchResultAdapter: RecyclerView.Adapter<SearchResultAdapter.SearchResult
 
     override fun onBindViewHolder(holder: SearchResultViewHolder, position: Int) {
         holder.placeName.text = list[position].name
-        holder.placePostCount.text = "100 개" // 수정예정
+        holder.placePostCount.text = "포스트 ${list[position].postCount}개" // 수정예정
         holder.placeLocation.text = list[position].address
         holder.placeCategory.text = list[position].category
         holder.placeDistance.text = decideUnit(round(list[position].distance*1000.0))  // KM -> Meter
+
+        if(list[position].image_url==null){
+            //holder.placeImg.setImageResource(R.drawable.image03) // Base Image Set Need
+            holder.placeImg.setImageResource(R.drawable.koreanfood_basic)
+        }
+        else{
+            Glide.with(con).load(list[position].image_url).into(holder.placeImg)
+        }
 
         holder.itemView.setOnClickListener {  // 클릭리스너 설정
             mListener.onSRItemClicked(it,position)
@@ -59,6 +71,7 @@ class SearchResultAdapter: RecyclerView.Adapter<SearchResultAdapter.SearchResult
     }
 
     class SearchResultViewHolder(searchResultItemView: View): RecyclerView.ViewHolder(searchResultItemView){
+        val placeImg = searchResultItemView.findViewById<ImageView>(R.id.imgbtn_search_result)
         val placeName = searchResultItemView.findViewById<TextView>(R.id.tv_searchresult_name)
         val placePostCount = searchResultItemView.findViewById<TextView>(R.id.tv_searchresult_postcount)
         val placeLocation = searchResultItemView.findViewById<TextView>(R.id.tv_searchresult_location)

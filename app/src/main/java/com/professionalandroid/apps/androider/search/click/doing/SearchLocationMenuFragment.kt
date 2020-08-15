@@ -9,10 +9,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.professionalandroid.apps.androider.*
+import com.professionalandroid.apps.androider.model.StoreDTO
 import com.professionalandroid.apps.androider.navigation.SearchFragment.Companion.cfm
 import com.professionalandroid.apps.androider.navigation.SearchFragment.Companion.mapFragment
+import com.professionalandroid.apps.androider.util.AWSRetrofit
+import com.professionalandroid.apps.androider.util.RetrofitAPI
 import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.android.synthetic.main.fragment_search_location_menu.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 /* 검색을 하는도중 연관 카테고리와, 근처 장소를 나타나는 프래그먼트*/
 class SearchLocationMenuFragment : Fragment(),
@@ -52,6 +58,7 @@ class SearchLocationMenuFragment : Fragment(),
         searchRelatedAdapter.setOnSRClickListener(this)
         searchNearPlaceAdapter.setOnSNHClickListener(this)
     }
+
     private fun manageRecyclerView(){
         rv_search_related_category?.apply{
             layoutManager = LinearLayoutManager(requireContext())
@@ -75,6 +82,7 @@ class SearchLocationMenuFragment : Fragment(),
             relatedCategoryList.add(SearchRelatedCategory("낭만포차"))
         }
     }
+
     override fun onBackPressed() {
         when(cfm.backStackEntryCount){
             0 -> {
@@ -100,9 +108,27 @@ class SearchLocationMenuFragment : Fragment(),
     }
 
     override fun onSNHItemClicked(view: View, position: Int) {// SearchLocationMenuFragment itemClicked
+        val storeName = nearPlaceList[position].nearPlaceName
         Log.d("hakjin","SearchLocationMenuFragment(주변 장소) itemClicked $position")
+//
+//        val retrofitAPI = AWSRetrofit.getAPI()
+//        val call = retrofitAPI.getStoreOne(storeName)
+//        call.enqueue(object : Callback<List<StoreDTO>>{
+//            override fun onFailure(call: Call<List<StoreDTO>>, t: Throwable) {
+//                Log.d("SLM Retrofit Failed","On Failed")
+//
+//            }
+//
+//            override fun onResponse(call: Call<List<StoreDTO>>, response: Response<List<StoreDTO>>) {
+//                if(response.isSuccessful){
+//
+//                }
+//            }
+//
+//        })
+
         mainAct.sv_searchview.clearFocus()
-        mainAct.sv_searchview.setQuery(nearPlaceList[position].nearPlaceName,false)
+        mainAct.sv_searchview.setQuery(storeName,false)
         cfm.beginTransaction().replace(R.id.fragment_container, mapFragment).addToBackStack(null).commit()
     }
 }

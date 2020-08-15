@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
@@ -39,6 +40,7 @@ class MainMapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraIdleLi
     private lateinit var mainActivity: MainActivity
 
     private lateinit var cameraPosition: LatLng
+    private var cameraPositionFlag = false
     private var lmMarkerManager : LMMarkerManager? = null
     private var cameraZoom: Float = 0.0f
 
@@ -66,8 +68,6 @@ class MainMapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraIdleLi
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         val rootView = inflater.inflate(R.layout.fragment_main_map, container, false)
-        Log.d("cardView", "Map onCreateView")
-
         setLocalMasterMarkerAdapter(rootView) // 뷰페이저에 마커어댑터 설정
         initBtnList(rootView)
 
@@ -81,8 +81,8 @@ class MainMapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraIdleLi
         val mapFragment: SupportMapFragment? =
             childFragmentManager.findFragmentById(R.id.Main_map_Fragment) as SupportMapFragment
         mapFragment?.getMapAsync(this)
-
         onCreatedViewFinish()
+
 
         btn_my_location.setOnClickListener {
             idleCameraCheck = true // 내위치 업데이트를 위해 true
@@ -92,6 +92,11 @@ class MainMapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraIdleLi
         btn_filter.setOnClickListener {
             changeVisibleBtn()
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        cameraPositionFlag = false
     }
 
     private fun initBtnList(view: View){
@@ -157,7 +162,7 @@ class MainMapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraIdleLi
         updateLocation()
     }
 
-    private fun updateLocation() { // 위치 업데이트
+    private fun updateLocation() { // 내위치 업데이트
         mFusedLocationClient.lastLocation.addOnSuccessListener {
             val myLocation = LatLng(it.latitude, it.longitude)
             when (idleCameraCheck) {
@@ -175,11 +180,15 @@ class MainMapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraIdleLi
 
     override fun onCameraMove() {
         cameraPosition = mMap.cameraPosition.target
+        if(cameraPositionFlag)
+            img_searchmap_locationpoint.visibility = View.VISIBLE
     }
 
     override fun onCameraIdle() {
         cameraPosition = mMap.cameraPosition.target
         cameraZoom = mMap.cameraPosition.zoom
+        if(cameraPositionFlag)
+            img_searchmap_locationpoint.visibility = View.GONE
     }
 
     override fun onMarkerClick(marker: Marker?): Boolean { // true 동네마스터 마커 false 검색결과 마커
@@ -194,7 +203,7 @@ class MainMapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraIdleLi
                 val loc = marker?.position?.latitude?.let { marker.position?.longitude?.let { it1 ->
                     LatLng(it, it1) } }
                 srSelectedMarker = loc // Selected Marker Location
-                manageSearchResultCardViewData()
+                manageSearchResultCardViewData(0)
             }
         }
         lmMarkerManager?.changedSelectedMarker(marker) // 선택한 마커 표시
@@ -243,12 +252,15 @@ class MainMapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraIdleLi
         storeList = list
     }
 
-    private fun addSearchResultMarkerModel(){ // Add StoreData On CardView From Marker
+    private fun addSearchResultMarkerModel(position: Int){ // Add StoreData On CardView From Marker
+        Log.d("test2222","add $position")
         for(item in storeList){
             if(item.latitude == srSelectedMarker?.latitude && item.longitude == srSelectedMarker?.longitude)
                 searchResultPageAdapter.addItem(item)
         }
-        view?.vp_searchresult_viewPager?.adapter = searchResultPageAdapter
+        vp_searchresult_viewPager.adapter = searchResultPageAdapter
+        //vp_searchresult_viewPager.setCurrentItem(2,true) // 작동안됨 확인 필요
+
         manageSearchResultCardView(true)
     }
 
@@ -280,14 +292,18 @@ class MainMapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraIdleLi
 
     fun manageSearchResultCardView(flag: Boolean) { // Manage Visible CardView
         when (flag) {
-            true -> vp_searchresult_viewPager.visibility = View.VISIBLE
-            false -> vp_searchresult_viewPager.visibility = View.GONE
+            true -> {
+                view?.vp_searchresult_viewPager?.visibility = View.VISIBLE
+            }
+            false -> {
+                view?.vp_searchresult_viewPager?.visibility = View.GONE
+            }
         }
     }
 
-    fun manageSearchResultCardViewData(){
+    fun manageSearchResultCardViewData(position: Int){
         searchResultPageAdapter.removeItem()
-        addSearchResultMarkerModel()
+        addSearchResultMarkerModel(position)
     }
 
     private fun manageLocalCardViewData(marker: Marker?) { // 동네마스터 마커 카드뷰 데이터 관리
@@ -300,6 +316,7 @@ class MainMapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraIdleLi
     }
 
     override fun onCreatedViewFinish() {
+        cameraPositionFlag = true
         mListener?.let{
             it.onCreatedViewFinish()
             return
