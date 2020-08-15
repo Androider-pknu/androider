@@ -84,12 +84,43 @@ class TestPostAdapter(val list: ArrayList<TestPost>, val context: Context) : Rec
         holder.time.text=calculateTime(list[position].timestamp)
         holder.likeCount.text=list[position].likeCount.toString()
         if(list[position].image!=null){
-            val layoutParams=LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,400)
-            val picture=ImageView(context)
-            Glide.with(context).load(list[position].image).into(picture)
-            layoutParams.gravity=Gravity.CENTER
-            picture.layoutParams=layoutParams
-            holder.imageLayout.addView(picture)
+//            val layoutParams=LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,400,(list[position].image!!.size).toFloat())
+//            val picture=ImageView(context)
+//            Glide.with(context).load(list[position].image).into(picture)
+//            layoutParams.gravity=Gravity.CENTER
+//            picture.layoutParams=layoutParams
+//            holder.imageLayout.addView(picture)
+            insertImage(list[position].image!!,holder)
+        }
+    }
+    private fun insertImage(imgList:ArrayList<String>,holder:CustomViewHolder){
+        if(imgList.size<4) {
+            holder.imageLayout.layoutParams.height = 400
+            val layoutParams = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT, (imgList.size).toFloat())
+            for (i in 0 until imgList.size) {
+                val picture = ImageView(context)
+                Glide.with(context).load(imgList[i]).into(picture)
+                layoutParams.gravity = Gravity.CENTER
+                picture.scaleType = ImageView.ScaleType.CENTER_CROP
+                picture.layoutParams = layoutParams
+                holder.imageLayout.addView(picture)
+            }
+        }
+        else{
+            holder.imageLayout.layoutParams.height=400
+            val layoutParams=LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT, (imgList.size).toFloat())
+            for (i in 0 until imgList.size) {
+                val picture = ImageView(context)
+                Glide.with(context).load(imgList[i]).into(picture)
+                layoutParams.gravity = Gravity.CENTER
+                picture.scaleType = ImageView.ScaleType.CENTER_CROP
+                picture.layoutParams = layoutParams
+                holder.imageLayout.addView(picture)
+            }
         }
     }
     class CustomViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {

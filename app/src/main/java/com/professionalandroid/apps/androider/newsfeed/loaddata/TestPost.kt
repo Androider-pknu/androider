@@ -14,5 +14,5 @@ data class TestPost(
     @SerializedName("timestamp")
     val timestamp:String,
     @SerializedName("image_url")
-    val image:String?
+    val image:ArrayList<String>?
 )
