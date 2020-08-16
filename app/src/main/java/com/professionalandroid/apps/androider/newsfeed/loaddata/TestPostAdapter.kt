@@ -8,6 +8,7 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.GridLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -71,34 +72,29 @@ import kotlin.collections.ArrayList
 class TestPostAdapter(val list: ArrayList<TestPost>, val context: Context) : RecyclerView.Adapter<TestPostAdapter.CustomViewHolder>(){
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomViewHolder {
         val view= LayoutInflater.from(parent.context).inflate(R.layout.place_all_posts,parent,false)
-        return CustomViewHolder(
-            view
-        )
+        return CustomViewHolder(view)
     }
     override fun getItemCount()=list.size
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
-        holder.num.text=list[position].author.toString()
+        holder.author.text=list[position].userID
         holder.mainContent.text=list[position].content
         holder.time.text=calculateTime(list[position].timestamp)
         holder.likeCount.text=list[position].likeCount.toString()
-        if(list[position].image!=null){
-//            val layoutParams=LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,400,(list[position].image!!.size).toFloat())
-//            val picture=ImageView(context)
-//            Glide.with(context).load(list[position].image).into(picture)
-//            layoutParams.gravity=Gravity.CENTER
-//            picture.layoutParams=layoutParams
-//            holder.imageLayout.addView(picture)
-            insertImage(list[position].image!!,holder)
-        }
+        holder.commentCount.text=list[position].commentCount.toString()
+        holder.nickname.text=list[position].nickName
+        if(list[position].image!=null) insertImage(list[position].image!!,holder)
+        if(list[position].imageOfMember!=null) Glide.with(context).load(list[position].imageOfMember).into(holder.profileImg)
+        else holder.profileImg.setImageResource(R.drawable.selected_heart)
     }
     private fun insertImage(imgList:ArrayList<String>,holder:CustomViewHolder){
-        if(imgList.size<4) {
+        if(imgList.size < 4) {
             holder.imageLayout.layoutParams.height = 400
             val layoutParams = LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.MATCH_PARENT, (imgList.size).toFloat())
+                LinearLayout.LayoutParams.MATCH_PARENT, (imgList.size).toFloat()
+            )
             for (i in 0 until imgList.size) {
                 val picture = ImageView(context)
                 Glide.with(context).load(imgList[i]).into(picture)
@@ -112,7 +108,7 @@ class TestPostAdapter(val list: ArrayList<TestPost>, val context: Context) : Rec
             holder.imageLayout.layoutParams.height=400
             val layoutParams=LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.MATCH_PARENT, (imgList.size).toFloat())
+                LinearLayout.LayoutParams.MATCH_PARENT, 4f)
             for (i in 0 until imgList.size) {
                 val picture = ImageView(context)
                 Glide.with(context).load(imgList[i]).into(picture)
@@ -122,14 +118,30 @@ class TestPostAdapter(val list: ArrayList<TestPost>, val context: Context) : Rec
                 holder.imageLayout.addView(picture)
             }
         }
+//        holder.imageLayout.layoutParams.height=400
+//        holder.imageLayout.rowCount=1
+//        holder.imageLayout.columnCount=imgList.size
+//        //val layoutParams=LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.MATCH_PARENT)
+//        for(i in 0 until imgList.size){
+//            val picture = ImageView(context)
+//            val grid=GridLayout.LayoutParams(GridLayout.spec(0,1),GridLayout.spec(i,1))
+//            Glide.with(context).load(imgList[i]).into(picture)
+//            grid.setGravity(Gravity.CENTER)
+//            picture.scaleType = ImageView.ScaleType.CENTER_CROP
+//            //picture.layoutParams = layoutParams
+//            holder.imageLayout.addView(picture,grid)
+//        }
     }
     class CustomViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
-        val num = itemView.findViewById<TextView>(R.id.user_name)
+        val author = itemView.findViewById<TextView>(R.id.user_name)
+        val nickname=itemView.findViewById<TextView>(R.id.user_nickname)
         val time=itemView.findViewById<TextView>(R.id.when_post)
         val mainContent=itemView.findViewById<TextView>(R.id.content)
         val heartImage=itemView.findViewById<ImageView>(R.id.post_heart)
         val likeCount=itemView.findViewById<TextView>(R.id.post_heart_number)
         val imageLayout=itemView.findViewById<LinearLayout>(R.id.for_image_layout)
+        val profileImg=itemView.findViewById<ImageView>(R.id.user_profile_image)
+        val commentCount=itemView.findViewById<TextView>(R.id.post_comment_number)
     }
     @RequiresApi(Build.VERSION_CODES.O)
     fun calculateTime(time:String) : String{
