@@ -2,8 +2,11 @@ package com.professionalandroid.apps.androider.newsfeed.loaddata
 
 import android.content.Context
 import android.util.Log
+import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.professionalandroid.apps.androider.R
+import com.professionalandroid.apps.androider.navigation.NewsFeedFragment
 import com.professionalandroid.apps.androider.util.AWSRetrofit
 import com.professionalandroid.apps.androider.util.RetrofitAPI
 import retrofit2.Call
@@ -13,10 +16,7 @@ import retrofit2.Response
 class LoadPostData(private val recyclerView: RecyclerView, val context:Context,val type:Int){
     private var postList:ArrayList<TestPost> = ArrayList()
     private var postAdapter: TestPostAdapter =
-        TestPostAdapter(
-            postList,
-            context
-        )
+        TestPostAdapter(postList, context)
     private var notLoading=true
     private var postLayoutManager: LinearLayoutManager = LinearLayoutManager(context)
     private var postApi:RetrofitAPI = AWSRetrofit.getAPI()
@@ -69,6 +69,13 @@ class LoadPostData(private val recyclerView: RecyclerView, val context:Context,v
                 }
             }
         })
+    }
+    fun setRecyclerListener(){
+        postAdapter.setPostClickListener(object : TestPostAdapter.OnPostClickListener {
+            override fun onClick(view: View, position: Int) {
+
+            }
+          })
     }
     fun getAdapter() : TestPostAdapter = postAdapter
     fun getLayoutManager() : RecyclerView.LayoutManager = postLayoutManager

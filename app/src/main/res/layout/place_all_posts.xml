@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/pre_post"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/only_bottom">
@@ -79,15 +80,15 @@
         app:layout_constraintEnd_toEndOf="@+id/content_view"
         app:layout_constraintStart_toStartOf="@id/content_view"
         app:layout_constraintTop_toBottomOf="@+id/content_view" />
-<!--    <GridLayout-->
-<!--        android:id="@+id/for_image_layout"-->
-<!--        android:layout_width="0dp"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:useDefaultMargins="true"-->
-<!--        app:layout_constraintEnd_toEndOf="@+id/content_view"-->
-<!--        app:layout_constraintStart_toStartOf="@+id/content_view"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/content_view"-->
-<!--        android:orientation="horizontal" />-->
+    <!--    <GridLayout-->
+    <!--        android:id="@+id/for_image_layout"-->
+    <!--        android:layout_width="0dp"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:useDefaultMargins="true"-->
+    <!--        app:layout_constraintEnd_toEndOf="@+id/content_view"-->
+    <!--        app:layout_constraintStart_toStartOf="@+id/content_view"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/content_view"-->
+    <!--        android:orientation="horizontal" />-->
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/post_store_info"

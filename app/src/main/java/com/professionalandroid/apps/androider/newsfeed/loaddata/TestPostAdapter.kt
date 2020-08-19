@@ -13,6 +13,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.annotation.RequiresApi
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.professionalandroid.apps.androider.R
@@ -76,6 +77,16 @@ class TestPostAdapter(val list: ArrayList<TestPost>, val context: Context) : Rec
     }
     override fun getItemCount()=list.size
 
+    interface OnPostClickListener{
+        fun onClick(view:View,position: Int)
+    }
+
+    private lateinit var postClickListener : OnPostClickListener
+
+    fun setPostClickListener(postClickListener: OnPostClickListener){
+        this.postClickListener=postClickListener
+    }
+
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
         holder.author.text=list[position].userID
@@ -87,9 +98,12 @@ class TestPostAdapter(val list: ArrayList<TestPost>, val context: Context) : Rec
         if(list[position].image!=null) insertImage(list[position].image!!,holder)
         if(list[position].imageOfMember!=null) Glide.with(context).load(list[position].imageOfMember).into(holder.profileImg)
         else holder.profileImg.setImageResource(R.drawable.selected_heart)
+        holder.postLayout.setOnClickListener {
+            postClickListener.onClick(it,position)
+        }
     }
     private fun insertImage(imgList:ArrayList<String>,holder:CustomViewHolder){
-        if(imgList.size < 4) {
+
             holder.imageLayout.layoutParams.height = 400
             val layoutParams = LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
@@ -103,21 +117,6 @@ class TestPostAdapter(val list: ArrayList<TestPost>, val context: Context) : Rec
                 picture.layoutParams = layoutParams
                 holder.imageLayout.addView(picture)
             }
-        }
-        else{
-            holder.imageLayout.layoutParams.height=400
-            val layoutParams=LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.MATCH_PARENT, 4f)
-            for (i in 0 until imgList.size) {
-                val picture = ImageView(context)
-                Glide.with(context).load(imgList[i]).into(picture)
-                layoutParams.gravity = Gravity.CENTER
-                picture.scaleType = ImageView.ScaleType.CENTER_CROP
-                picture.layoutParams = layoutParams
-                holder.imageLayout.addView(picture)
-            }
-        }
 //        holder.imageLayout.layoutParams.height=400
 //        holder.imageLayout.rowCount=1
 //        holder.imageLayout.columnCount=imgList.size
@@ -142,6 +141,7 @@ class TestPostAdapter(val list: ArrayList<TestPost>, val context: Context) : Rec
         val imageLayout=itemView.findViewById<LinearLayout>(R.id.for_image_layout)
         val profileImg=itemView.findViewById<ImageView>(R.id.user_profile_image)
         val commentCount=itemView.findViewById<TextView>(R.id.post_comment_number)
+        val postLayout=itemView.findViewById<ConstraintLayout>(R.id.pre_post)
     }
     @RequiresApi(Build.VERSION_CODES.O)
     fun calculateTime(time:String) : String{
