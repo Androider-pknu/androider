@@ -3,6 +3,8 @@ package com.professionalandroid.apps.androider.search.map
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
+import android.location.Address
+import android.location.Geocoder
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -19,59 +21,58 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import com.professionalandroid.apps.androider.*
+import com.professionalandroid.apps.androider.model.StoreDTO
+import com.professionalandroid.apps.androider.OnMapCreatedViewListener
 import com.professionalandroid.apps.androider.search.click.result.SearchResultPageAdapter
 import com.professionalandroid.apps.androider.search.map.marker.*
 import kotlinx.android.synthetic.main.fragment_main_map.*
 import kotlinx.android.synthetic.main.fragment_main_map.view.*
 import kotlinx.android.synthetic.main.fragment_main_map.vp_local_master_viewPager
+import java.io.IOException
 
 /* 서치결과 맵 마커클릭시 가게정보 뜸 동네마스터 마커 클릭시 해당사람이 쓴 포스트 뜸*/
 
 class MainMapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraIdleListener,
-    OnBackPressedListener,
-    GoogleMap.OnMarkerClickListener, GoogleMap.OnMapClickListener {
+    GoogleMap.OnCameraMoveListener, GoogleMap.OnMarkerClickListener, GoogleMap.OnMapClickListener,
+    OnMapCreatedViewListener {
 
-    lateinit var mMap: GoogleMap
-    lateinit var mFusedLocationClient: FusedLocationProviderClient
+    private lateinit var mMap: GoogleMap
+    private lateinit var mFusedLocationClient: FusedLocationProviderClient
     private val REQUEST_CODE_PERMISSIONS = 1000
-    private var idleCameraCheck = true
-    private lateinit var cameraPosition: LatLng // 현재 카메라 위치
+    private lateinit var mainActivity: MainActivity
+    private lateinit var geocoder: Geocoder
+    private var address: List<Address>? = null
 
+    private lateinit var cameraPosition: LatLng
+    private var cameraPositionFlag = false
     private var lmMarkerManager : LMMarkerManager? = null
+    private var cameraZoom: Float = 0.0f
 
     private lateinit var btnList: Array<Button>
-    private var btnFlag = false
-
-
-    /* posting 을 표시할 list */
-    private var restaurantList =  ArrayList<LatLng>()
-    private var cafeList = ArrayList<LatLng>()
-    private var alcoholList = ArrayList<LatLng>()
-    private var cultureList = ArrayList<LatLng>()
-    private var lifeList = ArrayList<LatLng>()
-
     private lateinit var localMasterAdapter: LMMarkerAdapter
     private lateinit var searchResultPageAdapter: SearchResultPageAdapter
 
-    private lateinit var mainActivity: MainActivity
+    private var storeList = ArrayList<StoreDTO>() // MapSearchRequest Data
+    private var mListener: OnMapCreatedViewListener? = null
 
-    var markerFlag = true // 동네마스터 마커인지 검색결과 마커인지 판별 true: 동네마스터 마커 false 검색결과  searchFragment, hotplaceFramgent 에서 설정
+    var markerFlag = true // true: 동네마스터 마커 false: 검색결과
+    private var idleCameraCheck = true // MyLocation Update
+    private var btnFlag = false // Button Flag
 
-    /* 현재위치 정보 저장을 위한 boolean true 이면 핸재위치로 업데이트 false 이면 camera 위치로 update
-    * 즉 camera 가 멈춘후 다른 프래그먼트를 호출했을때 그 카메라 줌(위치) 상태를 저장하기 위한 친구 */
+    private var srSelectedMarker: LatLng? = null // SelectedMarker Position
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         mainActivity = context as MainActivity
+        cameraZoom = 16.0f
         initMarkerAdapter()
+        geocoder = Geocoder(context)
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         val rootView = inflater.inflate(R.layout.fragment_main_map, container, false)
-        Log.d("hakjin", "Map onCreateView")
-
         setLocalMasterMarkerAdapter(rootView) // 뷰페이저에 마커어댑터 설정
         initBtnList(rootView)
 
@@ -80,10 +81,13 @@ class MainMapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraIdleLi
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        Log.d("finish","map onViewCreated 호출")
 
         val mapFragment: SupportMapFragment? =
             childFragmentManager.findFragmentById(R.id.Main_map_Fragment) as SupportMapFragment
         mapFragment?.getMapAsync(this)
+        onCreatedViewFinish()
+
 
         btn_my_location.setOnClickListener {
             idleCameraCheck = true // 내위치 업데이트를 위해 true
@@ -93,6 +97,11 @@ class MainMapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraIdleLi
         btn_filter.setOnClickListener {
             changeVisibleBtn()
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        cameraPositionFlag = false
     }
 
     private fun initBtnList(view: View){
@@ -112,10 +121,8 @@ class MainMapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraIdleLi
         }
     }
 
-    /* onMapReady 는 비동기 방식으로 작동 매개변수로 구글맵 전달*/
     override fun onMapReady(googleMap: GoogleMap?) {
         googleMap?.let {
-            Log.d("hakjin", "Map onMapReady")
             mMap = it
             mMapClickListenerRegister()
             initLocation()
@@ -125,41 +132,226 @@ class MainMapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraIdleLi
         }
     }
 
+    private fun setAddress(){
+        try{
+            address = geocoder.getFromLocation(cameraPosition.latitude,cameraPosition.longitude,1)
+        } catch (e: IOException){
+            e.printStackTrace()
+            Log.d("Search getAddress", "getAddress Failed")
+        }
+    }
+
+    fun getAddress(): String? {
+        if(address == null ){
+            return address
+        }
+        if(address!!.isEmpty()){
+            return null
+        }
+        val adminArea = address?.get(0)?.adminArea
+        val subLocality = address?.get(0)?.subLocality
+        val thoroughfare = address?.get(0)?.thoroughfare
+        return if(adminArea == null) {
+            if (subLocality == null)
+                thoroughfare
+            else
+                "$subLocality $thoroughfare"
+        } else {
+            if(subLocality==null)
+                "$adminArea $thoroughfare"
+            else
+                "$adminArea $subLocality $thoroughfare"
+        }
+    }
+
+    fun getCameraZoom(): Float{ // 현재 카메라 줌을 반환
+        return cameraZoom
+    }
+
+    fun setCamera(zoom: Float,position: LatLng){
+        cameraZoom = zoom
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(position))
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(cameraZoom))
+    }
+
+    fun getCameraPosition(): LatLng{
+        return cameraPosition
+    }
+
     /* 마커, 맵 클릭리스너 시작 */
     private fun initMarkerAdapter(){ // 마커 초기화, 데이터 설정
         localMasterAdapter = LMMarkerAdapter(requireContext())
         addLocalMasterMarkerModel()
-
         searchResultPageAdapter = SearchResultPageAdapter(requireContext())
-        addSearchResultMarkerModel()
     }
 
     private fun mMapClickListenerRegister() { // 맵클릭 리스너 등록
         mMap.setOnCameraIdleListener(this)
+        mMap.setOnCameraMoveListener(this)
         mMap.setOnMarkerClickListener(this)
         mMap.setOnMapClickListener(this)
     }
 
     private fun initLocation() {    //내위치를 마커로 찍음
         mFusedLocationClient = FusedLocationProviderClient(requireContext())
-        mMap.isMyLocationEnabled = true // 파란색점
-        mMap.uiSettings.isMyLocationButtonEnabled = false // 내위치 버튼 비활성화
+        mMap.isMyLocationEnabled = true
+        mMap.uiSettings.isMyLocationButtonEnabled = false
         updateLocation()
     }
 
-    private fun updateLocation() { // 위치 업데이트
+    private fun updateLocation() { // 내위치 업데이트
         mFusedLocationClient.lastLocation.addOnSuccessListener {
             val myLocation = LatLng(it.latitude, it.longitude)
-            /* cameraCheck is true 이면 현재위치로 카메라로 이동 false 이면 내위치로 camera 가 이동될 필요가 없음 */
             when (idleCameraCheck) {
                 true -> {
                     cameraPosition = myLocation
                     idleCameraCheck = false
+                    cameraZoom = 16.0f
                 }
             }
             mMap.moveCamera(CameraUpdateFactory.newLatLng(cameraPosition))
-            mMap.animateCamera(CameraUpdateFactory.zoomTo(17.0f))
+            mMap.animateCamera(CameraUpdateFactory.zoomTo(cameraZoom))
             idleCameraCheck = false
+        }
+    }
+
+    override fun onCameraMove() {
+        cameraPosition = mMap.cameraPosition.target
+        if(cameraPositionFlag)
+            img_searchmap_locationpoint.visibility = View.VISIBLE
+    }
+
+    override fun onCameraIdle() {
+        cameraPosition = mMap.cameraPosition.target
+        cameraZoom = mMap.cameraPosition.zoom
+        setAddress()
+        if(cameraPositionFlag)
+            img_searchmap_locationpoint.visibility = View.GONE
+    }
+
+    override fun onMarkerClick(marker: Marker?): Boolean { // true 동네마스터 마커 false 검색결과 마커
+        when(markerFlag){
+            true -> {
+                manageLocalCardViewData(marker) // 마커객체 넘겨서 카드뷰 업데이트
+                manageLocalMasterCardView(true)
+            }
+            false -> {
+                val loc = marker?.position?.latitude?.let { marker.position?.longitude?.let { it1 ->
+                    LatLng(it, it1) } }
+                srSelectedMarker = loc // Selected Marker Location
+                manageSearchResultCardViewData(0)
+            }
+        }
+        lmMarkerManager?.changedSelectedMarker(marker) // 선택한 마커 표시
+        return true
+    }
+
+    override fun onMapClick(p0: LatLng?) {
+        srSelectedMarker = null
+        lmMarkerManager?.changedSelectedMarker(null)
+        if(markerFlag) manageLocalMasterCardView(false)
+        else manageSearchResultCardView(false)
+    }
+
+    fun setSRSelectedMarker(location: LatLng){ // Set SR Selected Marker
+        srSelectedMarker = location
+    }
+
+    fun deleteSRSelectedMarker(){
+        srSelectedMarker = null
+    }
+
+    fun markerAdd(markerList: ArrayList<LMMarkerItem>, flag: Boolean, position: Int){ // flag: true -> Selected Marker O
+        if(flag) {
+            lmMarkerManager?.getMarkerItem(markerList, position)
+            srSelectedMarker = LatLng(markerList[position].lat,markerList[position].lon) // Selected Marker Location
+        }
+        else {
+            var loc = 0
+            if(srSelectedMarker!=null){
+                for (index in markerList.indices)
+                    if(markerList[index].lat == srSelectedMarker?.latitude && markerList[index].lon == srSelectedMarker?.longitude)
+                        loc = index
+                lmMarkerManager?.getMarkerItem(markerList,loc) // Selected Marker O 인데 지도(목록) 버튼 눌렀을경우
+            }
+            else
+                lmMarkerManager?.getMarkerItem(markerList)
+        }
+    }
+
+    fun markerDelete(){
+        lmMarkerManager?.deleteMarker()
+    }
+
+    fun getSearchRequestStoreData(list: ArrayList<StoreDTO>){ // Get SearchResultStoreData
+        storeList = list
+    }
+
+    private fun addSearchResultMarkerModel(position: Int){ // Add StoreData On CardView From Marker
+        for(item in storeList){
+            if(item.latitude == srSelectedMarker?.latitude && item.longitude == srSelectedMarker?.longitude)
+                searchResultPageAdapter.addItem(item)
+        }
+        vp_searchresult_viewPager.adapter = searchResultPageAdapter
+
+        manageSearchResultCardView(true)
+    }
+
+    private fun addLocalMasterMarkerModel() { // 동네마스터 마커데이터 초기화
+        localMasterAdapter.addItem(
+            LocalMasterMarkerModel(R.drawable.image03, R.drawable.image03, "하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하", "아관파천")
+        )
+        localMasterAdapter.addItem(
+            LocalMasterMarkerModel(R.drawable.image03, R.drawable.image02, "하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하", "동서남북")
+        )
+        localMasterAdapter.notifyDataSetChanged()
+    }
+    private fun setLocalMasterMarkerAdapter(view: View) { // 동네마스터 마커, 검색결과 마커 뷰페이저 어댑터 설정
+        view.vp_local_master_viewPager.adapter = localMasterAdapter
+        view.vp_local_master_viewPager.setPadding(50, 0, 50, 50)
+        view.vp_local_master_viewPager.pageMargin = 30
+
+        view.vp_searchresult_viewPager.adapter = searchResultPageAdapter
+        view.vp_searchresult_viewPager.setPadding(50, 0, 50, 50)
+    }
+
+    private fun manageLocalMasterCardView(flag: Boolean) {
+        when (flag) {
+            true -> vp_local_master_viewPager.visibility = View.VISIBLE
+            false -> vp_local_master_viewPager.visibility = View.GONE
+        }
+    }
+
+    fun manageSearchResultCardView(flag: Boolean) { // Manage Visible CardView
+        when (flag) {
+            true -> {
+                view?.vp_searchresult_viewPager?.visibility = View.VISIBLE
+            }
+            false -> {
+                view?.vp_searchresult_viewPager?.visibility = View.GONE
+            }
+        }
+    }
+
+    fun manageSearchResultCardViewData(position: Int){
+        searchResultPageAdapter.removeItem()
+        addSearchResultMarkerModel(position)
+    }
+
+    private fun manageLocalCardViewData(marker: Marker?) { // 동네마스터 마커 카드뷰 데이터 관리
+        localMasterAdapter.removeItem()
+        addLocalMasterMarkerModel()
+    }
+
+    fun setOnMapCreatedViewFinish(listener: OnMapCreatedViewListener?){
+        mListener = listener
+    }
+
+    override fun onCreatedViewFinish() {
+        cameraPositionFlag = true
+        mListener?.let{
+            it.onCreatedViewFinish()
+            return
         }
     }
 
@@ -180,116 +372,6 @@ class MainMapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraIdleLi
             }
         }
     }
-
-    override fun onCameraIdle() {
-        cameraPosition = mMap.cameraPosition.target
-    }
-
-    override fun onBackPressed() {
-        //childFragmentManager.popBackStack()
-    }
-
-    override fun onMarkerClick(marker: Marker?): Boolean { // true 동네마스터 마커 false 검색결과 마커 ( 같은마커 안찍는다고 가정)
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(marker?.position)) // 카메라 선택된 마커로 이동
-        when(markerFlag){
-            true -> {
-                Log.d("hakjin", "동네마스터 마커 클릭")
-                manageLocalCardViewData(marker) // 마커객체 넘겨서 카드뷰 업데이트 (동일마커 클릭 고려 X)
-                manageLocalMasterCardView(true) // 카드뷰 가시성 관리
-            }
-            false -> {
-                Log.d("hakjin","검색 결과 마커 클릭")
-                manageSearchResultCardViewData(marker) // 마커객체 넘겨서 카드뷰 업데이트 (동일마커 클릭 고려 X)
-                manageSearchResultCardView(true) // 카드뷰 가시성 관리
-            }
-        }
-        lmMarkerManager?.changedSelectedMarker(marker) // 선택한 마커 표시
-
-        return true
-    }
-
-    override fun onMapClick(p0: LatLng?) {
-        lmMarkerManager?.changedSelectedMarker(null)
-        if(markerFlag) manageLocalMasterCardView(false)
-        else manageSearchResultCardView(false)
-    }
-
-    fun markerUpdate(flag: Boolean){
-        when(flag){
-            true -> lmMarkerManager?.getMarkerItem() // 마커추가
-            false -> lmMarkerManager?.deleteMarker() // 마커삭제
-        }
-    }
-
-    private fun addSearchResultMarkerModel(){ // 마커에 담길 카드뷰 데이터 추가
-        searchResultPageAdapter.addItem(
-            SearchResultMarkerModel(R.drawable.image03, "잭슨바", "바", "051-611-4608", "부산광역시 남구 대연동 52-18 대영빌딩")
-        )
-        searchResultPageAdapter.addItem(
-            SearchResultMarkerModel(R.drawable.image03, "학진바", "바", "051-611-4608", "부산광역시 남구 대연동 52-18 대영빌딩")
-        )
-        searchResultPageAdapter.notifyDataSetChanged()
-    }
-
-    private fun addLocalMasterMarkerModel() { // 동네마스터 마커데이터 초기화
-        localMasterAdapter.addItem(
-            LocalMasterMarkerModel(R.drawable.image03, R.drawable.image03, "하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하", "아관파천")
-        )
-        localMasterAdapter.addItem(
-            LocalMasterMarkerModel(R.drawable.image03, R.drawable.image02, "하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하", "동서남북")
-        )
-        localMasterAdapter.notifyDataSetChanged()
-    }
-    private fun setLocalMasterMarkerAdapter(view: View) { // 동네마스터 마커, 검색결과 마커 뷰페이저 어댑터 설정
-        // 동네마스터 marker 어댑터 설정
-        view.vp_local_master_viewPager.adapter = localMasterAdapter
-        view.vp_local_master_viewPager.setPadding(50, 0, 50, 50)
-        view.vp_local_master_viewPager.pageMargin = 30
-        //  서치리절트 marker 어댑터 설정
-        view.vp_searchresult_viewPager.adapter = searchResultPageAdapter
-        view.vp_searchresult_viewPager.setPadding(50, 0, 50, 50)
-    }
-
-    private fun manageLocalMasterCardView(flag: Boolean) { // true -> 보임 false -> 안보임
-        when (flag) {
-            true -> vp_local_master_viewPager.visibility = View.VISIBLE
-            false -> vp_local_master_viewPager.visibility = View.GONE
-        }
-    }
-
-    private fun manageSearchResultCardView(flag: Boolean) { // true -> 보임 false -> 안보임
-        when (flag) {
-            true -> vp_searchresult_viewPager.visibility = View.VISIBLE
-            false -> vp_searchresult_viewPager.visibility = View.GONE
-        }
-    }
-
-    private fun manageSearchResultCardViewData(marker: Marker?){ // 검색결과 마커 카드뷰 데이터 관리
-        searchResultPageAdapter.removeItem() // 현재 어댑터에 있는 아이템 제거
-        addSearchResultMarkerModel()        // 마커에 달릴 카드뷰에 데이터 추가
-    }
-
-    private fun manageLocalCardViewData(marker: Marker?) { // 동네마스터 마커 카드뷰 데이터 관리
-        localMasterAdapter.removeItem() // 이전데이터 삭제
-        addLocalMasterMarkerModel()
-    }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 

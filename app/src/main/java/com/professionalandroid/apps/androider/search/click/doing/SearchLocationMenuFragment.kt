@@ -14,7 +14,6 @@ import com.professionalandroid.apps.androider.navigation.SearchFragment.Companio
 import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.android.synthetic.main.fragment_search_location_menu.*
 
-/* 검색을 하는도중 연관 카테고리와, 근처 장소를 나타나는 프래그먼트*/
 class SearchLocationMenuFragment : Fragment(),
     OnBackPressedListener,
     SearchRelatedCategoryAdapter.OnSRCItemClickListener,
@@ -27,7 +26,7 @@ class SearchLocationMenuFragment : Fragment(),
     private lateinit var mainAct: MainActivity
 
     override fun onAttach(context: Context) {
-        Log.d("hakjin","SearchLocationMenuFragment onAttach")
+        Log.d("search_current","SearchLocationMenuFragment onAttach")
         super.onAttach(context)
         mainAct = context as MainActivity
         mainAct.setOnBackPressedListener(this)
@@ -52,6 +51,7 @@ class SearchLocationMenuFragment : Fragment(),
         searchRelatedAdapter.setOnSRClickListener(this)
         searchNearPlaceAdapter.setOnSNHClickListener(this)
     }
+
     private fun manageRecyclerView(){
         rv_search_related_category?.apply{
             layoutManager = LinearLayoutManager(requireContext())
@@ -75,6 +75,7 @@ class SearchLocationMenuFragment : Fragment(),
             relatedCategoryList.add(SearchRelatedCategory("낭만포차"))
         }
     }
+
     override fun onBackPressed() {
         when(cfm.backStackEntryCount){
             0 -> {
@@ -93,16 +94,18 @@ class SearchLocationMenuFragment : Fragment(),
 
     // marker 선택 추가예정
     override fun onSRCItemClicked(view: View, position: Int) { // SearchLocationMenuFragment itemClicked
-        Log.d("hakjin","SearchLocationMenuFragment(연관 카테고리) itemClicked $position")
+        Log.d("snh_itemClick","SearchLocationMenuFragment(연관 카테고리) itemClicked $position")
         mainAct.sv_searchview.clearFocus()
         cfm.beginTransaction().replace(R.id.fragment_container, mapFragment).addToBackStack(null).commit()
 
     }
 
     override fun onSNHItemClicked(view: View, position: Int) {// SearchLocationMenuFragment itemClicked
-        Log.d("hakjin","SearchLocationMenuFragment(주변 장소) itemClicked $position")
+        val storeName = nearPlaceList[position].nearPlaceName
+        Log.d("snh_itemClick","SearchLocationMenuFragment(주변 장소) itemClicked $position")
+
         mainAct.sv_searchview.clearFocus()
-        mainAct.sv_searchview.setQuery(nearPlaceList[position].nearPlaceName,false)
+        mainAct.sv_searchview.setQuery(storeName,false)
         cfm.beginTransaction().replace(R.id.fragment_container, mapFragment).addToBackStack(null).commit()
     }
 }

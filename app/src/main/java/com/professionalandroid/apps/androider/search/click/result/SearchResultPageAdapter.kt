@@ -1,19 +1,19 @@
 package com.professionalandroid.apps.androider.search.click.result
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.viewpager.widget.PagerAdapter
+import com.bumptech.glide.Glide
 import com.professionalandroid.apps.androider.R
-import com.professionalandroid.apps.androider.search.map.marker.SearchResultMarkerModel
+import com.professionalandroid.apps.androider.model.StoreDTO
 
 class SearchResultPageAdapter (private var context: Context) : PagerAdapter(){
+    private var markerModelList = ArrayList<StoreDTO>()
 
-    var markerModelList = ArrayList<SearchResultMarkerModel>()
     lateinit var layoutInflater: LayoutInflater
     lateinit var postImg: ImageView
     lateinit var storeName: TextView
@@ -29,10 +29,11 @@ class SearchResultPageAdapter (private var context: Context) : PagerAdapter(){
         return markerModelList.size
     }
 
-    fun addItem(item: SearchResultMarkerModel){ //아이템을 넣기
+    fun addItem(item: StoreDTO){
         markerModelList.add(item)
     }
-    fun removeItem(){   // 리스트를 초기화
+
+    fun removeItem(){
         markerModelList.clear()
     }
 
@@ -47,19 +48,20 @@ class SearchResultPageAdapter (private var context: Context) : PagerAdapter(){
         storeNumber = rootView.findViewById(R.id.tv_searchresult_marker_phoneNumber)
         storeLocation = rootView.findViewById(R.id.tv_searchresult_marker_address)
 
-        postImg.setImageResource(markerModelList[position].postImg)
-        storeName.text = markerModelList[position].storeName
-        storeCategory.text = markerModelList[position].storeCategory
-        storeNumber.text = markerModelList[position].stroePhoneNumber
-        storeLocation.text = markerModelList[position].stroeLocation
+        storeName.text = markerModelList[position].name
+        storeCategory.text = markerModelList[position].category
+        storeNumber.text = markerModelList[position].number
+        storeLocation.text = markerModelList[position].address
+
+        if(markerModelList[position].image_url==null){
+            postImg.setImageResource(R.drawable.koreanfood_basic) // 기본 이미지
+        } else{
+            Glide.with(context).load(markerModelList[position].image_url).into(postImg)
+        }
 
         rootView.setOnClickListener { // 뷰페이저 클릭 리스너
-            if(position == 0)
-                Log.d("hakjin","searchresut - 0번 페이지 선택")
-            if(position == 1)
-                Log.d("hakjin","searchresut - 1번 페이지 선택")
-            if(position == 2)
-                Log.d("hakjin","searchresut - 2번 페이지 선택")
+            val storeName = markerModelList[position].name
+            //TODO SOMETHING....
         }
 
         container.addView(rootView,0)
@@ -68,7 +70,6 @@ class SearchResultPageAdapter (private var context: Context) : PagerAdapter(){
     override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
         container.removeView(`object` as View)
     }
-
 }
 
 

@@ -1,14 +1,21 @@
 package com.professionalandroid.apps.androider.search.click.result
 
+import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.professionalandroid.apps.androider.R
+import com.professionalandroid.apps.androider.model.StoreDTO
+import kotlin.math.round
+import kotlin.math.roundToInt
 
-class SearchResultAdapter(): RecyclerView.Adapter<SearchResultAdapter.SearchResultViewHolder>(){
-    private var  list = ArrayList<SearchResultPlace>()
+class SearchResultAdapter(private val con: Context): RecyclerView.Adapter<SearchResultAdapter.SearchResultViewHolder>(){
+    private var list = ArrayList<StoreDTO>()
 
     interface OnSRItemClickListener{
         fun onSRItemClicked(view: View, position: Int)
@@ -33,21 +40,37 @@ class SearchResultAdapter(): RecyclerView.Adapter<SearchResultAdapter.SearchResu
 
     override fun onBindViewHolder(holder: SearchResultViewHolder, position: Int) {
         holder.placeName.text = list[position].name
-        holder.placePostCount.text = list[position].postCount.toString()
-        holder.placeLocation.text = list[position].location
+        holder.placePostCount.text = "포스트 ${list[position].postCount}개" // 수정예정
+        holder.placeLocation.text = list[position].address
         holder.placeCategory.text = list[position].category
-        holder.placeDistance.text = list[position].distance
+        holder.placeDistance.text = decideUnit(round(list[position].distance*1000.0))  // KM -> Meter
+
+        if(list[position].image_url==null){
+            holder.placeImg.setImageResource(R.drawable.koreanfood_basic)
+        }
+        else{
+            Glide.with(con).load(list[position].image_url).into(holder.placeImg)
+        }
 
         holder.itemView.setOnClickListener {  // 클릭리스너 설정
             mListener.onSRItemClicked(it,position)
         }
     }
 
-    fun addItem(item: SearchResultPlace){
-        list.add(item)
+    fun setList(itemList: ArrayList<StoreDTO>){
+        list = itemList
+        notifyDataSetChanged()
+    }
+
+    private fun decideUnit(dis: Double): String{ // 단위 결정
+        return if(dis < 1000.0)
+            dis.toString()+"m"
+        else
+            (((dis / 1000.0) * 10).roundToInt() /10.0).toString()+"KM"
     }
 
     class SearchResultViewHolder(searchResultItemView: View): RecyclerView.ViewHolder(searchResultItemView){
+        val placeImg = searchResultItemView.findViewById<ImageView>(R.id.imgbtn_search_result)
         val placeName = searchResultItemView.findViewById<TextView>(R.id.tv_searchresult_name)
         val placePostCount = searchResultItemView.findViewById<TextView>(R.id.tv_searchresult_postcount)
         val placeLocation = searchResultItemView.findViewById<TextView>(R.id.tv_searchresult_location)

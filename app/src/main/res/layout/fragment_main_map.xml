@@ -14,8 +14,11 @@
         android:layout_marginTop="70dp"
         android:layout_marginEnd="24dp"
         android:background="@drawable/all_circle"
-        android:drawableTop="@drawable/ic_more_vert_lightgray_32dp"
-        android:text="@string/filter"
+        android:drawableStart="@drawable/ic_more_vert_lightgray_32dp"
+        android:drawablePadding="2dip"
+        android:paddingStart="10dip"
+        android:paddingEnd="26dip"
+        android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintLeft_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -39,9 +42,13 @@
         android:layout_marginBottom="16dp"
         android:background="@drawable/all_circle"
         android:drawableStart="@drawable/ic_my_location_lightgray_32dp"
+        android:drawablePadding="2dip"
+        android:paddingStart="7dip"
+        android:paddingEnd="26dip"
         android:textSize="15sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
 
     <Button
         android:id="@+id/btn_search_culture"
@@ -122,6 +129,17 @@
         class="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/img_searchmap_locationpoint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_add_lightgray_24dp"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

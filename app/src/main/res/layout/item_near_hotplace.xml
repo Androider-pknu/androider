@@ -20,6 +20,7 @@
         android:layout_gravity="center"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="0dp"
+        android:textStyle="bold"
         android:text="이름"
         android:textSize="14sp"/>
     <TextView
@@ -30,6 +31,6 @@
         android:layout_marginLeft="10dp"
         android:layout_marginTop="0dp"
         android:text="위치"
-        android:textSize="14sp"/>
+        android:textSize="12sp"/>
 
 </LinearLayout>

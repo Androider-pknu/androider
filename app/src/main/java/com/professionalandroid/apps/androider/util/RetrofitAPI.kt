@@ -2,14 +2,13 @@ package com.professionalandroid.apps.androider.util
 
 import com.professionalandroid.apps.androider.model.AddressModel
 import com.professionalandroid.apps.androider.model.ItemDTO
-import com.professionalandroid.apps.androider.model.PostDTO
+import com.professionalandroid.apps.androider.model.MemberDTO
 import com.professionalandroid.apps.androider.model.StoreDTO
 import okhttp3.MultipartBody
 import retrofit2.Call
 import retrofit2.http.*
-import java.sql.Timestamp
 import com.professionalandroid.apps.androider.newsfeed.loaddata.TestPost
-import retrofit2.http.*
+
 interface RetrofitAPI {
     @FormUrlEncoded
     @POST("/shtest/searchAddress.php")
@@ -44,4 +43,39 @@ interface RetrofitAPI {
     ): Call<String>
     @GET("jongyoon/post_test.php")
     fun takePlacePost(@Query("index1")start:Int,@Query("type")type:Int):Call<List<TestPost>>
+
+    @GET("hakjin/recommendStore.php")
+    fun getStore(
+        @Query("category")category: String,
+        @Query("radius")radius:Double,
+        @Query("latitude")latitude:Double,
+        @Query("longitude")longitude:Double
+    ): Call<List<StoreDTO>>
+
+    @GET("hakjin/store.php")
+    fun getStoreList(
+        @Query("category")category: String,
+        @Query("radius")radius:Double,
+        @Query("latitude")latitude:Double,
+        @Query("longitude")longitude:Double
+    ): Call<List<StoreDTO>>
+
+    @GET("hakjin/search_click_getStoreList.php")
+    fun getStoreList(
+        @Query("radius")radius:Double,
+        @Query("latitude")latitude:Double,
+        @Query("longitude")longitude:Double
+    ): Call<List<StoreDTO>>
+
+    @GET("hakjin/search_click_getStoreInfo.php")
+    fun getStoreInfo(
+        @Query("radius")radius:Double,
+        @Query("latitude")latitude:Double,
+        @Query("longitude")longitude:Double
+    ): Call<List<StoreDTO>>
+
+    @GET("hakjin/getLocalUser.php")
+    fun getUserInfo(
+        @Query("location")location: String
+    ): Call<List<MemberDTO>>
 }

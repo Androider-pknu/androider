@@ -70,7 +70,7 @@
                             android:id="@+id/btn_search_selectstore_addstore"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="50dp"
+                            android:layout_marginBottom="150dp"
                             android:background="@drawable/all_roundcorner"
                             android:backgroundTint="@color/orange"
                             android:fontFamily="sans-serif-black"
