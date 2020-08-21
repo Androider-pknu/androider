@@ -46,7 +46,6 @@ class SearchResultAdapter(private val con: Context): RecyclerView.Adapter<Search
         holder.placeDistance.text = decideUnit(round(list[position].distance*1000.0))  // KM -> Meter
 
         if(list[position].image_url==null){
-            //holder.placeImg.setImageResource(R.drawable.image03) // Base Image Set Need
             holder.placeImg.setImageResource(R.drawable.koreanfood_basic)
         }
         else{

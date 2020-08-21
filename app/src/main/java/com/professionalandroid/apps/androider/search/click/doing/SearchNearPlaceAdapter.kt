@@ -29,7 +29,7 @@ class SearchNearPlaceAdapter(private val nearPlaceList: ArrayList<SearchNearPlac
     override fun getItemCount(): Int {
         return nearPlaceList.size
     }
-    //nearPlaceName,Location,Category,PlaceDistance는 item_location_category 의 id값
+
     override fun onBindViewHolder(holder: NearPlaceViewHolder, position: Int) {
         holder.nearPlaceName.text = nearPlaceList[position].nearPlaceName
         holder.nearPlaceLocation.text = nearPlaceList[position].nearPlaceLocation

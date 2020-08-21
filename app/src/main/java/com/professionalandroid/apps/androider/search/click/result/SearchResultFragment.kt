@@ -18,6 +18,7 @@ import com.professionalandroid.apps.androider.R
 import com.professionalandroid.apps.androider.model.StoreDTO
 import com.professionalandroid.apps.androider.navigation.SearchFragment.Companion.cfm
 import com.professionalandroid.apps.androider.navigation.SearchFragment.Companion.mapFragment
+import com.professionalandroid.apps.androider.navigation.addpost.addressing.ChooseAddressingDialog
 import com.professionalandroid.apps.androider.search.map.marker.LMMarkerItem
 import com.professionalandroid.apps.androider.util.AWSRetrofit
 import kotlinx.android.synthetic.main.fragment_search.*
@@ -55,7 +56,7 @@ class SearchResultFragment : Fragment(),
         super.onAttach(context)
         tabSelect = 1
         resultAdapter = SearchResultAdapter(context)
-        configureRadius()
+        setRadius()
         getStoreData() // GetStoreData
         mainAct = context as MainActivity
         mainAct.setOnBackPressedListener(this)
@@ -80,6 +81,11 @@ class SearchResultFragment : Fragment(),
                 "지도" -> changeResultMapState(false)
                 "목록"-> changeResultMapState(true)
             }
+        }
+        btn_search_selectstore_addstore.setOnClickListener {
+            val dialog =
+                ChooseAddressingDialog()
+            dialog.show(childFragmentManager, "missiles")
         }
     }
 
@@ -297,7 +303,6 @@ class SearchResultFragment : Fragment(),
                 rootView = null
             }
             else -> { // Map 에서 뒤로가기
-                Log.d("test2222","${cfm.backStackEntryCount}")
                 changeResultMapState(true)
                 mainAct.sv_searchview.setQuery("", false)
                 cfm.popBackStack()
@@ -310,38 +315,10 @@ class SearchResultFragment : Fragment(),
         }
     }
 
-    private fun configureRadius(){ // Decide Rendering Range From CameraZoom
-        val cameraZoom = mapFragment.getCameraZoom()
+    private fun setRadius(){ // Decide Rendering Range From CameraZoom
+        val zoom = mapFragment.getCameraZoom()
         cameraPosition = mapFragment.getCameraPosition()
-        when(cameraZoom){
-            in 20.0f .. 21.0f -> { // 23m
-                mapRadius = 0.023
-            }
-            in 19.0f .. 20.0f -> { // 47m
-                mapRadius = 0.047
-            }
-            in 18.0f .. 19.0f -> { // 94m
-                mapRadius = 0.094
-            }
-            in 17.0f .. 18.0f -> { // 188M
-                mapRadius = 0.188
-            }
-            in 16.0f .. 17.0f -> { // 375M
-                mapRadius = 0.375
-            }
-            in 15.0f .. 16.0f -> { // 750M
-                mapRadius = 0.750
-            }
-            in 14.0f .. 15.0f -> { // 1500M
-                mapRadius = 1.500
-            }
-            in 13.0f .. 14.0f -> { //3000M
-                mapRadius = 3.000
-            }
-            else -> { // 5KM
-                mapRadius = 5.000
-            }
-        }
+        mapRadius = OnZoomChangeRadius.changeRadius(zoom)
     }
 
     override fun onCreatedViewFinish() {

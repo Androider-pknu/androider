@@ -3,13 +3,14 @@ package com.professionalandroid.apps.androider.search.map
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
+import android.location.Address
+import android.location.Geocoder
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
@@ -27,6 +28,7 @@ import com.professionalandroid.apps.androider.search.map.marker.*
 import kotlinx.android.synthetic.main.fragment_main_map.*
 import kotlinx.android.synthetic.main.fragment_main_map.view.*
 import kotlinx.android.synthetic.main.fragment_main_map.vp_local_master_viewPager
+import java.io.IOException
 
 /* 서치결과 맵 마커클릭시 가게정보 뜸 동네마스터 마커 클릭시 해당사람이 쓴 포스트 뜸*/
 
@@ -38,6 +40,8 @@ class MainMapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraIdleLi
     private lateinit var mFusedLocationClient: FusedLocationProviderClient
     private val REQUEST_CODE_PERMISSIONS = 1000
     private lateinit var mainActivity: MainActivity
+    private lateinit var geocoder: Geocoder
+    private var address: List<Address>? = null
 
     private lateinit var cameraPosition: LatLng
     private var cameraPositionFlag = false
@@ -62,6 +66,7 @@ class MainMapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraIdleLi
         mainActivity = context as MainActivity
         cameraZoom = 16.0f
         initMarkerAdapter()
+        geocoder = Geocoder(context)
     }
 
     override fun onCreateView(
@@ -127,6 +132,38 @@ class MainMapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraIdleLi
         }
     }
 
+    private fun setAddress(){
+        try{
+            address = geocoder.getFromLocation(cameraPosition.latitude,cameraPosition.longitude,1)
+        } catch (e: IOException){
+            e.printStackTrace()
+            Log.d("Search getAddress", "getAddress Failed")
+        }
+    }
+
+    fun getAddress(): String? {
+        if(address == null ){
+            return address
+        }
+        if(address!!.isEmpty()){
+            return null
+        }
+        val adminArea = address?.get(0)?.adminArea
+        val subLocality = address?.get(0)?.subLocality
+        val thoroughfare = address?.get(0)?.thoroughfare
+        return if(adminArea == null) {
+            if (subLocality == null)
+                thoroughfare
+            else
+                "$subLocality $thoroughfare"
+        } else {
+            if(subLocality==null)
+                "$adminArea $thoroughfare"
+            else
+                "$adminArea $subLocality $thoroughfare"
+        }
+    }
+
     fun getCameraZoom(): Float{ // 현재 카메라 줌을 반환
         return cameraZoom
     }
@@ -187,6 +224,7 @@ class MainMapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraIdleLi
     override fun onCameraIdle() {
         cameraPosition = mMap.cameraPosition.target
         cameraZoom = mMap.cameraPosition.zoom
+        setAddress()
         if(cameraPositionFlag)
             img_searchmap_locationpoint.visibility = View.GONE
     }
@@ -194,12 +232,10 @@ class MainMapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraIdleLi
     override fun onMarkerClick(marker: Marker?): Boolean { // true 동네마스터 마커 false 검색결과 마커
         when(markerFlag){
             true -> {
-                Log.d("marker", "동네마스터 마커 클릭")
                 manageLocalCardViewData(marker) // 마커객체 넘겨서 카드뷰 업데이트
                 manageLocalMasterCardView(true)
             }
             false -> {
-                Log.d("marker","검색 결과 마커 클릭")
                 val loc = marker?.position?.latitude?.let { marker.position?.longitude?.let { it1 ->
                     LatLng(it, it1) } }
                 srSelectedMarker = loc // Selected Marker Location
@@ -211,7 +247,6 @@ class MainMapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraIdleLi
     }
 
     override fun onMapClick(p0: LatLng?) {
-        Log.d("map22","onMapClick")
         srSelectedMarker = null
         lmMarkerManager?.changedSelectedMarker(null)
         if(markerFlag) manageLocalMasterCardView(false)
@@ -253,13 +288,11 @@ class MainMapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraIdleLi
     }
 
     private fun addSearchResultMarkerModel(position: Int){ // Add StoreData On CardView From Marker
-        Log.d("test2222","add $position")
         for(item in storeList){
             if(item.latitude == srSelectedMarker?.latitude && item.longitude == srSelectedMarker?.longitude)
                 searchResultPageAdapter.addItem(item)
         }
         vp_searchresult_viewPager.adapter = searchResultPageAdapter
-        //vp_searchresult_viewPager.setCurrentItem(2,true) // 작동안됨 확인 필요
 
         manageSearchResultCardView(true)
     }
@@ -274,11 +307,10 @@ class MainMapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraIdleLi
         localMasterAdapter.notifyDataSetChanged()
     }
     private fun setLocalMasterMarkerAdapter(view: View) { // 동네마스터 마커, 검색결과 마커 뷰페이저 어댑터 설정
-        // 동네마스터 marker 어댑터 설정
         view.vp_local_master_viewPager.adapter = localMasterAdapter
         view.vp_local_master_viewPager.setPadding(50, 0, 50, 50)
         view.vp_local_master_viewPager.pageMargin = 30
-        //  서치리절트 marker 어댑터 설정
+
         view.vp_searchresult_viewPager.adapter = searchResultPageAdapter
         view.vp_searchresult_viewPager.setPadding(50, 0, 50, 50)
     }

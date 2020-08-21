@@ -25,7 +25,7 @@ class SearchRelatedCategoryAdapter (private val relatedCategoryList: ArrayList<S
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_search_related_category,parent,false)
         return RelatedCategoryViewHolder(
             view
-        ) // 커스텀뷰 홀더에 만든 view를 전달
+        )
     }
 
     override fun getItemCount(): Int {

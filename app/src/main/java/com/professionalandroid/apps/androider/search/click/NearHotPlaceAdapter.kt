@@ -1,14 +1,18 @@
 package com.professionalandroid.apps.androider.search.click
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.professionalandroid.apps.androider.R
+import com.professionalandroid.apps.androider.model.StoreDTO
 
-class NearHotPlaceAdapter (private val nearHotPlaceList: ArrayList<NearHotPlace>): RecyclerView.Adapter<NearHotPlaceAdapter.NearHotPlaceViewHolder>(){
+class NearHotPlaceAdapter (private val con: Context, private val location: String): RecyclerView.Adapter<NearHotPlaceAdapter.NearHotPlaceViewHolder>(){
+    private var list = ArrayList<StoreDTO>()
 
     interface OnNHPItemClickListener{
         fun onNHPItemClicked(view: View, position: Int)
@@ -28,13 +32,24 @@ class NearHotPlaceAdapter (private val nearHotPlaceList: ArrayList<NearHotPlace>
     }
 
     override fun getItemCount(): Int {
-        return nearHotPlaceList.size
+        return list.size
+    }
+
+    fun setList(itemList: ArrayList<StoreDTO>){
+        list = itemList
+        notifyDataSetChanged()
     }
 
     override fun onBindViewHolder(holder: NearHotPlaceViewHolder, position: Int) {
-        holder.name.text = nearHotPlaceList[position].name.toString()
-        holder.location.text = nearHotPlaceList[position].location.toString()
-        holder.img.setImageResource(nearHotPlaceList[position].img)
+        holder.name.text = " ${position+1}. ${list[position].name}"
+        holder.location.text = location
+
+        if(list[position].image_url==null){
+            holder.img.setImageResource(R.drawable.koreanfood_basic)
+        }
+        else{
+            Glide.with(con).load(list[position].image_url).into(holder.img)
+        }
 
         holder.itemView.setOnClickListener {
             mListener.onNHPItemClicked(it,position)

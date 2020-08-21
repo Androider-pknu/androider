@@ -1,7 +1,9 @@
 package com.professionalandroid.apps.androider.util
 
+import android.location.Location
 import com.professionalandroid.apps.androider.model.AddressModel
 import com.professionalandroid.apps.androider.model.ErrMsg
+import com.professionalandroid.apps.androider.model.MemberDTO
 import com.professionalandroid.apps.androider.model.StoreDTO
 import retrofit2.Call
 import retrofit2.http.*
@@ -39,5 +41,24 @@ interface RetrofitAPI {
         @Query("latitude")latitude:Double,
         @Query("longitude")longitude:Double
     ): Call<List<StoreDTO>>
+
+    @GET("hakjin/search_click_getStoreList.php")
+    fun getStoreList(
+        @Query("radius")radius:Double,
+        @Query("latitude")latitude:Double,
+        @Query("longitude")longitude:Double
+    ): Call<List<StoreDTO>>
+
+    @GET("hakjin/search_click_getStoreInfo.php")
+    fun getStoreInfo(
+        @Query("radius")radius:Double,
+        @Query("latitude")latitude:Double,
+        @Query("longitude")longitude:Double
+    ): Call<List<StoreDTO>>
+
+    @GET("hakjin/getLocalUser.php")
+    fun getUserInfo(
+        @Query("location")location: String
+    ): Call<List<MemberDTO>>
     /* 학진이가 추가한 부분 */
 }
