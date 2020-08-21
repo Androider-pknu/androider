@@ -53,10 +53,11 @@ class CategoryOther(val categoryNumber:Int):Fragment(){
         return list
     }
     private fun setOtherCategoryPost(view:View){
-        val load= LoadPostData(view.other_item_post, requireContext(), categoryNumber)
+        val load= LoadPostData(view.other_item_post, requireContext(), requireActivity(),categoryNumber)
         view.other_item_post.adapter=load.getAdapter()
         view.other_item_post.layoutManager=load.getLayoutManager()
         load.loadPlacePost(0)
         load.addScrollListener()
+        load.setRecyclerListener()
     }
 }

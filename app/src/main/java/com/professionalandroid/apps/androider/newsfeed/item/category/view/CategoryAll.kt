@@ -15,7 +15,7 @@ import com.professionalandroid.apps.androider.newsfeed.todaypost.PostFragment
 import kotlinx.android.synthetic.main.fragment_category_all.view.*
 
 class CategoryAll(): Fragment(){
-    var todayPost= PostFragment()
+    var todayPost= PostFragment(null)
     var storePage= StorePage("가게 정보")
     var itemAdapter=
         ItemImageButtonAdapter(makeList())
@@ -101,15 +101,11 @@ class CategoryAll(): Fragment(){
         }
     }
     private fun setCategoryAllPost(view:View){
-        val load=
-            LoadPostData(
-                view.all_item_post,
-                requireContext(),
-                0
-            )
+        val load= LoadPostData(view.all_item_post, requireContext(),requireActivity(), 0)
         view.all_item_post.adapter=load.getAdapter()
         view.all_item_post.layoutManager=load.getLayoutManager()
         load.loadPlacePost(0)
         load.addScrollListener()
+        load.setRecyclerListener()
     }
 }

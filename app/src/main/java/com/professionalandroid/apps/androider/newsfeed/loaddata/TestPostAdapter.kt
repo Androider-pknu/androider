@@ -71,6 +71,30 @@ import kotlin.collections.ArrayList
 //    }
 //}
 class TestPostAdapter(val list: ArrayList<TestPost>, val context: Context) : RecyclerView.Adapter<TestPostAdapter.CustomViewHolder>(){
+    companion object{
+        @RequiresApi(Build.VERSION_CODES.O)
+        fun calculateTime(time: String) :String {
+            val now=LocalDateTime.now()
+            val formatter=DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+            val formatted=now.format(formatter)
+            val format=SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+            val nowDate=format.parse(formatted.toString())
+            val localDate=format.parse(time)
+            val diff=nowDate.time-localDate.time
+            val diffStr=(diff/(24*60*60*1000)).toString()
+            if(diffStr!="0") {
+                val num=diffStr.toInt()
+                return if(num<=29) num.toString()+"일 전"
+                else if(num in 30..364) (num/30) .toString()+"달 전"
+                else (num/365).toString() + "년 전"
+            }
+            else {
+                return if(diff/1000 < 60) "방금"
+                else if(diff/60000 in 1..59) (diff/60000).toString()+"분 전"
+                else (diff/3600000).toString()+ "시간 전"
+            }
+        }
+    }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomViewHolder {
         val view= LayoutInflater.from(parent.context).inflate(R.layout.place_all_posts,parent,false)
         return CustomViewHolder(view)
@@ -143,26 +167,26 @@ class TestPostAdapter(val list: ArrayList<TestPost>, val context: Context) : Rec
         val commentCount=itemView.findViewById<TextView>(R.id.post_comment_number)
         val postLayout=itemView.findViewById<ConstraintLayout>(R.id.pre_post)
     }
-    @RequiresApi(Build.VERSION_CODES.O)
-    fun calculateTime(time:String) : String{
-        val now=LocalDateTime.now()
-        val formatter=DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
-        val formatted=now.format(formatter)
-        val format=SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-        val nowDate=format.parse(formatted.toString())
-        val localDate=format.parse(time)
-        val diff=nowDate.time-localDate.time
-        val diffStr=(diff/(24*60*60*1000)).toString()
-        if(diffStr!="0") {
-            val num=diffStr.toInt()
-            return if(num<=29) num.toString()+"일 전"
-            else if(num in 30..364) (num/30) .toString()+"달 전"
-            else (num/365).toString() + "년 전"
-        }
-        else {
-            return if(diff/1000 < 60) "방금"
-            else if(diff/60000 in 1..59) (diff/60000).toString()+"분 전"
-            else (diff/3600000).toString()+ "시간 전"
-        }
-    }
+//    @RequiresApi(Build.VERSION_CODES.O)
+//    fun calculateTime(time:String) : String{
+//        val now=LocalDateTime.now()
+//        val formatter=DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+//        val formatted=now.format(formatter)
+//        val format=SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+//        val nowDate=format.parse(formatted.toString())
+//        val localDate=format.parse(time)
+//        val diff=nowDate.time-localDate.time
+//        val diffStr=(diff/(24*60*60*1000)).toString()
+//        if(diffStr!="0") {
+//            val num=diffStr.toInt()
+//            return if(num<=29) num.toString()+"일 전"
+//            else if(num in 30..364) (num/30) .toString()+"달 전"
+//            else (num/365).toString() + "년 전"
+//        }
+//        else {
+//            return if(diff/1000 < 60) "방금"
+//            else if(diff/60000 in 1..59) (diff/60000).toString()+"분 전"
+//            else (diff/3600000).toString()+ "시간 전"
+//        }
+//    }
 }

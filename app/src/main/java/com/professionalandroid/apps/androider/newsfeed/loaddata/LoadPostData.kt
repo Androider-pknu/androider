@@ -1,19 +1,23 @@
 package com.professionalandroid.apps.androider.newsfeed.loaddata
 
+import android.app.Activity
 import android.content.Context
 import android.util.Log
 import android.view.View
+import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.professionalandroid.apps.androider.MainActivity
 import com.professionalandroid.apps.androider.R
 import com.professionalandroid.apps.androider.navigation.NewsFeedFragment
+import com.professionalandroid.apps.androider.newsfeed.todaypost.PostFragment
 import com.professionalandroid.apps.androider.util.AWSRetrofit
 import com.professionalandroid.apps.androider.util.RetrofitAPI
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class LoadPostData(private val recyclerView: RecyclerView, val context:Context,val type:Int){
+class LoadPostData(private val recyclerView: RecyclerView, val context:Context,val activity:FragmentActivity,val type:Int){
     private var postList:ArrayList<TestPost> = ArrayList()
     private var postAdapter: TestPostAdapter =
         TestPostAdapter(postList, context)
@@ -73,7 +77,8 @@ class LoadPostData(private val recyclerView: RecyclerView, val context:Context,v
     fun setRecyclerListener(){
         postAdapter.setPostClickListener(object : TestPostAdapter.OnPostClickListener {
             override fun onClick(view: View, position: Int) {
-
+                activity.supportFragmentManager.beginTransaction().setCustomAnimations(R.anim.start_more_view, R.anim.left_view, R.anim.right_view, R.anim.end_more_view)
+                    .addToBackStack(null).add(R.id.layout_main_content,PostFragment(postList[position])).hide(NewsFeedFragment.thisFragment).commit()
             }
           })
     }

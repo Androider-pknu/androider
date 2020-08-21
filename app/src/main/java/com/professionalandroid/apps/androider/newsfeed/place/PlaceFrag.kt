@@ -28,7 +28,7 @@ class PlaceFrag(val newsFragment:View):Fragment(){
     var partRankFragment= PartRankView(storePage)
     var storeAdapter= ItemImageButtonAdapter(makeList1())
     var partRank= PartRankAdapter(makeList2())
-    var todayPost= PostFragment()
+    var todayPost= PostFragment(null)
 //    lateinit var postList:ArrayList<TestPost>
 //    lateinit var postAdapter:TestPostAdapter
 //    var notLoading=true
@@ -141,16 +141,12 @@ class PlaceFrag(val newsFragment:View):Fragment(){
         }
     }
     private fun setAllPostsOfPlace(view:View){
-        val load =
-            LoadPostData(
-                view.all_place_post,
-                requireContext(),
-                1
-            )
+        val load = LoadPostData(view.all_place_post, requireContext(),requireActivity(), 1)
         view.all_place_post.adapter=load.getAdapter()
         view.all_place_post.layoutManager=load.getLayoutManager()
         load.loadPlacePost(0)
         load.addScrollListener()
+        load.setRecyclerListener()
 //        postList=ArrayList()
 //        postAdapter=TestPostAdapter(postList)
 //        postLayoutManager= LinearLayoutManager(requireContext())
