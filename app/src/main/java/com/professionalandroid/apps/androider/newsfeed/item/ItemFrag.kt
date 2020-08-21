@@ -15,14 +15,8 @@ import kotlinx.android.synthetic.main.fragment2.view.*
 
 class ItemFrag():Fragment(){
     //var fragment = ItemSearchFrag(newsFeedView)
-    var subAllFragment=
-        CategoryAll()
-    var subOtherFragment=
-        CategoryOther("Gi-mo-chi")
-    var categoryAdapter=
-        KindOfFoodAdapter(
-            makeList1()
-        )
+    var subAllFragment= CategoryAll()
+    var categoryAdapter= KindOfFoodAdapter(makeList1())
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle? ): View? {
         val view=inflater.inflate(R.layout.fragment2,container,false)
         defaultScreen()
@@ -40,7 +34,9 @@ class ItemFrag():Fragment(){
             KindOfFoodAdapter.OnCategoryClickListener {
             override fun onClick(view: View, position: Int,flag:Boolean) {
                 if(!flag)requireActivity().supportFragmentManager.beginTransaction().replace(
-                    R.id.category_frame,subOtherFragment).commit()
+                    R.id.category_frame,CategoryOther(position+1)).commit()
+                //position+1 을 인자로 넘겨주는 이유는 post 테이블에서 type 이 정해져있는데 type  음식/메뉴 ~ 기타 와 2~15가 서로 대응되기에
+                //position+1 을 넘겨 주었음.
                 else defaultScreen()
             }
         })
@@ -66,20 +62,4 @@ class ItemFrag():Fragment(){
         list.add(KindOfFood("기타"))
         return list
     }
-//    override fun onPause() {
-//        Log.d("test6666666","ItemonPause")
-//        if(flag){//서치뷰가 켜져있는 상태.
-//            requireActivity().supportFragmentManager.beginTransaction().remove(fragment).commit()
-//            flag=false
-//        }
-//        super.onPause()
-//    }
-//
-//    override fun onStop() {
-//        super.onStop()
-//    }
-//
-//    override fun onDetach() {
-//        super.onDetach()
-//    }
 }

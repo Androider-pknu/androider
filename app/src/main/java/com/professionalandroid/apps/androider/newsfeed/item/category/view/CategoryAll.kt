@@ -8,34 +8,29 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.professionalandroid.apps.androider.*
 import com.professionalandroid.apps.androider.navigation.NewsFeedFragment
+import com.professionalandroid.apps.androider.newsfeed.loaddata.LoadPostData
 import com.professionalandroid.apps.androider.newsfeed.realtime.ItemImageButton
 import com.professionalandroid.apps.androider.newsfeed.realtime.ItemImageButtonAdapter
 import com.professionalandroid.apps.androider.newsfeed.todaypost.PostFragment
 import kotlinx.android.synthetic.main.fragment_category_all.view.*
 
 class CategoryAll(): Fragment(){
-    var todayPost= PostFragment()
+    var todayPost= PostFragment(null)
     var storePage= StorePage("가게 정보")
     var itemAdapter=
-        ItemImageButtonAdapter(
-            makeList()
-        )
+        ItemImageButtonAdapter(makeList())
     var itemPage= StorePage("전체")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle? ): View? {
         val view=inflater.inflate(R.layout.fragment_category_all,container,false)
         setRecyclerView(view)
         setTodayPost(view)
+        setCategoryAllPost(view)
         //view.test.text = testText
         return view
     }
     private fun moveToFragment(newFragment:Fragment){
         requireActivity().supportFragmentManager.beginTransaction()
-            .setCustomAnimations(
-                R.anim.start_more_view,
-                R.anim.left_view,
-                R.anim.right_view,
-                R.anim.end_more_view
-            )
+            .setCustomAnimations(R.anim.start_more_view, R.anim.left_view, R.anim.right_view, R.anim.end_more_view)
             .addToBackStack(null).add(R.id.layout_main_content,newFragment).hide(NewsFeedFragment.thisFragment).commit()
     }
     private fun setRecyclerView(view:View){
@@ -51,76 +46,16 @@ class CategoryAll(): Fragment(){
     }
     private fun makeList():ArrayList<ItemImageButton>{
         val list= arrayListOf<ItemImageButton>()
-        list.add(
-            ItemImageButton(
-                R.drawable.bread,
-                "1. 미친 막창",
-                "육류"
-            )
-        )
-        list.add(
-            ItemImageButton(
-                R.drawable.bread,
-                "2. 갬성 카페",
-                "카페"
-            )
-        )
-        list.add(
-            ItemImageButton(
-                R.drawable.bread,
-                "3. 닭발의 지존",
-                "육류"
-            )
-        )
-        list.add(
-            ItemImageButton(
-                R.drawable.bread,
-                "4. 마니아",
-                "육류"
-            )
-        )
-        list.add(
-            ItemImageButton(
-                R.drawable.bread,
-                "5. 카레온",
-                "식사"
-            )
-        )
-        list.add(
-            ItemImageButton(
-                R.drawable.bread,
-                "6. 장미 멘숀",
-                "소주"
-            )
-        )
-        list.add(
-            ItemImageButton(
-                R.drawable.bread,
-                "7. 해쉬",
-                "식사"
-            )
-        )
-        list.add(
-            ItemImageButton(
-                R.drawable.bread,
-                "8. 광안리 초장집",
-                "회"
-            )
-        )
-        list.add(
-            ItemImageButton(
-                R.drawable.bread,
-                "9. 엽기 떡볶이",
-                "분식"
-            )
-        )
-        list.add(
-            ItemImageButton(
-                R.drawable.bread,
-                "10. 아웃닭",
-                "호프"
-            )
-        )
+        list.add(ItemImageButton(R.drawable.bread, "1. 미친 막창", "육류"))
+        list.add(ItemImageButton(R.drawable.bread, "2. 갬성 카페", "카페"))
+        list.add(ItemImageButton(R.drawable.bread, "3. 닭발의 지존", "육류"))
+        list.add(ItemImageButton(R.drawable.bread, "4. 마니아", "육류"))
+        list.add(ItemImageButton(R.drawable.bread, "5. 카레온", "식사"))
+        list.add(ItemImageButton(R.drawable.bread, "6. 장미 멘숀", "소주"))
+        list.add(ItemImageButton(R.drawable.bread, "7. 해쉬", "식사"))
+        list.add(ItemImageButton(R.drawable.bread, "8. 광안리 초장집", "회"))
+        list.add(ItemImageButton(R.drawable.bread, "9. 엽기 떡볶이", "분식"))
+        list.add(ItemImageButton(R.drawable.bread, "10. 아웃닭", "호프"))
         return list
     }
     private fun setTodayPost(view:View){
@@ -164,5 +99,13 @@ class CategoryAll(): Fragment(){
         view.i_comment.setOnClickListener {
             moveToFragment(todayPost)
         }
+    }
+    private fun setCategoryAllPost(view:View){
+        val load= LoadPostData(view.all_item_post, requireContext(),requireActivity(), 0)
+        view.all_item_post.adapter=load.getAdapter()
+        view.all_item_post.layoutManager=load.getLayoutManager()
+        load.loadPlacePost(0)
+        load.addScrollListener()
+        load.setRecyclerListener()
     }
 }

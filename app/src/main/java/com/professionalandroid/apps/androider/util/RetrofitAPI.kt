@@ -8,7 +8,8 @@ import okhttp3.MultipartBody
 import retrofit2.Call
 import retrofit2.http.*
 import java.sql.Timestamp
-
+import com.professionalandroid.apps.androider.newsfeed.loaddata.TestPost
+import retrofit2.http.*
 interface RetrofitAPI {
     @FormUrlEncoded
     @POST("/shtest/searchAddress.php")
@@ -41,4 +42,6 @@ interface RetrofitAPI {
         @Part("type") type: Int,
         @Part imageFiles : ArrayList<MultipartBody.Part>
     ): Call<String>
+    @GET("jongyoon/post_test.php")
+    fun takePlacePost(@Query("index1")start:Int,@Query("type")type:Int):Call<List<TestPost>>
 }

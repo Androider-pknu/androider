@@ -11,10 +11,11 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout7"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/only_bottom"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -31,14 +32,195 @@
                 android:id="@+id/post_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="종윤님의 포스트"
                 android:textColor="#000000"
                 android:textSize="18sp"
                 android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
+        <ScrollView
+            android:id="@+id/post_scroll"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="#E6E6E6"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout7"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:background="#FFFFFF"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/constraintLayout9"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/constraintLayout7">
+                    <ImageView
+                        android:id="@+id/post_profile_img"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="15dp"
+                        android:src="@drawable/bread"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/post_author_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:text="TextView"
+                        android:textColor="#000000"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toEndOf="@+id/post_profile_img"
+                        app:layout_constraintTop_toTopOf="@+id/post_profile_img" />
+
+                    <TextView
+                        android:id="@+id/post_author_nickname"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:text="TextView"
+                        app:layout_constraintBottom_toBottomOf="@+id/post_profile_img"
+                        app:layout_constraintStart_toEndOf="@+id/post_profile_img" />
+
+                    <TextView
+                        android:id="@+id/post_what_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginEnd="10dp"
+                        android:text="TextView"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                    <TextView
+                        android:id="@+id/post_content"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="20dp"
+                        android:text="TextView"
+                        android:textColor="#000000"
+                        android:textSize="16sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/post_profile_img" />
+
+                    <LinearLayout
+                        android:id="@+id/post_imgs"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="15dp"
+                        android:orientation="horizontal"
+                        app:layout_constraintEnd_toEndOf="@+id/post_what_time"
+                        app:layout_constraintStart_toStartOf="@+id/post_content"
+                        app:layout_constraintTop_toBottomOf="@+id/post_content"/>
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/post_info_store"
+                        android:layout_width="0dp"
+                        android:layout_height="80dp"
+                        android:layout_marginTop="25dp"
+                        android:background="@drawable/only_bottom"
+                        app:layout_constraintEnd_toEndOf="@+id/post_imgs"
+                        app:layout_constraintStart_toStartOf="@+id/post_imgs"
+                        app:layout_constraintTop_toBottomOf="@+id/post_imgs">
+
+                        <TextView
+                            android:id="@+id/post_name_store"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="5dp"
+                            android:text="영계백숙"
+                            android:textColor="#000000"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/post_address_store"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:text="어딘가..."
+                            app:layout_constraintStart_toStartOf="@+id/post_name_store"
+                            app:layout_constraintTop_toBottomOf="@+id/post_name_store" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                    <LinearLayout
+                        android:id="@+id/linearLayout5"
+                        android:layout_width="0dp"
+                        android:layout_height="50dp"
+                        android:background="@drawable/only_bottom"
+                        android:orientation="horizontal"
+                        app:layout_constraintEnd_toEndOf="@+id/post_info_store"
+                        app:layout_constraintStart_toStartOf="@+id/post_info_store"
+                        app:layout_constraintTop_toBottomOf="@+id/post_info_store">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:id="@+id/post_heart_btn"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:paddingTop="10dp"
+                                android:paddingBottom="10dp"
+                                android:src="@drawable/not_selected_heart" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:id="@+id/post_comment_btn"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:paddingTop="10dp"
+                                android:paddingBottom="10dp"
+                                android:src="@drawable/comment" />
+                        </LinearLayout>
+                    </LinearLayout>
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/constraintLayout8"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/only_bottom"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/linearLayout5">
+
+                        <TextView
+                            android:id="@+id/post_like_number"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:text="TextView"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
+        </ScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

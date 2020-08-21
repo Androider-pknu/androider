@@ -33,17 +33,17 @@ class NewsFeedFragment(val mainContext:MainActivity) : Fragment(){
         val view = inflater.inflate(R.layout.fragment_newsfeed, container, false)
         thisFragment=this
         view.tabLayout.setSelectedTabIndicatorColor(Color.parseColor("#FF4500")) //탭바 밑줄 색상 변경.
-        makeFragment()
+        makeFragment(view)
         tabListener(view)
         makeSearchView(view)
         setSearchButton(view)
         makeViewPage(view)//View Pager 만들기.
         return view
     }
-    private fun makeFragment(){
-        var page1 = PlaceFrag()
-        var page2 = ItemFrag()
-        var page3 = UserFrag()
+    private fun makeFragment(view:View){
+        val page1 = PlaceFrag(view)
+        val page2 = ItemFrag()
+        val page3 = UserFrag()
         pageList.add(page1)
         pageList.add(page2)
         pageList.add(page3)
@@ -71,7 +71,6 @@ class NewsFeedFragment(val mainContext:MainActivity) : Fragment(){
 //                    requireActivity().supportFragmentManager.beginTransaction()
 //                        .replace(R.id.main_frame,searchFragment).hide(pageList[index]).commit()
                     AllSearchView.index=index
-                    Log.d("Test",index.toString())
                     searchFragment.setHint(searchFragment.requireView())
                     requireActivity().supportFragmentManager.beginTransaction()
                         .replace(R.id.main_frame,searchFragment).hide(pageList[index]).commit()

@@ -2,7 +2,6 @@ package com.professionalandroid.apps.androider.newsfeed.place
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.professionalandroid.apps.androider.R
 import com.professionalandroid.apps.androider.navigation.NewsFeedFragment
+import com.professionalandroid.apps.androider.newsfeed.loaddata.LoadPostData
 import com.professionalandroid.apps.androider.newsfeed.realtime.ItemImageButton
 import com.professionalandroid.apps.androider.newsfeed.realtime.ItemImageButtonAdapter
 import com.professionalandroid.apps.androider.newsfeed.todaypost.PostFragment
@@ -21,14 +21,20 @@ import com.professionalandroid.apps.androider.newsfeed.place.partranking.PartRan
 import com.professionalandroid.apps.androider.newsfeed.place.search.PlaceSearch
 import kotlinx.android.synthetic.main.fragment1.view.*
 
-class PlaceFrag():Fragment(){
+class PlaceFrag(val newsFragment:View):Fragment(){
     //var placeFragment=PlaceSearchFrag(newsFeedView)
     companion object{ lateinit var local_btn:Button }
     var storePage= StorePage("가게 정보")
     var partRankFragment= PartRankView(storePage)
     var storeAdapter= ItemImageButtonAdapter(makeList1())
     var partRank= PartRankAdapter(makeList2())
-    var todayPost= PostFragment()
+    var todayPost= PostFragment(null)
+//    lateinit var postList:ArrayList<TestPost>
+//    lateinit var postAdapter:TestPostAdapter
+//    var notLoading=true
+//    lateinit var postLayoutManager: LinearLayoutManager
+//    lateinit var postApi:RetrofitAPI
+//    var startPoint=0
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?{
         val view=inflater.inflate(R.layout.fragment1,container,false)
         local_btn =view.local_search_btn
@@ -36,17 +42,13 @@ class PlaceFrag():Fragment(){
         setRecyclerView1(view)
         setRecyclerView2(view)
         setTodayPost(view)
+        setAllPostsOfPlace(view)
         //setSearchButton(view)
         return view
     }
     private fun moveToFragment(newFragment:Fragment){
         requireActivity().supportFragmentManager.beginTransaction()
-            .setCustomAnimations(
-                R.anim.start_more_view,
-                R.anim.left_view,
-                R.anim.right_view,
-                R.anim.end_more_view
-            )
+            .setCustomAnimations(R.anim.start_more_view, R.anim.left_view, R.anim.right_view, R.anim.end_more_view)
             .addToBackStack(null).add(R.id.layout_main_content,newFragment).hide(NewsFeedFragment.thisFragment).commit()
     }
     private fun setLocationButton(view:View){
@@ -69,72 +71,16 @@ class PlaceFrag():Fragment(){
     }
     private fun makeList1():ArrayList<ItemImageButton>{
         val list= arrayListOf<ItemImageButton>()
-        list.add(
-            ItemImageButton(R.drawable.bread, "1. 미친 막창", "육류")
-        )
-        list.add(
-            ItemImageButton(
-                R.drawable.bread,
-                "2. 갬성 카페",
-                "카페"
-            )
-        )
-        list.add(
-            ItemImageButton(
-                R.drawable.bread,
-                "3. 닭발의 지존",
-                "육류"
-            )
-        )
-        list.add(
-            ItemImageButton(
-                R.drawable.bread,
-                "4. 마니아",
-                "육류"
-            )
-        )
-        list.add(
-            ItemImageButton(
-                R.drawable.bread,
-                "5. 카레온",
-                "식사"
-            )
-        )
-        list.add(
-            ItemImageButton(
-                R.drawable.bread,
-                "6. 장미 멘숀",
-                "소주"
-            )
-        )
-        list.add(
-            ItemImageButton(
-                R.drawable.bread,
-                "7. 해쉬",
-                "식사"
-            )
-        )
-        list.add(
-            ItemImageButton(
-                R.drawable.bread,
-                "8. 광안리 초장집",
-                "회"
-            )
-        )
-        list.add(
-            ItemImageButton(
-                R.drawable.bread,
-                "9. 엽기 떡볶이",
-                "분식"
-            )
-        )
-        list.add(
-            ItemImageButton(
-                R.drawable.bread,
-                "10. 아웃닭",
-                "호프"
-            )
-        )
+        list.add(ItemImageButton(R.drawable.bread, "1. 미친 막창", "육류"))
+        list.add(ItemImageButton(R.drawable.bread, "2. 갬성 카페", "카페"))
+        list.add(ItemImageButton(R.drawable.bread, "3. 닭발의 지존", "육류"))
+        list.add(ItemImageButton(R.drawable.bread, "4. 마니아", "육류"))
+        list.add(ItemImageButton(R.drawable.bread, "5. 카레온", "식사"))
+        list.add(ItemImageButton(R.drawable.bread, "6. 장미 멘숀", "소주"))
+        list.add(ItemImageButton(R.drawable.bread, "7. 해쉬", "식사"))
+        list.add(ItemImageButton(R.drawable.bread, "8. 광안리 초장집", "회"))
+        list.add(ItemImageButton(R.drawable.bread, "9. 엽기 떡볶이", "분식"))
+        list.add(ItemImageButton(R.drawable.bread, "10. 아웃닭", "호프"))
         return list
     }
     private fun setRecyclerView2(view:View){
@@ -149,14 +95,7 @@ class PlaceFrag():Fragment(){
     }
     private fun makeList2():ArrayList<PartRank>{
         val list= arrayListOf<PartRank>()
-        for(i in 1..12) list.add(
-            PartRank(
-                R.drawable.ic_launcher_background,
-                "카테고리",
-                "순위",
-                "가게이름"
-            )
-        )
+        for(i in 1..12) list.add(PartRank(R.drawable.ic_launcher_background, "카테고리", "순위", "가게이름"))
         return list
     }
     private fun setTodayPost(view:View){
@@ -201,35 +140,67 @@ class PlaceFrag():Fragment(){
                 moveToFragment(todayPost)
         }
     }
-//    private fun setSearchButton(view: View){
-//        view.place_search_button.setOnClickListener {
-//            //requireActivity().supportFragmentManager.beginTransaction().add(R.id.main_frame,fragment).hide(this).commit()
-//            //이게 뭘 의미하는지 모르겟음.
-//            requireActivity().supportFragmentManager.beginTransaction().addToBackStack(null)
-//                .add(R.id.main_frame,placeFragment).hide(this).commit()
-//            /*add 의 첫 번째 인자는 최종적으로 부모 프레임 아웃을 가져와야 함. 예를 들어 텝 레이아웃을 가리기 위해서 텝 레이아웃을 가지고 있는 xml 파일 보다
-//            한 단계 위인 부모 xml 에서 프레임 레이아웃을 가져와야한다는 의미.
-//            hide 의 인자로는 위에서 사용했던 부모 xml 과 함께 연동하는 클래스의 자식을 가져와야함.*/
-//            requireActivity().navigation_main_bottom.visibility=View.GONE//네비게이션 바를 잠시 없애는 것.(공간 차지 o)
-//            //View.INVISIBLE - View 를 감춤(공간 차지 x) View.VISIBLE - View 를 보여줌(공간 차지 o)
-//        }
-//    }
-//    override fun onPause() {
-//        Log.d("test6666666","PlaceonPause")
-//        if(flag){//서치뷰가 켜져있는 상태.
-//            requireActivity().supportFragmentManager.beginTransaction().remove(fragment).commit()
-//            flag=false
-//        }
-//        super.onPause()
-//    }
+    private fun setAllPostsOfPlace(view:View){
+        val load = LoadPostData(view.all_place_post, requireContext(),requireActivity(), 1)
+        view.all_place_post.adapter=load.getAdapter()
+        view.all_place_post.layoutManager=load.getLayoutManager()
+        load.loadPlacePost(0)
+        load.addScrollListener()
+        load.setRecyclerListener()
+//        postList=ArrayList()
+//        postAdapter=TestPostAdapter(postList)
+//        postLayoutManager= LinearLayoutManager(requireContext())
+//        view.all_post.adapter=postAdapter
+//        view.all_post.layoutManager=postLayoutManager
+//        postApi=AWSRetrofit.getAPI()
+//        load(startPoint)
+//        addScrollListener(view)
+    }
+//    private fun addScrollListener(view:View){
+//        view.all_post.addOnScrollListener(object: RecyclerView.OnScrollListener() {
+//            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+//                if(notLoading && postLayoutManager.findLastCompletelyVisibleItemPosition()==postList.size-1){
+////                    postList.add(TestPost(0,"nothing",0,1,"11"))
+////                    postAdapter.notifyItemInserted(postList.size-1) -> 이렇게 하면 자꾸 스크롤이 튕기던데 이유를 잘 모르겠음. 그래서 일단 주석처리 해놓음.
+//                    notLoading=false
+//                    startPoint+=20
+//                    val handler = android.os.Handler()//너무 빨리 데이터가 로드되면 스크롤 되는 Ui 를 확인하기 어려우므로
+//                    handler.postDelayed({//Handler 를 사용하여 1초간 postDelayed 시킴.
+//                    val call=AWSRetrofit.getAPI().takePlacePost(startPoint)
+//                    call.enqueue(object : Callback<List<TestPost>>{
+//                        override fun onFailure(call: Call<List<TestPost>>, t: Throwable) {
+//                            Log.d("Test","실패!")
+//                        }
 //
-//    override fun onStop() {
-//        Log.d("test6666666","PlaceonStop")
-//        super.onStop()
+//                        override fun onResponse(call: Call<List<TestPost>>, response: Response<List<TestPost>> ) {
+////                            postList.removeAt(postList.size-1)
+////                            postAdapter.notifyItemRemoved(postList.size)
+//                            if(response.body()!!.isNotEmpty()){
+//                                postList.addAll(response.body()!!)
+//                                postAdapter.notifyDataSetChanged()
+//                                notLoading=true
+//                            }
+//                            else Toast.makeText(requireContext(),"더이상 로드할 포스트가 없습니다!",Toast.LENGTH_SHORT).show()
+//                        }
+//                    })},1000)
+//                }
+//            }
+//        })
 //    }
+//    private fun load(start:Int){
+//        val call=postApi.takePlacePost(start)
+//        call.enqueue(object : Callback<List<TestPost>>{
+//            override fun onFailure(call: Call<List<TestPost>>, t: Throwable) {
+//                Log.d("Test","연결 실패!!!")
+//            }
 //
-//    override fun onDetach() {
-//        Log.d("test6666666","PlaceonDetach")
-//        super.onDetach()
+//            override fun onResponse(call: Call<List<TestPost>>, response: Response<List<TestPost>>) {
+//                if(response.isSuccessful){
+//                    postList.addAll(response.body()!!)
+//                    postAdapter.notifyDataSetChanged()
+//                }
+//            }
+//        })
 //    }
 }
+

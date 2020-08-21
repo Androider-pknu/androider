@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/pre_post"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/only_bottom">
+
+    <ImageView
+        android:id="@+id/user_profile_image"
+        android:layout_width="46dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:padding="0sp"
+        android:scaleType="centerCrop"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/food" />
+
+    <TextView
+        android:id="@+id/user_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:text="TextView"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@+id/user_profile_image"
+        app:layout_constraintTop_toTopOf="@+id/user_profile_image" />
+
+    <TextView
+        android:id="@+id/user_nickname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toBottomOf="@+id/user_name"
+        app:layout_constraintStart_toEndOf="@+id/user_name" />
+
+    <TextView
+        android:id="@+id/when_post"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:text="TextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/content_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/user_name"
+        app:layout_constraintTop_toBottomOf="@+id/user_name">
+
+        <TextView
+            android:id="@+id/content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="11"
+            android:text="TextView"
+            android:textColor="#000000"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:id="@+id/for_image_layout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="@+id/content_view"
+        app:layout_constraintStart_toStartOf="@id/content_view"
+        app:layout_constraintTop_toBottomOf="@+id/content_view" />
+    <!--    <GridLayout-->
+    <!--        android:id="@+id/for_image_layout"-->
+    <!--        android:layout_width="0dp"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:useDefaultMargins="true"-->
+    <!--        app:layout_constraintEnd_toEndOf="@+id/content_view"-->
+    <!--        app:layout_constraintStart_toStartOf="@+id/content_view"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/content_view"-->
+    <!--        android:orientation="horizontal" />-->
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/post_store_info"
+        android:layout_width="0dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/only_bottom"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/content_view"
+        app:layout_constraintTop_toBottomOf="@+id/for_image_layout">
+
+        <TextView
+            android:id="@+id/post_store_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:text="영계백숙"
+            android:textColor="#000000"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/post_store_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:text="어딘가..."
+            app:layout_constraintStart_toStartOf="@+id/post_store_name"
+            app:layout_constraintTop_toBottomOf="@+id/post_store_name" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ImageView
+        android:id="@+id/post_heart"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="25dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/post_store_info"
+        app:layout_constraintTop_toBottomOf="@+id/post_store_info"
+        app:srcCompat="@drawable/not_selected_heart" />
+
+    <TextView
+        android:id="@+id/post_heart_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:text="0"
+        app:layout_constraintStart_toEndOf="@+id/post_heart"
+        app:layout_constraintTop_toTopOf="@+id/post_heart" />
+
+    <ImageView
+        android:id="@+id/post_comment"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="60dp"
+        app:layout_constraintStart_toEndOf="@+id/post_heart_number"
+        app:layout_constraintTop_toTopOf="@+id/post_heart_number"
+        app:srcCompat="@drawable/comment" />
+
+    <TextView
+        android:id="@+id/post_comment_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:text="0"
+        app:layout_constraintStart_toEndOf="@+id/post_comment"
+        app:layout_constraintTop_toTopOf="@+id/post_comment" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
