@@ -16,7 +16,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".navigation.addpost.SelectPhotoActivity"></activity>
+        <activity android:name=".SingUp"></activity>
+        <activity android:name=".navigation.addpost.SelectPhotoActivity" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

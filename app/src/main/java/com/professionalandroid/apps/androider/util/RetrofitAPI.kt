@@ -8,6 +8,7 @@ import okhttp3.MultipartBody
 import retrofit2.Call
 import retrofit2.http.*
 import com.professionalandroid.apps.androider.newsfeed.loaddata.TestPost
+import okhttp3.ResponseBody
 
 interface RetrofitAPI {
     @FormUrlEncoded
@@ -78,4 +79,17 @@ interface RetrofitAPI {
     fun getUserInfo(
         @Query("location")location: String
     ): Call<List<MemberDTO>>
+
+    @FormUrlEncoded
+    @POST("jongyoon/signUp.php")
+    fun singUp(
+        @Field("user_id") userId:String, @Field("password") passWord:String,
+        @Field("email") email:String, @Field("nickname") nickName:String
+    ): Call<Unit>
+
+    @FormUrlEncoded
+    @POST("jongyoon/signIn.php")
+    fun signIn(
+        @Field("email") email:String, @Field("password") password:String
+    ) : Call<String>
 }
