@@ -141,7 +141,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="6dp"
-                        android:text="김영민게이"
+                        android:text="맛집 탐방"
                         android:textColor="#000000"
                         android:textSize="16sp"
                         android:textStyle="bold"
@@ -154,7 +154,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
-                        android:text="@이이잉"
+                        android:text="@안녕"
                         app:layout_constraintEnd_toEndOf="@+id/ex_second_name"
                         app:layout_constraintStart_toStartOf="@+id/ex_second_name"
                         app:layout_constraintTop_toBottomOf="@+id/ex_second_name" />
@@ -196,7 +196,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="6dp"
-                        android:text="FuckGay"
+                        android:text="hungry"
                         android:textColor="#000000"
                         android:textSize="16sp"
                         android:textStyle="bold"
@@ -209,7 +209,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
-                        android:text="@루삥뽕"
+                        android:text="@잘가요"
                         app:layout_constraintEnd_toEndOf="@+id/ex_first_name"
                         app:layout_constraintStart_toStartOf="@+id/ex_first_name"
                         app:layout_constraintTop_toBottomOf="@+id/ex_first_name" />
@@ -230,7 +230,11 @@
                     <FrameLayout
                         android:id="@id/user_frame"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent" />
+                        android:layout_height="match_parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -256,7 +260,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="6dp"
-                        android:text="ㅗㅗㅗㅗ"
+                        android:text="hi"
                         android:textColor="#000000"
                         android:textSize="16sp"
                         android:textStyle="bold"
@@ -269,7 +273,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
-                        android:text="@shit"
+                        android:text="@hello"
                         app:layout_constraintEnd_toEndOf="@+id/ex_third_name"
                         app:layout_constraintStart_toStartOf="@+id/ex_third_name"
                         app:layout_constraintTop_toBottomOf="@+id/ex_third_name" />
@@ -385,7 +389,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
-                        android:text="@고와이네"
+                        android:text="@라면밥"
                         app:layout_constraintEnd_toEndOf="@+id/social_second_name"
                         app:layout_constraintStart_toStartOf="@+id/social_second_name"
                         app:layout_constraintTop_toBottomOf="@+id/social_second_name" />
@@ -414,7 +418,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="6dp"
-                        android:text="씨발"
+                        android:text="BJ"
                         android:textColor="#000000"
                         android:textSize="16sp"
                         android:textStyle="bold"
@@ -427,7 +431,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
-                        android:text="@기모딱"
+                        android:text="@byebye"
                         app:layout_constraintEnd_toEndOf="@+id/social_first_name"
                         app:layout_constraintStart_toStartOf="@+id/social_first_name"
                         app:layout_constraintTop_toBottomOf="@+id/social_first_name" />
@@ -469,7 +473,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
-                        android:text="@인성"
+                        android:text="@qwerty"
                         app:layout_constraintEnd_toEndOf="@+id/social_third_name"
                         app:layout_constraintStart_toStartOf="@+id/social_third_name"
                         app:layout_constraintTop_toBottomOf="@+id/social_third_name" />

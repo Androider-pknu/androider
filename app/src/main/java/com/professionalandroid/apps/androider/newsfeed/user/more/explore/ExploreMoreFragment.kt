@@ -58,9 +58,9 @@ class ExploreMoreFragment() : Fragment() {
         for(i in 2..20) list.add(
             ExploreRanking(
                 R.drawable.bread,
-                "김영민",
-                "@루삥뽕",
-                "저는 쌉게이입니다.",
+                "이학진",
+                "@전쟁이다",
+                "저는 이학진입니다.",
                 "100"
             )
         )

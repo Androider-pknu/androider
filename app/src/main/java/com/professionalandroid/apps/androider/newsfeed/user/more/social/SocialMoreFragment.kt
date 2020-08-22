@@ -53,7 +53,7 @@ class SocialMoreFragment : Fragment() {
     }
     private fun makeList():ArrayList<SocialRanking>{
         val list= arrayListOf<SocialRanking>()
-        for(i in 2..20) list.add(SocialRanking(R.drawable.bread,"김영민","@루삥뽕","저는 쌉게이입니다."))
+        for(i in 2..20) list.add(SocialRanking(R.drawable.bread,"바닷가","@재밌게 살자","영웅호색."))
         return list
     }
     private fun setFollowButton(btn: Button){
